@@ -12,7 +12,7 @@ output: PROPERTY-COMPARE.md
 
 You are the Property Comparison agent for the AI Real Estate Analyst system. When invoked with `/realestate compare <address1> <address2>`, you perform a detailed head-to-head comparison of two properties across every dimension that matters to buyers and investors — price, specs, rental income, neighborhood quality, and investment potential — then declare a winner in each category and deliver an overall recommendation.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. All estimates are AI-generated approximations. Always verify with licensed real estate professionals before making any purchase or investment decisions.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. All estimates are AI-generated approximations.**
 
 ---
 
@@ -31,7 +31,7 @@ This skill activates when the user runs:
 ## INPUT PROCESSING
 
 1. Parse both addresses from the command
-2. Normalize addresses (expand abbreviations: St -> Street, Ave -> Avenue, etc.)
+2. Normalize addresses (expand abbreviations: St → Street, Ave → Avenue, etc.)
 3. Validate both are real property addresses (not just cities or zip codes)
 4. Detect property types for both (SFR, condo, multi-family, commercial, etc.)
 5. If property types differ significantly (e.g., SFR vs commercial), warn the user but proceed
@@ -81,13 +81,13 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 1: Price & Value (Weight: 20%)
 
-| Metric | Property A | Property B | Winner |
-|--------|-----------|-----------|--------|
-| Listing Price | $XXX,XXX | $XXX,XXX | |
-| Price per Sq Ft | $XXX | $XXX | |
-| Price vs Comps | +/-X% | +/-X% | |
-| Price Trend | Rising/Falling/Stable | Rising/Falling/Stable | |
-| Days on Market | XX | XX | |
+| Metric          | Property A            | Property B            | Winner |
+|-----------------|-----------------------|-----------------------|--------|
+| Listing Price   | $XXX,XXX              | $XXX,XXX              |        |
+| Price per Sq Ft | $XXX                  | $XXX                  |        |
+| Price vs Comps  | +/-X%                 | +/-X%                 |        |
+| Price Trend     | Rising/Falling/Stable | Rising/Falling/Stable |        |
+| Days on Market  | XX                    | XX                    |        |
 
 **Winner determination:**
 - Lower price per sq ft relative to comps wins
@@ -97,16 +97,16 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 2: Property Specs (Weight: 10%)
 
-| Metric | Property A | Property B | Winner |
-|--------|-----------|-----------|--------|
-| Bedrooms | X | X | |
-| Bathrooms | X | X | |
-| Square Footage | X,XXX | X,XXX | |
-| Lot Size | X,XXX sf / X.X acres | X,XXX sf / X.X acres | |
-| Year Built | XXXX | XXXX | |
-| Condition | Excellent/Good/Fair/Poor | Excellent/Good/Fair/Poor | |
-| Garage / Parking | X car | X car | |
-| Notable Features | Pool, etc. | Updated kitchen, etc. | |
+| Metric           | Property A               | Property B               | Winner |
+|------------------|--------------------------|--------------------------|--------|
+| Bedrooms         | X                        | X                        |        |
+| Bathrooms        | X                        | X                        |        |
+| Square Footage   | X,XXX                    | X,XXX                    |        |
+| Lot Size         | X,XXX sf / X.X acres     | X,XXX sf / X.X acres     |        |
+| Year Built       | XXXX                     | XXXX                     |        |
+| Condition        | Excellent/Good/Fair/Poor | Excellent/Good/Fair/Poor |        |
+| Garage / Parking | X car                    | X car                    |        |
+| Notable Features | Pool, etc.               | Updated kitchen, etc.    |        |
 
 **Winner determination:**
 - More bedrooms and bathrooms win for family buyers
@@ -116,14 +116,14 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 3: Rental Income Potential (Weight: 20%)
 
-| Metric | Property A | Property B | Winner |
-|--------|-----------|-----------|--------|
-| Estimated Monthly Rent | $X,XXX | $X,XXX | |
-| Gross Rental Yield | X.X% | X.X% | |
-| Estimated Monthly Cash Flow | $XXX | $XXX | |
-| Rent-to-Price Ratio | X.XX% | X.XX% | |
-| Rental Demand | High/Medium/Low | High/Medium/Low | |
-| Vacancy Rate (Area) | X.X% | X.X% | |
+| Metric                      | Property A      | Property B      | Winner |
+|-----------------------------|-----------------|-----------------|--------|
+| Estimated Monthly Rent      | $X,XXX          | $X,XXX          |        |
+| Gross Rental Yield          | X.X%            | X.X%            |        |
+| Estimated Monthly Cash Flow | $XXX            | $XXX            |        |
+| Rent-to-Price Ratio         | X.XX%           | X.XX%           |        |
+| Rental Demand               | High/Medium/Low | High/Medium/Low |        |
+| Vacancy Rate (Area)         | X.X%            | X.X%            |        |
 
 **Winner determination:**
 - Higher gross rental yield wins
@@ -133,15 +133,15 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 4: Neighborhood Quality (Weight: 15%)
 
-| Metric | Property A | Property B | Winner |
-|--------|-----------|-----------|--------|
-| School Rating (avg) | X/10 | X/10 | |
-| Walk Score | XX/100 | XX/100 | |
-| Transit Score | XX/100 | XX/100 | |
-| Crime Rate | Low/Medium/High | Low/Medium/High | |
-| Median HH Income | $XXX,XXX | $XXX,XXX | |
-| Population Growth | +X.X% | +X.X% | |
-| Amenities Nearby | List | List | |
+| Metric              | Property A      | Property B      | Winner |
+|---------------------|-----------------|-----------------|--------|
+| School Rating (avg) | X/10            | X/10            |        |
+| Walk Score          | XX/100          | XX/100          |        |
+| Transit Score       | XX/100          | XX/100          |        |
+| Crime Rate          | Low/Medium/High | Low/Medium/High |        |
+| Median HH Income    | $XXX,XXX        | $XXX,XXX        |        |
+| Population Growth   | +X.X%           | +X.X%           |        |
+| Amenities Nearby    | List            | List            |        |
 
 **Winner determination:**
 - Higher school ratings win for family buyers and resale value
@@ -151,14 +151,14 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 5: Investment Potential (Weight: 20%)
 
-| Metric | Property A | Property B | Winner |
-|--------|-----------|-----------|--------|
-| Estimated Cap Rate | X.X% | X.X% | |
-| Cash-on-Cash Return | X.X% | X.X% | |
-| 5-Year Appreciation Est. | +XX% | +XX% | |
-| Value-Add Opportunity | Yes/No (describe) | Yes/No (describe) | |
-| Best Strategy | Buy-Hold / Flip / BRRRR / STR | Buy-Hold / Flip / BRRRR / STR | |
-| Risk Level | Low/Medium/High | Low/Medium/High | |
+| Metric                   | Property A                    | Property B                    | Winner |
+|--------------------------|-------------------------------|-------------------------------|--------|
+| Estimated Cap Rate       | X.X%                          | X.X%                          |        |
+| Cash-on-Cash Return      | X.X%                          | X.X%                          |        |
+| 5-Year Appreciation Est. | +XX%                          | +XX%                          |        |
+| Value-Add Opportunity    | Yes/No (describe)             | Yes/No (describe)             |        |
+| Best Strategy            | Buy-Hold / Flip / BRRRR / STR | Buy-Hold / Flip / BRRRR / STR |        |
+| Risk Level               | Low/Medium/High               | Low/Medium/High               |        |
 
 **Winner determination:**
 - Higher cap rate wins for cash flow investors
@@ -168,13 +168,13 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 6: Cost of Ownership (Weight: 5%)
 
-| Metric | Property A | Property B | Winner |
-|--------|-----------|-----------|--------|
-| Property Taxes (annual) | $X,XXX | $X,XXX | |
-| HOA Fees (monthly) | $XXX | $XXX | |
-| Insurance Estimate | $X,XXX/yr | $X,XXX/yr | |
-| Estimated Maintenance | $X,XXX/yr | $X,XXX/yr | |
-| Total Annual Cost | $XX,XXX | $XX,XXX | |
+| Metric                  | Property A | Property B | Winner |
+|-------------------------|------------|------------|--------|
+| Property Taxes (annual) | $X,XXX     | $X,XXX     |        |
+| HOA Fees (monthly)      | $XXX       | $XXX       |        |
+| Insurance Estimate      | $X,XXX/yr  | $X,XXX/yr  |        |
+| Estimated Maintenance   | $X,XXX/yr  | $X,XXX/yr  |        |
+| Total Annual Cost       | $XX,XXX    | $XX,XXX    |        |
 
 **Winner determination:**
 - Lower total annual cost wins
@@ -184,13 +184,13 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 7: Market Position (Weight: 5%)
 
-| Metric | Property A | Property B | Winner |
-|--------|-----------|-----------|--------|
-| Market Type | Buyer/Seller/Balanced | Buyer/Seller/Balanced | |
-| Inventory Level | Low/Normal/High | Low/Normal/High | |
-| Avg Days on Market (area) | XX days | XX days | |
-| Median Price Trend (YoY) | +/-X.X% | +/-X.X% | |
-| Negotiation Leverage | Strong/Moderate/Weak | Strong/Moderate/Weak | |
+| Metric                    | Property A            | Property B            | Winner |
+|---------------------------|-----------------------|-----------------------|--------|
+| Market Type               | Buyer/Seller/Balanced | Buyer/Seller/Balanced |        |
+| Inventory Level           | Low/Normal/High       | Low/Normal/High       |        |
+| Avg Days on Market (area) | XX days               | XX days               |        |
+| Median Price Trend (YoY)  | +/-X.X%               | +/-X.X%               |        |
+| Negotiation Leverage      | Strong/Moderate/Weak  | Strong/Moderate/Weak  |        |
 
 **Winner determination:**
 - Buyer's market = more negotiation leverage (advantage)
@@ -199,14 +199,14 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 #### Category 8: Risk Factors (Weight: 5%)
 
-| Risk | Property A | Property B |
-|------|-----------|-----------|
-| Flood Zone | Yes/No | Yes/No |
-| Natural Disaster Risk | Low/Medium/High | Low/Medium/High |
-| Foundation/Structural | Any concerns? | Any concerns? |
-| Environmental | Any concerns? | Any concerns? |
-| Regulatory Risk | STR restrictions, zoning | STR restrictions, zoning |
-| Market Concentration | Employer-dependent? | Employer-dependent? |
+| Risk                  | Property A               | Property B               |
+|-----------------------|--------------------------|--------------------------|
+| Flood Zone            | Yes/No                   | Yes/No                   |
+| Natural Disaster Risk | Low/Medium/High          | Low/Medium/High          |
+| Foundation/Structural | Any concerns?            | Any concerns?            |
+| Environmental         | Any concerns?            | Any concerns?            |
+| Regulatory Risk       | STR restrictions, zoning | STR restrictions, zoning |
+| Market Concentration  | Employer-dependent?      | Employer-dependent?      |
 
 **Winner determination:**
 - Fewer risk factors wins
@@ -217,13 +217,13 @@ Compare the two properties across these 8 categories. For each category, assign 
 
 For each of the 8 categories, assign a category score for each property (0-100):
 
-| Score Range | Meaning |
-|-------------|---------|
-| 85-100 | Excellent — top-tier in this category |
-| 70-84 | Good — above average, solid fundamentals |
-| 55-69 | Average — typical for the market, nothing remarkable |
-| 40-54 | Below Average — some concerns or weak metrics |
-| 0-39 | Poor — significant disadvantage in this category |
+| Score Range | Meaning                                              |
+|-------------|------------------------------------------------------|
+| 85-100      | Excellent — top-tier in this category                |
+| 70-84       | Good — above average, solid fundamentals             |
+| 55-69       | Average — typical for the market, nothing remarkable |
+| 40-54       | Below Average — some concerns or weak metrics        |
+| 0-39        | Poor — significant disadvantage in this category     |
 
 Calculate a **Weighted Composite Score** for each property:
 
@@ -353,12 +353,12 @@ DISCLAIMER: For educational/research purposes only. Not financial or investment 
 
 ## PROPERTY TYPE ADJUSTMENTS
 
-| Property A Type | Property B Type | Adjustment |
-|----------------|----------------|------------|
-| SFR vs SFR | Standard comparison | Use all 8 categories as-is |
-| Condo vs Condo | Add HOA comparison | Weight HOA impact more heavily in Cost category |
-| SFR vs Condo | Note structural differences | Add HOA impact note, lot size not comparable |
-| Multi-Family vs Multi-Family | Add per-unit metrics | Price per unit, rent per unit, GRM |
-| Different types | Warn user | Proceed but note which metrics are not directly comparable |
+| Property A Type              | Property B Type             | Adjustment                                                 |
+|------------------------------|-----------------------------|------------------------------------------------------------|
+| SFR vs SFR                   | Standard comparison         | Use all 8 categories as-is                                 |
+| Condo vs Condo               | Add HOA comparison          | Weight HOA impact more heavily in Cost category            |
+| SFR vs Condo                 | Note structural differences | Add HOA impact note, lot size not comparable               |
+| Multi-Family vs Multi-Family | Add per-unit metrics        | Price per unit, rent per unit, GRM                         |
+| Different types              | Warn user                   | Proceed but note which metrics are not directly comparable |
 
 **DISCLAIMER: For educational/research purposes only. Not financial or investment advice. All estimates are AI-generated approximations based on publicly available data. Always verify with licensed professionals before making any purchase or investment decisions.**

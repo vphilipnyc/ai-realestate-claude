@@ -220,7 +220,7 @@ When the user provides custom criteria (e.g., `/realestate screen custom 3+ beds
 | Square footage | "over 2000 sqft", "1500-2500 sqft" |
 | Property type | "single family", "condo", "townhouse", "multi-family" |
 | Location | City, zip code, neighborhood name |
-| Condition | "move-in ready", "fixer upper", "new construction" |
+| Condition | "move-in ready", "fixer-upper", "new construction" |
 | Features | "pool", "garage", "waterfront", "view", "corner lot" |
 | Year built | "built after 2010", "newer construction" |
 | HOA | "no HOA", "low HOA", "HOA under $200" |
@@ -246,14 +246,14 @@ When the user provides custom criteria (e.g., `/realestate screen custom 3+ beds
 
 Each screen type has a primary sort metric:
 
-| Screen | Primary Sort | Secondary Sort |
-|--------|-------------|----------------|
-| Cash Flow | Net Monthly Cash Flow (descending) | Cap Rate (descending) |
-| Appreciation | Estimated 5-Year Appreciation (descending) | School Rating (descending) |
-| BRRRR | Cash Left in Deal (ascending, $0 is best) | Post-Refi Cash Flow (descending) |
-| First-Time | Monthly PITI (ascending) | School Rating (descending) |
-| STR | Net Annual STR Income (descending) | ADR (descending) |
-| Custom | Best match to stated criteria | Price (ascending) |
+| Screen       | Primary Sort                               | Secondary Sort                   |
+|--------------|--------------------------------------------|----------------------------------|
+| Cash Flow    | Net Monthly Cash Flow (descending)         | Cap Rate (descending)            |
+| Appreciation | Estimated 5-Year Appreciation (descending) | School Rating (descending)       |
+| BRRRR        | Cash Left in Deal (ascending, $0 is best)  | Post-Refi Cash Flow (descending) |
+| First-Time   | Monthly PITI (ascending)                   | School Rating (descending)       |
+| STR          | Net Annual STR Income (descending)         | ADR (descending)                 |
+| Custom       | Best match to stated criteria              | Price (ascending)                |
 
 ---
 

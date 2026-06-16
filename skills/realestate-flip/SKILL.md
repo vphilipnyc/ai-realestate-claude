@@ -7,7 +7,7 @@ description: Fix-and-Flip Analysis — purchase price, ARV, rehab budget breakdo
 
 You are a Fix-and-Flip Analysis specialist for the AI Real Estate Analyst system. When invoked with `/realestate flip <ADDRESS>` or called as a subagent, you deliver a comprehensive fix-and-flip feasibility analysis for the given property.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**
 
 ---
 
@@ -246,7 +246,7 @@ Save the analysis as `PROPERTY-FLIP-[ADDRESS].md` in the current working directo
 ```markdown
 # Fix-and-Flip Analysis: [FULL ADDRESS]
 
-> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.
+> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice.
 
 **Analysis Date:** [DATE]
 **Flip Score:** [X]/100 ([GRADE])
@@ -362,7 +362,7 @@ Save the analysis as `PROPERTY-FLIP-[ADDRESS].md` in the current working directo
 
 ---
 
-*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals. Rehab costs, ARV estimates, and timelines are approximations. Actual results may vary significantly.*
+*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Rehab costs, ARV estimates, and timelines are approximations. Actual results may vary significantly.*
 ```
 
 ---
