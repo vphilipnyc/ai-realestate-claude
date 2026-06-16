@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 AI Real Estate Property Report PDF Generator — AI Real Estate Claude Code Skills
-Generates professional 6-page PDF property reports with Property Score gauge,
+Generates professional multi-page PDF property reports with a Composite Score gauge,
 property details, comp analysis, cash flow projections, neighborhood scores,
 investment analysis, and recommendation sections.
 
@@ -72,50 +72,83 @@ def score_grade(score):
     if score >= 25: return "D"
     return "F"
 
+# Canonical signal states, ordered weakest -> strongest (Strong Buy on the right)
+SIGNAL_STATES = ["AVOID", "CAUTION", "WATCH", "BUY", "STRONG BUY"]
+SIGNAL_COLORS = {
+    "STRONG BUY": HexColor("#15803D"),
+    "BUY":        HexColor("#22C55E"),
+    "WATCH":      HexColor("#EAB308"),
+    "CAUTION":    HexColor("#F97316"),
+    "AVOID":      HexColor("#DC2626"),
+}
+
+
 def property_signal(score):
+    """Return the canonical investment signal for a score."""
     if score >= 85: return "STRONG BUY"
     if score >= 70: return "BUY"
     if score >= 55: return "WATCH"
     if score >= 40: return "CAUTION"
     return "AVOID"
 
-def signal_color(score):
-    if score >= 85: return COLORS["forest_green"]
-    if score >= 70: return COLORS["green_light"]
-    if score >= 55: return COLORS["amber"]
-    if score >= 40: return COLORS["gold_light"]
-    return COLORS["danger"]
 
-def draw_score_gauge(score, size=140):
-    """Create a circular Property Score gauge with color-coded ring."""
-    d = Drawing(size + 20, size + 20)
+def normalize_signal(name):
+    """Map a free-form signal string onto a canonical SIGNAL_STATES value."""
+    s = str(name).upper().strip()
+    if "STRONG" in s: return "STRONG BUY"
+    if "BUY" in s: return "BUY"
+    if "WATCH" in s or "HOLD" in s: return "WATCH"
+    if "CAUTION" in s: return "CAUTION"
+    if "AVOID" in s or "PASS" in s: return "AVOID"
+    return s if s in SIGNAL_COLORS else "WATCH"
 
-    cx = size / 2 + 10
-    cy = size / 2 + 10
 
-    # Outer ring background
-    d.add(Circle(cx, cy, size / 2,
-                 fillColor=COLORS["light_bg"], strokeColor=COLORS["navy"], strokeWidth=2))
+def signal_color(score_or_name):
+    """Color for a signal — accepts either a numeric score or a signal name."""
+    if isinstance(score_or_name, (int, float)):
+        name = property_signal(score_or_name)
+    else:
+        name = normalize_signal(score_or_name)
+    return SIGNAL_COLORS[name]
 
-    # Score arc (colored ring)
-    color = score_color(score)
-    inner_r = size / 2 - 8
-    d.add(Circle(cx, cy, inner_r,
-                 fillColor=color, strokeColor=None))
 
-    # White center
-    d.add(Circle(cx, cy, inner_r - 14,
-                 fillColor=COLORS["white"], strokeColor=None))
+def draw_score_gauge(score, size=200):
+    """Create a semi-circular Composite Score gauge with a color-coded arc.
 
-    # Score text
-    d.add(String(cx, cy + 2, str(int(score)),
-                 fontSize=36,
-                 fillColor=COLORS["navy"], textAnchor="middle", fontName="Helvetica-Bold"))
+    The arc fills from the left as the score rises; the center is knocked out
+    to leave a ring band, with the score and a "/100" label beneath it.
+    """
+    width = size + 40
+    height = size * 0.62 + 42   # arc (top half) + headroom for the title
+    d = Drawing(width, height)
 
-    # "/ 100" label
-    d.add(String(cx, cy - 18, "/ 100",
-                 fontSize=10,
-                 fillColor=COLORS["gray"], textAnchor="middle", fontName="Helvetica"))
+    cx = width / 2
+    cy = 46               # baseline (flat edge of the semicircle)
+    R = size / 2
+    band = R * 0.26       # ring thickness
+
+    f = max(0.0, min(1.0, score / 100.0))
+    arc_color = score_color(score)
+
+    # Background track (full top semicircle)
+    d.add(Wedge(cx, cy, R, 0, 180, fillColor=COLORS["light_bg"], strokeColor=None))
+    # Colored progress arc — fills from the left (180°) toward the right
+    d.add(Wedge(cx, cy, R, 180 * (1 - f), 180, fillColor=arc_color, strokeColor=None))
+    # Knock out the center to leave just the ring band
+    d.add(Circle(cx, cy, R - band, fillColor=COLORS["white"], strokeColor=None))
+
+    # Title above the arc
+    d.add(String(cx, cy + R + 6, "COMPOSITE SCORE",
+                 fontSize=13, fillColor=COLORS["gray"],
+                 textAnchor="middle", fontName="Helvetica-Bold"))
+    # Large score number
+    d.add(String(cx, cy + 4, str(int(score)),
+                 fontSize=44, fillColor=COLORS["text"],
+                 textAnchor="middle", fontName="Helvetica-Bold"))
+    # "/100" label
+    d.add(String(cx, cy - 18, "/100",
+                 fontSize=12, fillColor=COLORS["gray"],
+                 textAnchor="middle", fontName="Helvetica"))
 
     return d
 
@@ -179,13 +212,22 @@ def _digits_to_int(value):
     return int(digits) if digits else 0
 
 
-def create_appreciation_chart(projections, width=470, height=240):
+def create_appreciation_chart(projections, width=470, height=250, current_price=None):
     """Create a multi-series line chart of appreciation projections.
 
     Plots Conservative / Moderate / Aggressive value paths over the projected
-    years, with a marker at each data point and a currency (thousands) y-axis.
+    years. Each data point is annotated with its dollar value, and each line is
+    labeled directly at its right end (no legend to cross-reference). When a
+    current_price is given, all three series start from a shared Year 0 point.
     """
     d = Drawing(width, height)
+
+    # Anchor every series at Year 0 = today's price, so the lines fan out
+    # from a common origin rather than starting at Year 1.
+    if current_price is not None:
+        price0 = _digits_to_int(current_price)
+        projections = [{"year": "Year 0", "conservative": price0,
+                        "moderate": price0, "aggressive": price0}] + list(projections)
 
     years = [_digits_to_int(p.get("year", "")) for p in projections]
     series = [
@@ -200,10 +242,10 @@ def create_appreciation_chart(projections, width=470, height=240):
     ]
 
     lp = LinePlot()
-    lp.x = 55
-    lp.y = 45
-    lp.width = width - 90
-    lp.height = height - 85
+    lp.x = 52
+    lp.y = 40
+    lp.width = width - 150     # leave room on the right for direct line labels
+    lp.height = height - 70
     lp.data = plot_data
 
     for i, (_, _, color, marker) in enumerate(series):
@@ -214,7 +256,15 @@ def create_appreciation_chart(projections, width=470, height=240):
         lp.lines[i].symbol.strokeColor = color
         lp.lines[i].symbol.size = 5
 
+    # Axis ranges
+    xmin, xmax = min(years), max(years)
+    all_values = [y for s in plot_data for _, y in s]
+    ymin = (min(all_values) // 50000) * 50000
+    ymax = (max(all_values) // 50000 + 1) * 50000
+
     # X axis — discrete year steps
+    lp.xValueAxis.valueMin = xmin
+    lp.xValueAxis.valueMax = xmax
     lp.xValueAxis.valueSteps = years
     lp.xValueAxis.labelTextFormat = lambda v: f"Yr {int(v)}"
     lp.xValueAxis.labels.fontName = "Helvetica"
@@ -222,9 +272,8 @@ def create_appreciation_chart(projections, width=470, height=240):
     lp.xValueAxis.strokeColor = COLORS["border"]
 
     # Y axis — currency in thousands, padded to round $50K bounds
-    all_values = [y for s in plot_data for _, y in s]
-    lp.yValueAxis.valueMin = (min(all_values) // 50000) * 50000
-    lp.yValueAxis.valueMax = (max(all_values) // 50000 + 1) * 50000
+    lp.yValueAxis.valueMin = ymin
+    lp.yValueAxis.valueMax = ymax
     lp.yValueAxis.valueStep = 50000
     lp.yValueAxis.labelTextFormat = lambda v: f"${int(v / 1000)}K"
     lp.yValueAxis.labels.fontName = "Helvetica"
@@ -235,14 +284,33 @@ def create_appreciation_chart(projections, width=470, height=240):
 
     d.add(lp)
 
-    # Manual legend across the top
-    legend_y = height - 12
-    lx = 55
-    for label, _, color, _ in series:
-        d.add(Rect(lx, legend_y, 10, 10, fillColor=color, strokeColor=None))
-        d.add(String(lx + 14, legend_y + 1, label,
-                     fontSize=8, fillColor=COLORS["text"], fontName="Helvetica"))
-        lx += 30 + len(label) * 5.5
+    # Map data coords -> drawing pixels (mirrors the LinePlot's own scaling)
+    def px(xv):
+        return lp.x + (xv - xmin) / (xmax - xmin) * lp.width
+
+    def py(yv):
+        return lp.y + (yv - ymin) / (ymax - ymin) * lp.height
+
+    # Per-point value labels + a direct label at each line's right end
+    for i, (name, key, color, _) in enumerate(series):
+        pts = plot_data[i]
+        below = (key == "conservative")  # keep the lowest line's labels clear
+        for xv, yv in pts:
+            # At Year 0 all series share one value — label it once, in neutral text
+            if xv == xmin and current_price is not None:
+                if i == 0:
+                    d.add(String(px(xv), py(yv) - 13, f"${round(yv / 1000)}K",
+                                 fontSize=6.5, fillColor=COLORS["text"],
+                                 textAnchor="middle", fontName="Helvetica-Bold"))
+                continue
+            d.add(String(px(xv), py(yv) + (-12 if below else 7),
+                         f"${round(yv / 1000)}K",
+                         fontSize=6.5, fillColor=color,
+                         textAnchor="middle", fontName="Helvetica-Bold"))
+        lx, ly = pts[-1]
+        d.add(String(px(lx) + 9, py(ly) - 3, name,
+                     fontSize=8, fillColor=color,
+                     textAnchor="start", fontName="Helvetica-Bold"))
 
     return d
 
@@ -329,6 +397,22 @@ def get_styles():
             spaceAfter=4, fontName="Helvetica", leading=14,
             leftIndent=16, bulletIndent=4
         ),
+        # Table-cell styles — wrap dynamic text so long values don't clip
+        "td": ParagraphStyle(
+            "REtd", parent=styles["Normal"],
+            fontSize=9, textColor=COLORS["text"],
+            fontName="Helvetica", leading=11
+        ),
+        "td_center": ParagraphStyle(
+            "REtdC", parent=styles["Normal"],
+            fontSize=9, textColor=COLORS["text"],
+            fontName="Helvetica", leading=11, alignment=1
+        ),
+        "td_bold": ParagraphStyle(
+            "REtdB", parent=styles["Normal"],
+            fontSize=9, textColor=COLORS["text"],
+            fontName="Helvetica-Bold", leading=11
+        ),
     }
     return custom
 
@@ -352,6 +436,43 @@ def standard_table_style(extra=None):
     if extra:
         cmds.extend(extra)
     return TableStyle(cmds)
+
+
+def signal_legend_table(rows, width=512):
+    """Render rows of (label, active_signal) as horizontal shaded signal boxes.
+
+    Each row shows all five states (AVOID..STRONG BUY, weakest on the left,
+    Strong Buy on the right). The active state is filled with its signal color;
+    the rest are muted. Useful for showing Primary Residence vs Rental side by
+    side, where the same property can be a BUY for one and a WATCH for the other.
+    """
+    label_w = 122
+    box_w = (width - label_w) / len(SIGNAL_STATES)
+
+    data = [[label] + list(SIGNAL_STATES) for label, _ in rows]
+
+    t = Table(data, colWidths=[label_w] + [box_w] * len(SIGNAL_STATES),
+              rowHeights=24)
+    style = [
+        ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (0, -1), 9),
+        ("TEXTCOLOR", (0, 0), (0, -1), COLORS["text"]),
+        ("FONTNAME", (1, 0), (-1, -1), "Helvetica-Bold"),
+        ("FONTSIZE", (1, 0), (-1, -1), 7.5),
+        ("ALIGN", (1, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("BACKGROUND", (1, 0), (-1, -1), COLORS["light_bg"]),
+        ("TEXTCOLOR", (1, 0), (-1, -1), COLORS["text_light"]),
+        ("INNERGRID", (1, 0), (-1, -1), 1.5, COLORS["white"]),
+        ("BOX", (1, 0), (-1, -1), 0.5, COLORS["border"]),
+    ]
+    for r, (_, active) in enumerate(rows):
+        active = normalize_signal(active)
+        ci = 1 + SIGNAL_STATES.index(active)
+        style.append(("BACKGROUND", (ci, r), (ci, r), SIGNAL_COLORS[active]))
+        style.append(("TEXTCOLOR", (ci, r), (ci, r), COLORS["white"]))
+    t.setStyle(TableStyle(style))
+    return t
 
 
 DISCLAIMER_TEXT = (
@@ -404,7 +525,7 @@ class FooterCanvas(canvas.Canvas):
 # Report generator
 # ---------------------------------------------------------------------------
 def generate_report(data, output_path):
-    """Generate a professional 6-page property research PDF report."""
+    """Generate a professional multi-page property research PDF report."""
     doc = SimpleDocTemplate(
         output_path,
         pagesize=letter,
@@ -426,6 +547,15 @@ def generate_report(data, output_path):
     signal = property_signal(overall_score)
     sig_color = signal_color(overall_score)
 
+    # Two independent signals — a property can be a BUY for a primary residence
+    # but only a WATCH as a rental (or vice versa).
+    primary_signal = normalize_signal(data.get("primary_signal", signal))
+    rental_signal = normalize_signal(data.get("rental_signal", signal))
+    signal_rows = [
+        ("Primary Residence", primary_signal),
+        ("Rental Investment", rental_signal),
+    ]
+
     # =====================================================================
     # PAGE 1 — COVER
     # =====================================================================
@@ -437,25 +567,23 @@ def generate_report(data, output_path):
     elements.append(Paragraph(price, S["price"]))
     elements.append(Spacer(1, 38))
 
-    # Property Score gauge
-    gauge = draw_score_gauge(overall_score, size=140)
+    # Composite Score gauge (semi-circular)
+    gauge = draw_score_gauge(overall_score)
     gauge.hAlign = "CENTER"
     elements.append(gauge)
-    elements.append(Spacer(1, 24))
+    elements.append(Spacer(1, 18))
 
-    # Grade + signal
+    # Grade line
     color = score_color(overall_score)
     elements.append(Paragraph(
         f'Property Score: <font color="{color.hexval()}">{int(overall_score)}/100</font> '
         f'(Grade: <font color="{color.hexval()}">{grade}</font>)',
         S["grade_large"]
     ))
-    elements.append(Spacer(1, 10))
-    elements.append(Paragraph(
-        f'Signal: <font color="{sig_color.hexval()}">{signal}</font>',
-        ParagraphStyle("SignalLine", parent=S["signal"],
-                       textColor=sig_color, fontSize=24)
-    ))
+    elements.append(Spacer(1, 16))
+
+    # Investment signals — Primary Residence vs Rental Investment
+    elements.append(signal_legend_table(signal_rows))
 
     elements.append(Spacer(1, 30))
 
@@ -469,9 +597,9 @@ def generate_report(data, output_path):
     prop_type = prop_details.get("property_type", "Single Family Residence")
 
     details_data = [
-        ["Property Type", prop_type, "Year Built", year_built],
-        ["Bedrooms", beds, "Bathrooms", baths],
-        ["Square Feet", sqft, "Lot Size", lot_size],
+        ["Property Type", Paragraph(prop_type, S["td"]), "Year Built", Paragraph(str(year_built), S["td"])],
+        ["Bedrooms", Paragraph(str(beds), S["td"]), "Bathrooms", Paragraph(str(baths), S["td"])],
+        ["Square Feet", Paragraph(str(sqft), S["td"]), "Lot Size", Paragraph(str(lot_size), S["td"])],
     ]
     details_table = Table(details_data, colWidths=[100, 130, 100, 130])
     details_style = [
@@ -520,16 +648,6 @@ def generate_report(data, output_path):
     elements.append(chart)
     elements.append(Spacer(1, 12))
 
-    # Signal badge line
-    elements.append(Paragraph(
-        f'Property Score: <font color="{color.hexval()}">'
-        f'{int(overall_score)}/100</font> &nbsp; | &nbsp; '
-        f'Grade: <font color="{color.hexval()}">{grade}</font> &nbsp; | &nbsp; '
-        f'Signal: <font color="{sig_color.hexval()}">{signal}</font>',
-        ParagraphStyle("SignalBadge", parent=S["body"], fontSize=12,
-                       fontName="Helvetica-Bold", alignment=1, spaceAfter=12)
-    ))
-
     # Score breakdown table
     score_data = [["Category", "Score", "Weight", "Status"]]
     for name, sc in zip(cat_names, cat_scores):
@@ -540,7 +658,7 @@ def generate_report(data, output_path):
             status = "Mixed"
         else:
             status = "Weak"
-        score_data.append([name, f"{int(sc)}/100", weight, status])
+        score_data.append([Paragraph(name, S["td"]), f"{int(sc)}/100", weight, status])
 
     score_table = Table(score_data, colWidths=[160, 80, 60, 100])
     score_style_extra = [("ALIGN", (1, 0), (-1, -1), "CENTER")]
@@ -567,8 +685,12 @@ def generate_report(data, output_path):
     comp_data = [["Address", "Sale Price", "Sq Ft", "$/Sq Ft", "Sold", "Distance"]]
     for c in comps:
         comp_data.append([
-            c.get("address", ""), c.get("price", ""), c.get("sqft", ""),
-            c.get("price_sqft", ""), c.get("sold_date", ""), c.get("distance", "")
+            Paragraph(c.get("address", ""), S["td"]),
+            Paragraph(c.get("price", ""), S["td_center"]),
+            Paragraph(str(c.get("sqft", "")), S["td_center"]),
+            Paragraph(c.get("price_sqft", ""), S["td_center"]),
+            Paragraph(c.get("sold_date", ""), S["td_center"]),
+            Paragraph(c.get("distance", ""), S["td_center"]),
         ])
 
     comp_table = Table(comp_data, colWidths=[100, 80, 60, 60, 70, 60])
@@ -610,17 +732,19 @@ def generate_report(data, output_path):
         {"item": "Net Cash Flow", "monthly": "-$52", "annual": "-$631"},
     ])
 
+    last_row = len(cf_items)
     cf_data = [["Item", "Monthly", "Annual"]]
-    for item in cf_items:
-        cf_data.append([item.get("item", ""), item.get("monthly", ""), item.get("annual", "")])
+    for idx, item in enumerate(cf_items, 1):
+        bold = (idx == last_row)
+        cf_data.append([Paragraph(item.get("item", ""), S["td_bold"] if bold else S["td"]),
+                        item.get("monthly", ""), item.get("annual", "")])
 
     cf_table = Table(cf_data, colWidths=[220, 110, 110])
     cf_style_extra = [
         ("ALIGN", (1, 0), (-1, -1), "RIGHT"),
     ]
     # Highlight net cash flow row (last row)
-    last_row = len(cf_items)
-    cf_style_extra.append(("FONTNAME", (0, last_row), (-1, last_row), "Helvetica-Bold"))
+    cf_style_extra.append(("FONTNAME", (1, last_row), (-1, last_row), "Helvetica-Bold"))
     cf_style_extra.append(("BACKGROUND", (0, last_row), (-1, last_row), COLORS["light_bg"]))
     cf_table.setStyle(standard_table_style(cf_style_extra))
     elements.append(cf_table)
@@ -630,15 +754,19 @@ def generate_report(data, output_path):
     elements.append(Paragraph("Investment Metrics", S["subheading"]))
     inv_metrics = data.get("investment_metrics", {})
 
-    metrics_items = [
-        ["Metric", "Value", "Assessment"],
-        ["Cap Rate", inv_metrics.get("cap_rate", "5.2%"), inv_metrics.get("cap_rate_status", "Fair — above 5% threshold")],
-        ["Cash-on-Cash Return", inv_metrics.get("cash_on_cash", "3.8%"), inv_metrics.get("coc_status", "Below average — aim for 8%+")],
-        ["Gross Rent Multiplier", inv_metrics.get("grm", "16.1x"), inv_metrics.get("grm_status", "Average for metro area")],
-        ["Debt Service Coverage", inv_metrics.get("dscr", "1.05"), inv_metrics.get("dscr_status", "Tight — lenders prefer 1.25+")],
-        ["1% Rule", inv_metrics.get("one_pct", "0.52%"), inv_metrics.get("one_pct_status", "Below 1% — typical for appreciation market")],
-        ["Break-Even Occupancy", inv_metrics.get("breakeven", "92%"), inv_metrics.get("breakeven_status", "Tight margin — low vacancy tolerance")],
+    metrics_rows = [
+        ("Cap Rate", inv_metrics.get("cap_rate", "5.2%"), inv_metrics.get("cap_rate_status", "Fair — above 5% threshold")),
+        ("Cash-on-Cash Return", inv_metrics.get("cash_on_cash", "3.8%"), inv_metrics.get("coc_status", "Below average — aim for 8%+")),
+        ("Gross Rent Multiplier", inv_metrics.get("grm", "16.1x"), inv_metrics.get("grm_status", "Average for metro area")),
+        ("Debt Service Coverage", inv_metrics.get("dscr", "1.05"), inv_metrics.get("dscr_status", "Tight — lenders prefer 1.25+")),
+        ("1% Rule", inv_metrics.get("one_pct", "0.52%"), inv_metrics.get("one_pct_status", "Below 1% — typical for appreciation market")),
+        ("Break-Even Occupancy", inv_metrics.get("breakeven", "92%"), inv_metrics.get("breakeven_status", "Tight margin — low vacancy tolerance")),
     ]
+    metrics_items = [["Metric", "Value", "Assessment"]]
+    for metric, value, assess in metrics_rows:
+        metrics_items.append([Paragraph(metric, S["td_bold"]),
+                              Paragraph(str(value), S["td_center"]),
+                              Paragraph(assess, S["td"])])
 
     metrics_table = Table(metrics_items, colWidths=[140, 80, 240])
     metrics_table.setStyle(standard_table_style([
@@ -653,22 +781,21 @@ def generate_report(data, output_path):
     elements.append(Paragraph("Mortgage Summary", S["subheading"]))
     mortgage = data.get("mortgage", {})
 
-    mort_data = [
-        ["Parameter", "Value"],
-        ["Purchase Price", mortgage.get("purchase_price", "$425,000")],
-        ["Down Payment", mortgage.get("down_payment", "$85,000 (20%)")],
-        ["Loan Amount", mortgage.get("loan_amount", "$340,000")],
-        ["Interest Rate", mortgage.get("rate", "6.75%")],
-        ["Loan Term", mortgage.get("term", "30-year fixed")],
-        ["Monthly P&I", mortgage.get("monthly_pi", "$2,205")],
-        ["Total Monthly (PITI)", mortgage.get("monthly_piti", "$2,684")],
+    mort_rows = [
+        ("Purchase Price", mortgage.get("purchase_price", "$425,000"), False),
+        ("Down Payment", mortgage.get("down_payment", "$85,000 (20%)"), False),
+        ("Loan Amount", mortgage.get("loan_amount", "$340,000"), False),
+        ("Interest Rate", mortgage.get("rate", "6.75%"), False),
+        ("Loan Term", mortgage.get("term", "30-year fixed"), False),
+        ("Monthly P&I", mortgage.get("monthly_pi", "$2,205"), True),
+        ("Total Monthly (PITI)", mortgage.get("monthly_piti", "$2,684"), True),
     ]
+    mort_data = [["Parameter", "Value"]]
+    for param, value, bold in mort_rows:
+        text = f"<b>{value}</b>" if bold else str(value)
+        mort_data.append([param, Paragraph(text, S["td_center"])])
     mort_table = Table(mort_data, colWidths=[160, 200])
-    mort_style = [
-        ("ALIGN", (1, 0), (1, -1), "CENTER"),
-        ("FONTNAME", (1, 6), (1, 7), "Helvetica-Bold"),
-    ]
-    mort_table.setStyle(standard_table_style(mort_style))
+    mort_table.setStyle(standard_table_style([("ALIGN", (1, 0), (1, 0), "CENTER")]))
     elements.append(mort_table)
 
     elements.append(PageBreak())
@@ -713,7 +840,8 @@ def generate_report(data, output_path):
 
     hood_data = [["Factor", "Detail", "Notes"]]
     for h in hood_details:
-        hood_data.append([h.get("factor", ""), h.get("detail", ""),
+        hood_data.append([Paragraph(h.get("factor", ""), S["td_bold"]),
+                          Paragraph(h.get("detail", ""), S["td"]),
                           Paragraph(h.get("notes", ""), S["body_small"])])
 
     hood_table = Table(hood_data, colWidths=[130, 130, 210])
@@ -731,10 +859,10 @@ def generate_report(data, output_path):
 
     demo_data = [
         ["Demographic", "Value"],
-        ["Population Growth", pop_growth],
-        ["Median Age", median_age],
-        ["Employment Rate", employment],
-        ["Major Employers", major_employers],
+        ["Population Growth", Paragraph(str(pop_growth), S["td"])],
+        ["Median Age", Paragraph(str(median_age), S["td"])],
+        ["Employment Rate", Paragraph(str(employment), S["td"])],
+        ["Major Employers", Paragraph(str(major_employers), S["td"])],
     ]
     demo_table = Table(demo_data, colWidths=[160, 310])
     demo_table.setStyle(standard_table_style([("ALIGN", (1, 0), (1, -1), "LEFT")]))
@@ -767,8 +895,9 @@ def generate_report(data, output_path):
 
     strat_data = [["Strategy", "Projected Return", "Timeframe", "Key Risk"]]
     for s in strategies:
-        strat_data.append([s.get("strategy", ""), s.get("projected_return", ""),
-                           s.get("timeframe", ""),
+        strat_data.append([Paragraph(s.get("strategy", ""), S["td_bold"]),
+                           Paragraph(s.get("projected_return", ""), S["td_center"]),
+                           Paragraph(s.get("timeframe", ""), S["td_center"]),
                            Paragraph(s.get("risk", ""), S["body_small"])])
 
     strat_table = Table(strat_data, colWidths=[110, 100, 95, 165])
@@ -791,7 +920,7 @@ def generate_report(data, output_path):
     if not projections:
         projections = default_projections
 
-    proj_chart = create_appreciation_chart(projections)
+    proj_chart = create_appreciation_chart(projections, current_price=price)
     proj_chart.hAlign = "CENTER"
     elements.append(proj_chart)
     elements.append(Spacer(1, 14))
@@ -812,7 +941,8 @@ def generate_report(data, output_path):
 
     sc_data = [["Scenario", "Probability", "Expected Return", "Trigger"]]
     for sc in scenarios:
-        sc_data.append([sc.get("scenario", ""), sc.get("probability", ""),
+        sc_data.append([Paragraph(sc.get("scenario", ""), S["td_bold"]),
+                        sc.get("probability", ""),
                         sc.get("return", ""),
                         Paragraph(sc.get("trigger", ""), S["body_small"])])
     sc_table = Table(sc_data, colWidths=[85, 75, 120, 190])
@@ -894,7 +1024,8 @@ def generate_report(data, output_path):
 
     rf_data = [["Risk Factor", "Probability", "Impact", "Notes"]]
     for rf in risk_factors:
-        rf_data.append([rf.get("factor", ""), rf.get("probability", ""),
+        rf_data.append([Paragraph(rf.get("factor", ""), S["td_bold"]),
+                        rf.get("probability", ""),
                         rf.get("impact", ""),
                         Paragraph(rf.get("notes", ""), S["body_small"])])
     rf_table = Table(rf_data, colWidths=[110, 80, 65, 215])
@@ -925,6 +1056,8 @@ def get_demo_data():
         "price": "$425,000",
         "date": datetime.now().astimezone().strftime("%b %d, %Y %-I:%M %p %Z"),
         "overall_score": 72,
+        "primary_signal": "BUY",
+        "rental_signal": "WATCH",
         "property_details": {
             "beds": "3",
             "baths": "2",
