@@ -95,7 +95,7 @@ Read each found file and extract the key data points into a structured format:
 - Beds / Baths / Square footage / Lot size / Year built
 - Composite Property Score (0-100)
 - Property Grade (A+ through F)
-- Signal (Strong Buy through Avoid)
+- Signal (Strong Buy through Avoid) for each of Primary Residence and Rental Investment
 - Category scores: Value & Comps, Income Potential, Neighborhood, Investment, Market
 - Key findings (bulleted list)
 - Risk factors
@@ -137,6 +137,7 @@ Read each found file and extract the key data points into a structured format:
 - Inventory months
 - Price trend (YoY)
 - Economic drivers
+- Appreciation Projection (generated through ReportLab)
 
 ### STEP 4: BUILD THE JSON DATA STRUCTURE
 
@@ -247,8 +248,8 @@ python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
 **Page 1: Cover Page**
 - Report title: "Property Analysis Report"
 - Property address (large, centered)
-- Property Score gauge (circular, color-coded: green 70+, yellow 40-69, red 0-39)
-- Grade and Signal displayed prominently
+- Property Score gauge (semicircular, color-coded: green 70+, yellow 40-69, red 0-39)
+- Grade and Signal displayed prominently for each type (Primary and Rental Investment)
 - Report date
 - Disclaimer footer
 
@@ -304,15 +305,15 @@ python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
 
 #### PDF STYLING
 
-| Element      | Style                                                                                           |
-|--------------|-------------------------------------------------------------------------------------------------|
-| Colors       | Navy (#1B2A4A) headers, dark gray (#333) body, green (#2E7D32) positive, red (#C62828) negative |
-| Fonts        | Helvetica-Bold for headers, Helvetica for body                                                  |
-| Score gauges | Circular arc gauges with color gradient (red -> yellow -> green)                                |
-| Tables       | Alternating row colors (white/#F5F5F5), navy header row                                         |
-| Charts       | Horizontal bar charts for category scores and comparisons                                       |
-| Footer       | Page numbers (e.g., "Page 1 of 12"), disclaimer, creation date and time                         |
-| Margins      | 50pt top, 40pt sides, 50pt bottom                                                               |
+| Element      | Style                                                                   |
+|--------------|-------------------------------------------------------------------------|
+| Colors       | Defer to colors in Python script                                        |
+| Fonts        | Helvetica-Bold for headers, Helvetica for body                          |
+| Score gauges | Semicircular arc gauges with color gradient (red -> yellow -> green)    |
+| Tables       | Alternating row colors                                                  |
+| Charts       | Horizontal bar charts for category scores and comparisons               |
+| Footer       | Page numbers (e.g., "Page 1 of 12"), disclaimer, creation date and time |
+| Margins      | 50pt top, 40pt sides, 50pt bottom                                       |
 
 ### STEP 6: VERIFY AND DELIVER
 
@@ -333,14 +334,14 @@ Confirm the file was created and report:
 
 ## OUTPUT SPECIFICATIONS
 
-| Spec              | Value                                                                           |
-|-------------------|---------------------------------------------------------------------------------|
-| File name         | `PROPERTY-REPORT.pdf` (or `PROPERTY-REPORT-[ADDRESS].pdf` if address specified) |
-| Page size         | Letter (8.5" x 11")                                                             |
-| Orientation       | Portrait                                                                        |
-| Pages             | 6-20 depending on available data                                                |
-| File size         | Typically 200KB - 1MB                                                           |
-| Python dependency | ReportLab (`pip install reportlab` if not installed)                            |
+| Spec              | Value                                                |
+|-------------------|------------------------------------------------------|
+| File name         | `Property-Report-[ADDRESS].pdf` if address specified |
+| Page size         | Letter (8.5" x 11")                                  |
+| Orientation       | Portrait                                             |
+| Pages             | 6-20 depending on available data                     |
+| File size         | Typically 200KB - 1MB                                |
+| Python dependency | ReportLab (`pip install reportlab` if not installed) |
 
 ---
 
