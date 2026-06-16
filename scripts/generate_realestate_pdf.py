@@ -26,6 +26,9 @@ try:
     from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Table,
                                      TableStyle, PageBreak)
     from reportlab.graphics.shapes import Drawing, Rect, Circle, String, Line, Wedge
+    from reportlab.graphics.charts.lineplots import LinePlot
+    from reportlab.graphics.widgets.markers import makeMarker
+    from reportlab.pdfgen import canvas
 except ImportError:
     print("Error: reportlab is required. Install with: pip install reportlab")
     sys.exit(1)
@@ -37,12 +40,12 @@ except ImportError:
 COLORS = {
     "navy": HexColor("#1a2332"),              # Primary navy
     "navy_light": HexColor("#243347"),        # Lighter navy
-    "forest_green": HexColor("#2d8a4e"),      # Forest green (primary accent)
-    "green_light": HexColor("#3aaf63"),       # Light green
-    "warm_gold": HexColor("#c9982e"),         # Warm gold
-    "gold_light": HexColor("#e0b84a"),        # Light gold
-    "danger": HexColor("#d9534f"),            # Danger red
-    "sky_blue": HexColor("#4a9eff"),          # Sky blue (info)
+    "forest_green": HexColor("#007E33"),      # Forest green (primary accent)
+    "green_light": HexColor("#00C851"),       # Light green
+    "amber": HexColor("#F59E0B"),             # Amber
+    "gold_light": HexColor("#FFBB33"),        # Light gold
+    "danger": HexColor("#CC0000"),            # Danger red
+    "info": HexColor("#2563EB"),              # Sky blue (info)
     "gray": HexColor("#78909c"),              # Muted gray
     "light_bg": HexColor("#f5f7fa"),          # Light background
     "text": HexColor("#1e293b"),              # Dark text
@@ -54,60 +57,34 @@ COLORS = {
     "black": black,
 }
 
-
 def score_color(score):
     """Return color based on property score value."""
-    if score >= 70:
-        return COLORS["forest_green"]
-    elif score >= 40:
-        return COLORS["warm_gold"]
-    else:
-        return COLORS["danger"]
-
+    if score >= 70: return COLORS["forest_green"]
+    if score >= 40: return COLORS["amber"]
+    return COLORS["danger"]
 
 def score_grade(score):
     """Return property grade from score."""
-    if score >= 85:
-        return "A+"
-    elif score >= 70:
-        return "A"
-    elif score >= 55:
-        return "B"
-    elif score >= 40:
-        return "C"
-    elif score >= 25:
-        return "D"
-    else:
-        return "F"
-
+    if score >= 85: return "A+"
+    if score >= 70: return "A"
+    if score >= 55: return "B"
+    if score >= 40: return "C"
+    if score >= 25: return "D"
+    return "F"
 
 def property_signal(score):
-    """Return property investment signal from score."""
-    if score >= 85:
-        return "STRONG BUY"
-    elif score >= 70:
-        return "BUY"
-    elif score >= 55:
-        return "HOLD / WATCH"
-    elif score >= 40:
-        return "CAUTION"
-    elif score >= 25:
-        return "PASS"
-    else:
-        return "AVOID"
-
+    if score >= 85: return "STRONG BUY"
+    if score >= 70: return "BUY"
+    if score >= 55: return "WATCH"
+    if score >= 40: return "CAUTION"
+    return "AVOID"
 
 def signal_color(score):
-    """Return color for the property signal."""
-    if score >= 70:
-        return COLORS["forest_green"]
-    elif score >= 55:
-        return COLORS["sky_blue"]
-    elif score >= 40:
-        return COLORS["warm_gold"]
-    else:
-        return COLORS["danger"]
-
+    if score >= 85: return COLORS["forest_green"]
+    if score >= 70: return COLORS["green_light"]
+    if score >= 55: return COLORS["amber"]
+    if score >= 40: return COLORS["gold_light"]
+    return COLORS["danger"]
 
 def draw_score_gauge(score, size=140):
     """Create a circular Property Score gauge with color-coded ring."""
@@ -132,33 +109,50 @@ def draw_score_gauge(score, size=140):
 
     # Score text
     d.add(String(cx, cy + 2, str(int(score)),
-                 fontSize=36, fillColor=COLORS["navy"],
-                 textAnchor="middle", fontName="Helvetica-Bold"))
+                 fontSize=36,
+                 fillColor=COLORS["navy"], textAnchor="middle", fontName="Helvetica-Bold"))
 
     # "/ 100" label
     d.add(String(cx, cy - 18, "/ 100",
-                 fontSize=10, fillColor=COLORS["gray"],
-                 textAnchor="middle", fontName="Helvetica"))
+                 fontSize=10,
+                 fillColor=COLORS["gray"], textAnchor="middle", fontName="Helvetica"))
 
     return d
 
 
-def create_bar_chart(categories, scores, width=470, height=200):
-    """Create horizontal bar charts for category scores."""
+def neighborhood_color(score):
+    """Return color for a neighborhood sub-score."""
+    if score >= 80:
+        return COLORS["forest_green"]
+    elif score >= 60:
+        return COLORS["amber"]
+    elif score >= 40:
+        return COLORS["gold_light"]
+    else:
+        return COLORS["danger"]
+
+
+def create_bar_chart(categories, scores, width=470, height=200,
+                     bar_height=20, gap=14, bar_x=170, label_chars=25,
+                     value_font=10, color_fn=score_color):
+    """Create a horizontal bar chart of category scores.
+
+    Layout knobs (bar_height/gap/bar_x/label_chars/value_font) and the
+    color_fn used to shade each bar are parameterized so the same routine
+    drives both the score dashboard and the neighborhood charts.
+    """
     d = Drawing(width, height)
 
-    bar_height = 20
-    gap = 14
     max_bar_width = width - 200
     start_y = height - 25
     label_x = 5
-    bar_x = 170
+    text_dy = bar_height / 2 - 5  # vertically center text within the bar
 
     for i, (cat, score) in enumerate(zip(categories, scores)):
         y = start_y - i * (bar_height + gap)
 
         # Category label
-        d.add(String(label_x, y + 5, cat[:25],
+        d.add(String(label_x, y + text_dy, cat[:label_chars],
                      fontSize=9, fillColor=COLORS["text"],
                      textAnchor="start", fontName="Helvetica"))
 
@@ -168,55 +162,87 @@ def create_bar_chart(categories, scores, width=470, height=200):
 
         # Score bar — color coded by range
         bar_width = max((score / 100) * max_bar_width, 2)
-        color = score_color(score)
         d.add(Rect(bar_x, y, bar_width, bar_height,
-                   fillColor=color, strokeColor=None, rx=3))
+                   fillColor=color_fn(score), strokeColor=None, rx=3))
 
         # Score label
-        d.add(String(bar_x + max_bar_width + 10, y + 5, f"{int(score)}/100",
-                     fontSize=10, fillColor=COLORS["text"],
+        d.add(String(bar_x + max_bar_width + 10, y + text_dy, f"{int(score)}/100",
+                     fontSize=value_font, fillColor=COLORS["text"],
                      textAnchor="start", fontName="Helvetica-Bold"))
 
     return d
 
 
-def create_neighborhood_bar_chart(categories, scores, width=470, height=160):
-    """Create horizontal bar chart for neighborhood scores."""
+def _digits_to_int(value):
+    """Pull an integer out of a formatted string like '$429,250' or 'Year 10'."""
+    digits = "".join(ch for ch in str(value) if ch.isdigit())
+    return int(digits) if digits else 0
+
+
+def create_appreciation_chart(projections, width=470, height=240):
+    """Create a multi-series line chart of appreciation projections.
+
+    Plots Conservative / Moderate / Aggressive value paths over the projected
+    years, with a marker at each data point and a currency (thousands) y-axis.
+    """
     d = Drawing(width, height)
 
-    bar_height = 18
-    gap = 10
-    max_bar_width = width - 200
-    start_y = height - 20
-    label_x = 5
-    bar_x = 150
+    years = [_digits_to_int(p.get("year", "")) for p in projections]
+    series = [
+        ("Conservative", "conservative", COLORS["gray"], "FilledCircle"),
+        ("Moderate", "moderate", COLORS["info"], "FilledSquare"),
+        ("Aggressive", "aggressive", COLORS["forest_green"], "FilledDiamond"),
+    ]
 
-    for i, (cat, score) in enumerate(zip(categories, scores)):
-        y = start_y - i * (bar_height + gap)
+    plot_data = [
+        [(yr, _digits_to_int(p.get(key, 0))) for yr, p in zip(years, projections)]
+        for _, key, _, _ in series
+    ]
 
-        d.add(String(label_x, y + 4, cat[:22],
-                     fontSize=9, fillColor=COLORS["text"],
-                     textAnchor="start", fontName="Helvetica"))
+    lp = LinePlot()
+    lp.x = 55
+    lp.y = 45
+    lp.width = width - 90
+    lp.height = height - 85
+    lp.data = plot_data
 
-        d.add(Rect(bar_x, y, max_bar_width, bar_height,
-                   fillColor=COLORS["light_bg"], strokeColor=None, rx=3))
+    for i, (_, _, color, marker) in enumerate(series):
+        lp.lines[i].strokeColor = color
+        lp.lines[i].strokeWidth = 2
+        lp.lines[i].symbol = makeMarker(marker)
+        lp.lines[i].symbol.fillColor = color
+        lp.lines[i].symbol.strokeColor = color
+        lp.lines[i].symbol.size = 5
 
-        bar_width = max((score / 100) * max_bar_width, 2)
-        if score >= 80:
-            color = COLORS["forest_green"]
-        elif score >= 60:
-            color = COLORS["sky_blue"]
-        elif score >= 40:
-            color = COLORS["warm_gold"]
-        else:
-            color = COLORS["danger"]
+    # X axis — discrete year steps
+    lp.xValueAxis.valueSteps = years
+    lp.xValueAxis.labelTextFormat = lambda v: f"Yr {int(v)}"
+    lp.xValueAxis.labels.fontName = "Helvetica"
+    lp.xValueAxis.labels.fontSize = 8
+    lp.xValueAxis.strokeColor = COLORS["border"]
 
-        d.add(Rect(bar_x, y, bar_width, bar_height,
-                   fillColor=color, strokeColor=None, rx=3))
+    # Y axis — currency in thousands, padded to round $50K bounds
+    all_values = [y for s in plot_data for _, y in s]
+    lp.yValueAxis.valueMin = (min(all_values) // 50000) * 50000
+    lp.yValueAxis.valueMax = (max(all_values) // 50000 + 1) * 50000
+    lp.yValueAxis.valueStep = 50000
+    lp.yValueAxis.labelTextFormat = lambda v: f"${int(v / 1000)}K"
+    lp.yValueAxis.labels.fontName = "Helvetica"
+    lp.yValueAxis.labels.fontSize = 8
+    lp.yValueAxis.strokeColor = COLORS["border"]
+    lp.yValueAxis.visibleGrid = True
+    lp.yValueAxis.gridStrokeColor = COLORS["light_bg"]
 
-        d.add(String(bar_x + max_bar_width + 10, y + 4, f"{int(score)}/100",
-                     fontSize=9, fillColor=COLORS["text"],
-                     textAnchor="start", fontName="Helvetica-Bold"))
+    d.add(lp)
+
+    # Manual legend across the top
+    legend_y = height - 12
+    lx = 55
+    for label, _, color, _ in series:
+        d.add(Rect(lx, legend_y, 10, 10, fillColor=color, strokeColor=None))
+        d.add(String(lx + 14, legend_y + 1, label,
+                     fontSize=8, fillColor=COLORS["text"], fontName="Helvetica"))
+        lx += 30 + len(label) * 5.5
 
     return d
 
@@ -243,7 +269,7 @@ def get_styles():
         ),
         "price": ParagraphStyle(
             "REPrice", parent=styles["Title"],
-            fontSize=36, textColor=COLORS["warm_gold"],
+            fontSize=36, textColor=COLORS["amber"],
             spaceAfter=4, fontName="Helvetica-Bold",
             leading=42
         ),
@@ -329,11 +355,49 @@ def standard_table_style(extra=None):
 
 
 DISCLAIMER_TEXT = (
-    "DISCLAIMER: This report is generated by AI for educational and research purposes only. "
-    "It is NOT financial or investment advice. Real estate values, rental estimates, and "
+    "DISCLAIMER: This report is intended for research only "
+    "and is NOT financial or investment advice. Real estate values, rental estimates, and "
     "investment projections are AI-generated approximations based on publicly available data. "
     "The authors and creators of this tool accept no liability for any losses incurred."
 )
+
+
+# ---------------------------------------------------------------------------
+# Footer canvas — draws a three-part footer on every page
+# ---------------------------------------------------------------------------
+class FooterCanvas(canvas.Canvas):
+    """Canvas that stamps a left/center/right footer on every page.
+
+    A two-pass approach is required so the footer can show "Page X of Y" —
+    pages are buffered on showPage() and the footer is drawn at save() time
+    once the total page count is known.
+    """
+
+    def __init__(self, *args, created="", **kwargs):
+        super().__init__(*args, **kwargs)
+        self._saved_states = []
+        self._created = created
+
+    def showPage(self):
+        self._saved_states.append(dict(self.__dict__))
+        self._startPage()
+
+    def save(self):
+        total = len(self._saved_states)
+        for page_number, state in enumerate(self._saved_states, start=1):
+            self.__dict__.update(state)
+            self._draw_footer(page_number, total)
+            super().showPage()
+        super().save()
+
+    def _draw_footer(self, page_number, total):
+        width = letter[0]
+        y = 30
+        self.setFont("Helvetica", 7)
+        self.setFillColor(COLORS["gray"])
+        self.drawString(50, y, f"Created: {self._created}")
+        self.drawCentredString(width / 2, y, "AI Generated Report")
+        self.drawRightString(width - 50, y, f"Page {page_number} of {total}")
 
 
 # ---------------------------------------------------------------------------
@@ -355,7 +419,8 @@ def generate_report(data, output_path):
 
     address = data.get("address", "123 Main Street, Austin, TX 78701")
     price = data.get("price", "$425,000")
-    date_str = data.get("date", datetime.now().strftime("%B %d, %Y"))
+    created_str = data.get("date") or datetime.now().astimezone().strftime(
+        "%b %d, %Y %-I:%M %p %Z")
     overall_score = data.get("overall_score", 0)
     grade = score_grade(overall_score)
     signal = property_signal(overall_score)
@@ -370,12 +435,11 @@ def generate_report(data, output_path):
     elements.append(Paragraph(address, S["address"]))
     elements.append(Spacer(1, 12))
     elements.append(Paragraph(price, S["price"]))
-    elements.append(Spacer(1, 8))
-    elements.append(Paragraph(f"Created: {date_str}", S["subtitle"]))
-    elements.append(Spacer(1, 30))
+    elements.append(Spacer(1, 38))
 
     # Property Score gauge
     gauge = draw_score_gauge(overall_score, size=140)
+    gauge.hAlign = "CENTER"
     elements.append(gauge)
     elements.append(Spacer(1, 24))
 
@@ -629,7 +693,10 @@ def generate_report(data, output_path):
     hood_names = list(hood_scores.keys())
     hood_values = list(hood_scores.values())
 
-    hood_chart = create_neighborhood_bar_chart(hood_names, hood_values)
+    hood_chart = create_bar_chart(hood_names, hood_values, height=160,
+                                  bar_height=18, gap=10, bar_x=150,
+                                  label_chars=22, value_font=9,
+                                  color_fn=neighborhood_color)
     elements.append(hood_chart)
     elements.append(Spacer(1, 14))
 
@@ -724,19 +791,9 @@ def generate_report(data, output_path):
     if not projections:
         projections = default_projections
 
-    proj_data = [["Timeline", "Conservative (1%)", "Moderate (3.5%)", "Aggressive (6%)"]]
-    for p in projections:
-        proj_data.append([p.get("year", ""), p.get("conservative", ""),
-                          p.get("moderate", ""), p.get("aggressive", "")])
-
-    proj_table = Table(proj_data, colWidths=[80, 130, 130, 130])
-    proj_style = [
-        ("ALIGN", (1, 0), (-1, -1), "CENTER"),
-        ("TEXTCOLOR", (3, 1), (3, -1), COLORS["forest_green"]),
-        ("FONTNAME", (3, 1), (3, -1), "Helvetica-Bold"),
-    ]
-    proj_table.setStyle(standard_table_style(proj_style))
-    elements.append(proj_table)
+    proj_chart = create_appreciation_chart(projections)
+    proj_chart.hAlign = "CENTER"
+    elements.append(proj_chart)
     elements.append(Spacer(1, 14))
 
     # Scenario analysis
@@ -765,7 +822,7 @@ def generate_report(data, output_path):
     ]
     if len(scenarios) >= 3:
         sc_style.append(("TEXTCOLOR", (2, 1), (2, 1), COLORS["forest_green"]))
-        sc_style.append(("TEXTCOLOR", (2, 2), (2, 2), COLORS["sky_blue"]))
+        sc_style.append(("TEXTCOLOR", (2, 2), (2, 2), COLORS["info"]))
         sc_style.append(("TEXTCOLOR", (2, 3), (2, 3), COLORS["danger"]))
         sc_style.append(("FONTNAME", (2, 1), (2, 3), "Helvetica-Bold"))
     sc_table.setStyle(standard_table_style(sc_style))
@@ -847,14 +904,14 @@ def generate_report(data, output_path):
 
     elements.append(Spacer(1, 20))
 
-    # Footer + disclaimer
-    elements.append(Paragraph(
-        "Generated by AI Real Estate Analyst for Claude Code", S["footer"]
-    ))
+    # Disclaimer (the per-page footer is drawn by FooterCanvas)
     elements.append(Paragraph(DISCLAIMER_TEXT, S["disclaimer"]))
 
-    # Build PDF
-    doc.build(elements)
+    # Build PDF — FooterCanvas stamps the three-part footer on every page
+    doc.build(
+        elements,
+        canvasmaker=lambda *a, **k: FooterCanvas(*a, created=created_str, **k),
+    )
     return output_path
 
 
@@ -866,7 +923,7 @@ def get_demo_data():
     return {
         "address": "4821 Ridgeview Drive, Austin, TX 78735",
         "price": "$425,000",
-        "date": datetime.now().strftime("%B %d, %Y"),
+        "date": datetime.now().astimezone().strftime("%b %d, %Y %-I:%M %p %Z"),
         "overall_score": 72,
         "property_details": {
             "beds": "3",
