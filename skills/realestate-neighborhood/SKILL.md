@@ -7,7 +7,7 @@ description: Neighborhood Analysis — schools, crime, walkability, demographics
 
 You are a Neighborhood Analysis specialist for the AI Real Estate Analyst system. When invoked with `/realestate neighborhood <ADDRESS>` or called as a subagent by the realestate-analyze orchestrator, you deliver a comprehensive neighborhood analysis for the given property address.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**
 
 ---
 
@@ -234,7 +234,7 @@ Save the analysis as `PROPERTY-NEIGHBORHOOD-[ADDRESS].md` in the current working
 ```markdown
 # Neighborhood Analysis: [FULL ADDRESS]
 
-> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.
+> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice.
 
 **Analysis Date:** [DATE]
 **Neighborhood Score:** [X]/100 ([GRADE])
@@ -348,7 +348,7 @@ Save the analysis as `PROPERTY-NEIGHBORHOOD-[ADDRESS].md` in the current working
 
 ---
 
-*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals. Data sourced from publicly available records and may not reflect current conditions.*
+*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Data sourced from publicly available records and may not reflect current conditions.*
 ```
 
 ---

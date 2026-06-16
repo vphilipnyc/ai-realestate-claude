@@ -23,20 +23,20 @@ The AI Real Estate Analyst turns Claude Code into a comprehensive property resea
 
 ### Feature Highlights
 
-| Feature | Description |
-|---------|-------------|
-| **Full Property Analysis** | 5 parallel agents analyze value, income, neighborhood, investment, and market simultaneously |
-| **Property Score (0-100)** | Weighted composite score with letter grade (A+ to F) and investment signal |
-| **Comp Analysis** | Recent comparable sales, price per sq ft, fair market value estimate |
-| **Cash Flow Projections** | Monthly/annual rental income, expenses, NOI, cap rate, cash-on-cash return |
-| **Neighborhood Intelligence** | Schools, crime, walkability, demographics, growth trajectory |
-| **Investment Scenarios** | Buy-and-hold, BRRRR, fix-and-flip with ROI projections |
-| **Professional Listings** | MLS-ready property descriptions |
-| **Mortgage Calculator** | Payment estimates, affordability analysis, rate comparison |
-| **Market Analysis** | Local inventory, days on market, price trends, seasonality |
-| **Property Screener** | Filter properties by investment criteria |
-| **PDF Reports** | Professional 6-page reports with charts, tables, and gauges |
-| **Commercial Analysis** | NOI, cap rate, lease terms, tenant quality for commercial properties |
+| Feature                       | Description                                                                                  |
+|-------------------------------|----------------------------------------------------------------------------------------------|
+| **Full Property Analysis**    | 5 parallel agents analyze value, income, neighborhood, investment, and market simultaneously |
+| **Property Score (0-100)**    | Weighted composite score with letter grade (A+ to F) and investment signal                   |
+| **Comp Analysis**             | Recent comparable sales, price per sq ft, fair market value estimate                         |
+| **Cash Flow Projections**     | Monthly/annual rental income, expenses, NOI, cap rate, cash-on-cash return                   |
+| **Neighborhood Intelligence** | Schools, crime, walkability, demographics, growth trajectory                                 |
+| **Investment Scenarios**      | Buy-and-hold, BRRRR, fix-and-flip with ROI projections                                       |
+| **Professional Listings**     | MLS-ready property descriptions                                                              |
+| **Mortgage Calculator**       | Payment estimates, affordability analysis, rate comparison                                   |
+| **Market Analysis**           | Local inventory, days on market, price trends, seasonality                                   |
+| **Property Screener**         | Filter properties by investment criteria                                                     |
+| **PDF Reports**               | Professional 6-page reports with charts, tables, and gauges                                  |
+| **Commercial Analysis**       | NOI, cap rate, lease terms, tenant quality for commercial properties                         |
 
 ---
 
@@ -69,22 +69,22 @@ cd ai-realestate-claude
 
 Open Claude Code and use these commands:
 
-| Command | What It Does | Output |
-|---------|-------------|--------|
-| `/realestate analyze <address>` | Full property analysis (5 parallel agents) | `PROPERTY-ANALYSIS-*.md` |
-| `/realestate quick <address>` | 60-second property snapshot | Terminal output |
-| `/realestate comps <address>` | Comparable sales analysis | `PROPERTY-COMPS-*.md` |
-| `/realestate rental <address>` | Rental income & cash flow projection | `PROPERTY-RENTAL-*.md` |
-| `/realestate listing <address>` | Professional MLS-ready listing | `PROPERTY-LISTING-*.md` |
-| `/realestate invest <address>` | Investment analysis (buy-hold, BRRRR, flip) | `PROPERTY-INVEST-*.md` |
-| `/realestate neighborhood <addr>` | Schools, crime, walkability, demographics | `PROPERTY-NEIGHBORHOOD-*.md` |
-| `/realestate flip <address>` | Fix-and-flip analysis with rehab budget | `PROPERTY-FLIP-*.md` |
-| `/realestate commercial <address>` | Commercial property analysis | `PROPERTY-COMMERCIAL-*.md` |
-| `/realestate mortgage <price>` | Mortgage calculator & affordability | `PROPERTY-MORTGAGE.md` |
-| `/realestate market <city/zip>` | Local market conditions & trends | `PROPERTY-MARKET-*.md` |
-| `/realestate compare <a1> <a2>` | Side-by-side property comparison | `PROPERTY-COMPARE.md` |
-| `/realestate screen <criteria>` | Property screener by investment criteria | `PROPERTY-SCREEN-*.md` |
-| `/realestate report-pdf` | Professional PDF property report | `PROPERTY-REPORT.pdf` |
+| Command                            | What It Does                                | Output                       |
+|------------------------------------|---------------------------------------------|------------------------------|
+| `/realestate analyze <address>`    | Full property analysis (5 parallel agents)  | `PROPERTY-ANALYSIS-*.md`     |
+| `/realestate quick <address>`      | 60-second property snapshot                 | Terminal output              |
+| `/realestate comps <address>`      | Comparable sales analysis                   | `PROPERTY-COMPS-*.md`        |
+| `/realestate rental <address>`     | Rental income & cash flow projection        | `PROPERTY-RENTAL-*.md`       |
+| `/realestate listing <address>`    | Professional MLS-ready listing              | `PROPERTY-LISTING-*.md`      |
+| `/realestate invest <address>`     | Investment analysis (buy-hold, BRRRR, flip) | `PROPERTY-INVEST-*.md`       |
+| `/realestate neighborhood <addr>`  | Schools, crime, walkability, demographics   | `PROPERTY-NEIGHBORHOOD-*.md` |
+| `/realestate flip <address>`       | Fix-and-flip analysis with rehab budget     | `PROPERTY-FLIP-*.md`         |
+| `/realestate commercial <address>` | Commercial property analysis                | `PROPERTY-COMMERCIAL-*.md`   |
+| `/realestate mortgage <price>`     | Mortgage calculator & affordability         | `PROPERTY-MORTGAGE.md`       |
+| `/realestate market <city/zip>`    | Local market conditions & trends            | `PROPERTY-MARKET-*.md`       |
+| `/realestate compare <a1> <a2>`    | Side-by-side property comparison            | `PROPERTY-COMPARE.md`        |
+| `/realestate screen <criteria>`    | Property screener by investment criteria    | `PROPERTY-SCREEN-*.md`       |
+| `/realestate report-pdf`           | Professional PDF property report            | `PROPERTY-REPORT.pdf`        |
 
 ---
 
@@ -129,38 +129,38 @@ ai-realestate-claude/
 
 The **Property Score (0-100)** is a weighted composite of 5 analysis dimensions:
 
-| Category | Weight | What It Measures |
-|----------|--------|------------------|
-| Value & Comps | 25% | Price vs comps, price per sq ft, fair market value |
-| Income Potential | 20% | Rental yield, cash flow, cap rate, cash-on-cash return |
-| Neighborhood Quality | 20% | Schools, safety, walkability, amenities, growth |
-| Investment Upside | 20% | Appreciation potential, value-add opportunity, exit strategies |
-| Market Conditions | 15% | Supply/demand, days on market, price trends, seasonality |
+| Category             | Weight | What It Measures                                               |
+|----------------------|--------|----------------------------------------------------------------|
+| Value & Comps        | 25%    | Price vs comps, price per sq ft, fair market value             |
+| Income Potential     | 20%    | Rental yield, cash flow, cap rate, cash-on-cash return         |
+| Neighborhood Quality | 20%    | Schools, safety, walkability, amenities, growth                |
+| Investment Upside    | 20%    | Appreciation potential, value-add opportunity, exit strategies |
+| Market Conditions    | 15%    | Supply/demand, days on market, price trends, seasonality       |
 
 ### Grade & Signal
 
-| Score | Grade | Signal |
-|-------|-------|--------|
-| 85-100 | A+ | **Strong Buy** — excellent value across all dimensions |
-| 70-84 | A | **Buy** — favorable fundamentals with manageable risks |
-| 55-69 | B | **Hold/Watch** — mixed signals, deeper due diligence needed |
-| 40-54 | C | **Caution** — significant concerns in one or more areas |
-| 25-39 | D | **Pass** — unfavorable risk/reward at current pricing |
-| 0-24 | F | **Avoid** — major red flags, walk away |
+| Score  | Grade | Signal                                                      |
+|--------|-------|-------------------------------------------------------------|
+| 85-100 | A+    | **Strong Buy** — excellent value across all dimensions      |
+| 70-84  | A     | **Buy** — favorable fundamentals with manageable risks      |
+| 55-69  | B     | **Hold/Watch** — mixed signals, deeper due diligence needed |
+| 40-54  | C     | **Caution** — significant concerns in one or more areas     |
+| 25-39  | D     | **Pass** — unfavorable risk/reward at current pricing       |
+| 0-24   | F     | **Avoid** — major red flags, walk away                      |
 
 ---
 
 ## Property Types Supported
 
-| Type | Key Analysis Focus |
-|------|-------------------|
-| **Single Family** | Comps, rental yield, appreciation, school district, flip potential |
-| **Multi-Family (2-4)** | Gross rent multiplier, unit mix, per-unit value, house hacking |
-| **Multi-Family (5+)** | NOI, cap rate, expense ratio, value-add, 1031 exchange |
-| **Condo / Townhouse** | HOA fees impact, special assessments, rental restrictions |
-| **Commercial** | NOI, cap rate, lease terms, tenant quality, zoning |
-| **Land** | Zoning, buildability, utilities, entitlements, highest-and-best-use |
-| **Short-Term Rental** | ADR, occupancy, seasonality, local regulations, STR comps |
+| Type                   | Key Analysis Focus                                                  |
+|------------------------|---------------------------------------------------------------------|
+| **Single Family**      | Comps, rental yield, appreciation, school district, flip potential  |
+| **Multi-Family (2-4)** | Gross rent multiplier, unit mix, per-unit value, house hacking      |
+| **Multi-Family (5+)**  | NOI, cap rate, expense ratio, value-add, 1031 exchange              |
+| **Condo / Townhouse**  | HOA fees impact, special assessments, rental restrictions           |
+| **Commercial**         | NOI, cap rate, lease terms, tenant quality, zoning                  |
+| **Land**               | Zoning, buildability, utilities, entitlements, highest-and-best-use |
+| **Short-Term Rental**  | ADR, occupancy, seasonality, local regulations, STR comps           |
 
 ---
 

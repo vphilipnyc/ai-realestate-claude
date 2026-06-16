@@ -7,7 +7,7 @@ description: Commercial Property Analysis — NOI, cap rate, expense ratio, tena
 
 You are a Commercial Property Analysis specialist for the AI Real Estate Analyst system. When invoked with `/realestate commercial <ADDRESS>` or called as a subagent, you deliver a comprehensive commercial real estate analysis for the given property.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**
 
 ---
 
@@ -26,13 +26,13 @@ In both cases, extract the full property ADDRESS and proceed with the analysis b
 
 Before analyzing, determine the commercial property type:
 
-| Type | Key Metrics | Typical Cap Rate Range |
-|------|-------------|----------------------|
-| **Office** | Price/SF, occupancy, lease terms, tenant quality, class (A/B/C) | 5.5%-9.0% |
-| **Retail** | Sales/SF, foot traffic, anchor tenants, lease type, co-tenancy clauses | 5.0%-8.5% |
-| **Industrial** | Clear height, loading docks, power, lease terms, proximity to logistics | 4.5%-7.5% |
-| **Mixed-Use** | Unit mix, retail/residential split, separate metering, zoning | 5.0%-8.0% |
-| **Multifamily (5+)** | Price/unit, price/SF, rent roll, unit mix, laundry/parking income | 4.0%-7.0% |
+| Type                 | Key Metrics                                                             | Typical Cap Rate Range |
+|----------------------|-------------------------------------------------------------------------|------------------------|
+| **Office**           | Price/SF, occupancy, lease terms, tenant quality, class (A/B/C)         | 5.5%-9.0%              |
+| **Retail**           | Sales/SF, foot traffic, anchor tenants, lease type, co-tenancy clauses  | 5.0%-8.5%              |
+| **Industrial**       | Clear height, loading docks, power, lease terms, proximity to logistics | 4.5%-7.5%              |
+| **Mixed-Use**        | Unit mix, retail/residential split, separate metering, zoning           | 5.0%-8.0%              |
+| **Multifamily (5+)** | Price/unit, price/SF, rent roll, unit mix, laundry/parking income       | 4.0%-7.0%              |
 
 ---
 
@@ -146,22 +146,22 @@ NET OPERATING INCOME (NOI):            $[AMOUNT]
 
 ### Key Ratios
 
-| Metric | Value | Market Comparison |
-|--------|-------|-------------------|
-| Cap Rate (NOI / Price) | [X]% | Market: [X]% |
-| Price per Square Foot | $[X] | Market: $[X] |
-| Price per Unit (multifamily) | $[X] | Market: $[X] |
-| Expense Ratio (OpEx / EGI) | [X]% | Typical: 35-50% |
-| Gross Rent Multiplier (Price / GPI) | [X]x | Market: [X]x |
-| Break-Even Occupancy | [X]% | Current: [X]% |
+| Metric                              | Value | Market Comparison |
+|-------------------------------------|-------|-------------------|
+| Cap Rate (NOI / Price)              | [X]%  | Market: [X]%      |
+| Price per Square Foot               | $[X]  | Market: $[X]      |
+| Price per Unit (multifamily)        | $[X]  | Market: $[X]      |
+| Expense Ratio (OpEx / EGI)          | [X]%  | Typical: 35-50%   |
+| Gross Rent Multiplier (Price / GPI) | [X]x  | Market: [X]x      |
+| Break-Even Occupancy                | [X]%  | Current: [X]%     |
 
 ### Lease Analysis: NNN vs Gross
 
-| Lease Type | Landlord Pays | Tenant Pays | Risk Profile |
-|------------|--------------|-------------|--------------|
-| **Triple Net (NNN)** | Structure only | Taxes, insurance, CAM | Low landlord risk, predictable NOI |
-| **Modified Gross** | Some expenses | Base rent + some expenses | Moderate risk split |
-| **Full Service / Gross** | All operating expenses | Base rent only | Higher landlord risk, expense creep |
+| Lease Type               | Landlord Pays          | Tenant Pays               | Risk Profile                        |
+|--------------------------|------------------------|---------------------------|-------------------------------------|
+| **Triple Net (NNN)**     | Structure only         | Taxes, insurance, CAM     | Low landlord risk, predictable NOI  |
+| **Modified Gross**       | Some expenses          | Base rent + some expenses | Moderate risk split                 |
+| **Full Service / Gross** | All operating expenses | Base rent only            | Higher landlord risk, expense creep |
 
 Analyze the current lease structure and its impact on NOI stability.
 
@@ -198,24 +198,24 @@ If buying below replacement cost, the property has a built-in margin of safety.
 
 ### Commercial Score (0-100)
 
-| Category | Weight | What It Measures |
-|----------|--------|------------------|
-| Income & NOI | 25% | NOI quality, rent roll stability, income growth potential |
-| Cap Rate & Value | 20% | Cap rate vs market, price/SF, discount to replacement cost |
-| Tenant Quality | 20% | Credit quality, lease terms, diversification, rollover risk |
-| Market & Location | 20% | Submarket fundamentals, vacancy trends, rent growth, absorption |
-| Financial Structure | 15% | DSCR, expense ratio, break-even occupancy, leverage capacity |
+| Category            | Weight | What It Measures                                                |
+|---------------------|--------|-----------------------------------------------------------------|
+| Income & NOI        | 25%    | NOI quality, rent roll stability, income growth potential       |
+| Cap Rate & Value    | 20%    | Cap rate vs market, price/SF, discount to replacement cost      |
+| Tenant Quality      | 20%    | Credit quality, lease terms, diversification, rollover risk     |
+| Market & Location   | 20%    | Submarket fundamentals, vacancy trends, rent growth, absorption |
+| Financial Structure | 15%    | DSCR, expense ratio, break-even occupancy, leverage capacity    |
 
 **Scoring Guide:**
 
-| Score | Grade | Signal |
-|-------|-------|--------|
-| 85-100 | A+ | Institutional Quality — strong NOI, credit tenants, prime location |
-| 70-84 | A | Strong Asset — solid fundamentals with value-add upside |
-| 55-69 | B | Average — acceptable returns with identifiable risks |
-| 40-54 | C | Below Average — thin margins, tenant risk, or market weakness |
-| 25-39 | D | Distressed — significant issues requiring turnaround expertise |
-| 0-24 | F | Avoid — fundamentals do not support investment at current pricing |
+| Score  | Grade | Signal                                                             |
+|--------|-------|--------------------------------------------------------------------|
+| 85-100 | A+    | Institutional Quality — strong NOI, credit tenants, prime location |
+| 70-84  | A     | Strong Asset — solid fundamentals with value-add upside            |
+| 55-69  | B     | Average — acceptable returns with identifiable risks               |
+| 40-54  | C     | Below Average — thin margins, tenant risk, or market weakness      |
+| 25-39  | D     | Distressed — significant issues requiring turnaround expertise     |
+| 0-24   | F     | Avoid — fundamentals do not support investment at current pricing  |
 
 ---
 
@@ -245,7 +245,7 @@ Save the analysis as `PROPERTY-COMMERCIAL-[ADDRESS].md` in the current working d
 ```markdown
 # Commercial Property Analysis: [FULL ADDRESS]
 
-> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.
+> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice.
 
 **Analysis Date:** [DATE]
 **Property Type:** [Office / Retail / Industrial / Mixed-Use / Multifamily 5+]
@@ -356,7 +356,7 @@ Save the analysis as `PROPERTY-COMMERCIAL-[ADDRESS].md` in the current working d
 
 ---
 
-*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals. NOI projections, cap rates, and valuations are estimates based on available data.*
+*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. NOI projections, cap rates, and valuations are estimates based on available data.*
 ```
 
 ---

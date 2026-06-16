@@ -20,7 +20,7 @@ author: AI Real Estate Analyst
 
 You are the flagship property analysis engine for the AI Real Estate Analyst system. When invoked with `/realestate analyze <address>`, you orchestrate a comprehensive, multi-dimensional property evaluation by launching 5 parallel subagents, collecting their findings, computing a composite Property Score, and assembling a unified client-ready report.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**
 
 ---
 
@@ -45,22 +45,22 @@ WebSearch("<full address> county assessor property records")
 
 From the search results, extract and confirm these data points:
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| Full Address | Street, City, State, ZIP | 123 Oak St, Austin, TX 78701 |
-| List Price / Last Sale Price | Current asking or most recent sale | $425,000 |
-| Bedrooms | Number of bedrooms | 3 |
-| Bathrooms | Full and half baths | 2 full, 1 half |
-| Square Footage | Living area in sq ft | 1,850 sq ft |
-| Lot Size | Land area | 0.18 acres / 7,841 sq ft |
-| Year Built | Original construction year | 1998 |
-| Property Type | SFR, Condo, Multi-family, etc. | Single Family Residence |
-| Stories | Number of levels | 2 |
-| Garage | Type and capacity | 2-car attached |
-| HOA | Monthly HOA fees if applicable | $0 / $150/mo |
-| Zoning | Residential, commercial, mixed | R-1 Residential |
-| Tax Assessment | County assessed value | $385,000 |
-| Annual Property Tax | Current year taxes | $7,200 |
+| Field                        | Description                        | Example                      |
+|------------------------------|------------------------------------|------------------------------|
+| Full Address                 | Street, City, State, ZIP           | 123 Oak St, Austin, TX 78701 |
+| List Price / Last Sale Price | Current asking or most recent sale | $425,000                     |
+| Bedrooms                     | Number of bedrooms                 | 3                            |
+| Bathrooms                    | Full and half baths                | 2 full, 1 half               |
+| Square Footage               | Living area in sq ft               | 1,850 sq ft                  |
+| Lot Size                     | Land area                          | 0.18 acres / 7,841 sq ft     |
+| Year Built                   | Original construction year         | 1998                         |
+| Property Type                | SFR, Condo, Multi-family, etc.     | Single Family Residence      |
+| Stories                      | Number of levels                   | 2                            |
+| Garage                       | Type and capacity                  | 2-car attached               |
+| HOA                          | Monthly HOA fees if applicable     | $0 / $150/mo                 |
+| Zoning                       | Residential, commercial, mixed     | R-1 Residential              |
+| Tax Assessment               | County assessed value              | $385,000                     |
+| Annual Property Tax          | Current year taxes                 | $7,200                       |
 
 **Step 1.3 — Property Type Detection**
 
@@ -312,13 +312,13 @@ After all 5 agents return their results, synthesize into the unified report.
 
 Extract the score from each agent:
 
-| Agent | Score | Weight |
-|-------|-------|--------|
-| Comps (Value & Comps) | [0-100] | 25% |
-| Rental (Income Potential) | [0-100] | 20% |
-| Neighborhood (Quality) | [0-100] | 20% |
-| Investment (Upside) | [0-100] | 20% |
-| Market (Conditions) | [0-100] | 15% |
+| Agent                     | Score   | Weight |
+|---------------------------|---------|--------|
+| Comps (Value & Comps)     | [0-100] | 25%    |
+| Rental (Income Potential) | [0-100] | 20%    |
+| Neighborhood (Quality)    | [0-100] | 20%    |
+| Investment (Upside)       | [0-100] | 20%    |
+| Market (Conditions)       | [0-100] | 15%    |
 
 **Step 3.2 — Calculate Composite Property Score**
 
@@ -328,23 +328,23 @@ Composite Score = (Comps Score x 0.25) + (Rental Score x 0.20) + (Neighborhood S
 
 **Step 3.3 — Assign Property Grade**
 
-| Score | Grade | Signal |
-|-------|-------|--------|
-| 85-100 | A+ | Strong Buy — excellent value across all dimensions |
-| 70-84 | A | Buy — favorable fundamentals with manageable risks |
-| 55-69 | B | Hold/Watch — mixed signals, needs deeper due diligence |
-| 40-54 | C | Caution — significant concerns in one or more areas |
-| 25-39 | D | Pass — unfavorable risk/reward at current pricing |
-| 0-24 | F | Avoid — major red flags, walk away |
+| Score  | Grade | Signal                                                 |
+|--------|-------|--------------------------------------------------------|
+| 85-100 | A+    | Strong Buy — excellent value across all dimensions     |
+| 70-84  | A     | Buy — favorable fundamentals with manageable risks     |
+| 55-69  | B     | Hold/Watch — mixed signals, needs deeper due diligence |
+| 40-54  | C     | Caution — significant concerns in one or more areas    |
+| 25-39  | D     | Pass — unfavorable risk/reward at current pricing      |
+| 0-24   | F     | Avoid — major red flags, walk away                     |
 
 **Step 3.4 — Risk Assessment**
 
 Compile risks identified by all agents into a unified risk matrix:
 
-| Risk | Severity | Likelihood | Impact | Mitigation |
-|------|----------|------------|--------|------------|
-| [Risk 1] | High/Med/Low | High/Med/Low | [Description] | [Action] |
-| [Risk 2] | ... | ... | ... | ... |
+| Risk     | Severity     | Likelihood   | Impact        | Mitigation |
+|----------|--------------|--------------|---------------|------------|
+| [Risk 1] | High/Med/Low | High/Med/Low | [Description] | [Action]   |
+| [Risk 2] | ...          | ...          | ...           | ...        |
 
 **Step 3.5 — Generate Final Recommendation**
 
@@ -364,9 +364,9 @@ Save the final report to `PROPERTY-ANALYSIS-[ADDRESS].md` where `[ADDRESS]` is t
 ```markdown
 # Property Analysis Report: [FULL ADDRESS]
 
-> **Generated:** [DATE] | **Property Score:** [SCORE]/100 | **Grade:** [GRADE] | **Signal:** [SIGNAL]
+> **Created:** [DATE] | **Property Score:** [SCORE]/100 | **Grade:** [GRADE] | **Signal:** [SIGNAL]
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**
 
 ---
 
@@ -518,7 +518,7 @@ Save the final report to `PROPERTY-ANALYSIS-[ADDRESS].md` where `[ADDRESS]` is t
 
 ---
 
-*Report generated by AI Real Estate Analyst. This analysis is for educational and research purposes only. Not financial or investment advice. Always verify all data and consult licensed real estate professionals before making any decisions.*
+*Report generated by AI Real Estate Analyst. This analysis is for educational and research purposes only. Not financial or investment advice.*
 ```
 
 ---
@@ -537,4 +537,4 @@ Save the final report to `PROPERTY-ANALYSIS-[ADDRESS].md` where `[ADDRESS]` is t
 - Phase 3 (Synthesis) takes 15-30 seconds
 - Total expected runtime: 2-3 minutes for a complete analysis
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**

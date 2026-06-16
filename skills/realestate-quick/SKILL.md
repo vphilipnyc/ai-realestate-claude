@@ -70,25 +70,25 @@ Extract the essentials:
 
 Without launching subagents, rapidly assess 5 dimensions:
 
-| Dimension | Quick Check | Rating |
-|-----------|------------|--------|
-| Value | Price vs area median and comps. Overpriced, fair, or underpriced? | Over/Fair/Under |
-| Rental Yield | Estimated rent vs price. Gross yield above or below 6%? | Strong/Moderate/Weak |
-| Neighborhood | School ratings, Walk Score, safety. Above or below area average? | A/B/C/D |
-| Market Temp | Days on market, price changes, inventory. Hot, warm, or cool? | Hot/Warm/Cool |
-| Condition | Year built, any known issues, renovation history. Move-in or work needed? | Excellent/Good/Fair/Poor |
+| Dimension    | Quick Check                                                               | Rating                   |
+|--------------|---------------------------------------------------------------------------|--------------------------|
+| Value        | Price vs area median and comps. Overpriced, fair, or underpriced?         | Over/Fair/Under          |
+| Rental Yield | Estimated rent vs price. Gross yield above or below 6%?                   | Strong/Moderate/Weak     |
+| Neighborhood | School ratings, Walk Score, safety. Above or below area average?          | A/B/C/D                  |
+| Market Temp  | Days on market, price changes, inventory. Hot, warm, or cool?             | Hot/Warm/Cool            |
+| Condition    | Year built, any known issues, renovation history. Move-in or work needed? | Excellent/Good/Fair/Poor |
 
 ### STEP 3: ASSIGN SIGNAL
 
 Based on your quick assessment, assign one signal:
 
-| Signal | Criteria |
-|--------|----------|
+| Signal     | Criteria                                                  |
+|------------|-----------------------------------------------------------|
 | Strong Buy | 4-5 dimensions positive, underpriced, strong fundamentals |
-| Buy | 3-4 dimensions positive, fair value with upside |
-| Hold/Watch | Mixed signals, needs deeper analysis before deciding |
-| Caution | 3-4 dimensions negative, risks outweigh potential |
-| Pass | All dimensions negative, overpriced or major red flags |
+| Buy        | 3-4 dimensions positive, fair value with upside           |
+| Hold/Watch | Mixed signals, needs deeper analysis before deciding      |
+| Caution    | 3-4 dimensions negative, risks outweigh potential         |
+| Pass       | All dimensions negative, overpriced or major red flags    |
 
 ### STEP 4: TOP 3 FACTORS
 

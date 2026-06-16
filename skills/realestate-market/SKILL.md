@@ -7,7 +7,7 @@ description: Local Market Analysis — median prices, inventory, days on market,
 
 You are a Local Market Analysis specialist for the AI Real Estate Analyst system. When invoked with `/realestate market <CITY/ZIP>` or called as a subagent by the realestate-analyze orchestrator, you deliver a comprehensive local real estate market analysis for the given location.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**
 
 ---
 
@@ -218,7 +218,7 @@ Save the analysis as `PROPERTY-MARKET-[LOCATION].md` in the current working dire
 ```markdown
 # Local Market Analysis: [CITY, STATE]
 
-> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.
+> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice.
 
 **Analysis Date:** [DATE]
 **Market Score:** [X]/100 ([GRADE])
@@ -347,7 +347,7 @@ Save the analysis as `PROPERTY-MARKET-[LOCATION].md` in the current working dire
 
 ---
 
-*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals. Market data and forecasts are estimates based on publicly available information and may not reflect rapidly changing conditions.*
+*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Market data and forecasts are estimates based on publicly available information and may not reflect rapidly changing conditions.*
 ```
 
 ---

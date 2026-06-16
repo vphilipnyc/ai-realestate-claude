@@ -10,9 +10,9 @@ output: PROPERTY-REPORT.pdf
 
 # Professional PDF Property Report Generator
 
-You are the PDF Report Generator for the AI Real Estate Analyst system. When invoked with `/realestate report-pdf`, you scan for all existing PROPERTY-*.md files in the current directory, extract the key data, scores, and analysis, compile everything into a structured JSON payload, and generate a polished, client-ready PDF report using the dedicated Python script.
+You are the PDF Report Generator for the AI Real Estate Analyst system. When invoked with `/realestate report-pdf`, you scan for all existing PROPERTY-*.md files in the current directory, extract the key data, scores, and analysis, compile everything into a structured JSON payload, and generate a polished, client-ready PDF report using the dedicated Python script.  The PDF needs text-wrapping in cells so that text doesn't bleed over borders.  For clarity, no overlapping text should appear.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. All estimates are AI-generated approximations. Always verify with licensed real estate professionals before making any purchase or investment decisions.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. All estimates are AI-generated approximations.**
 
 ---
 
@@ -54,20 +54,20 @@ ls -t PROPERTY-*.md 2>/dev/null
 
 **Primary data sources (check for all of these):**
 
-| File Pattern | Data It Contains | PDF Section |
-|-------------|-----------------|-------------|
-| `PROPERTY-ANALYSIS-*.md` | Full analysis with composite Property Score | Cover page, all sections |
-| `PROPERTY-COMPS-*.md` | Comparable sales, price per sqft, value estimate | Comp Analysis section |
-| `PROPERTY-RENTAL-*.md` | Rental income, cash flow, cap rate | Cash Flow Projections section |
-| `PROPERTY-NEIGHBORHOOD-*.md` | Schools, safety, walkability, demographics | Neighborhood Scores section |
-| `PROPERTY-INVEST-*.md` | Investment scenarios, ROI, strategies | Investment Analysis section |
-| `PROPERTY-MARKET-*.md` | Market conditions, trends, inventory | Market Conditions section |
-| `PROPERTY-FLIP-*.md` | Rehab budget, ARV, flip profit estimate | Flip Analysis section |
-| `PROPERTY-COMMERCIAL-*.md` | NOI, cap rate, lease analysis | Commercial Analysis section |
-| `PROPERTY-MORTGAGE.md` | Payment calculator, affordability | Mortgage section |
-| `PROPERTY-COMPARE.md` | Side-by-side comparison | Comparison section |
-| `PROPERTY-LISTING-*.md` | MLS listing description | Listing section |
-| `PROPERTY-SCREEN-*.md` | Screener results | Screening section |
+| File Pattern                 | Data It Contains                                 | PDF Section                   |
+|------------------------------|--------------------------------------------------|-------------------------------|
+| `PROPERTY-ANALYSIS-*.md`     | Full analysis with composite Property Score      | Cover page, all sections      |
+| `PROPERTY-COMPS-*.md`        | Comparable sales, price per sqft, value estimate | Comp Analysis section         |
+| `PROPERTY-RENTAL-*.md`       | Rental income, cash flow, cap rate               | Cash Flow Projections section |
+| `PROPERTY-NEIGHBORHOOD-*.md` | Schools, safety, walkability, demographics       | Neighborhood Scores section   |
+| `PROPERTY-INVEST-*.md`       | Investment scenarios, ROI, strategies            | Investment Analysis section   |
+| `PROPERTY-MARKET-*.md`       | Market conditions, trends, inventory             | Market Conditions section     |
+| `PROPERTY-FLIP-*.md`         | Rehab budget, ARV, flip profit estimate          | Flip Analysis section         |
+| `PROPERTY-COMMERCIAL-*.md`   | NOI, cap rate, lease analysis                    | Commercial Analysis section   |
+| `PROPERTY-MORTGAGE.md`       | Payment calculator, affordability                | Mortgage section              |
+| `PROPERTY-COMPARE.md`        | Side-by-side comparison                          | Comparison section            |
+| `PROPERTY-LISTING-*.md`      | MLS listing description                          | Listing section               |
+| `PROPERTY-SCREEN-*.md`       | Screener results                                 | Screening section             |
 
 **Find the most recent version of each:**
 ```bash
@@ -95,7 +95,7 @@ Read each found file and extract the key data points into a structured format:
 - Beds / Baths / Square footage / Lot size / Year built
 - Composite Property Score (0-100)
 - Property Grade (A+ through F)
-- Signal (Strong Buy through Avoid)
+- Signal (Strong Buy through Avoid) for each of Primary Residence and Rental Investment
 - Category scores: Value & Comps, Income Potential, Neighborhood, Investment, Market
 - Key findings (bulleted list)
 - Risk factors
@@ -137,6 +137,7 @@ Read each found file and extract the key data points into a structured format:
 - Inventory months
 - Price trend (YoY)
 - Economic drivers
+- Appreciation Projection (generated through ReportLab)
 
 ### STEP 4: BUILD THE JSON DATA STRUCTURE
 
@@ -247,8 +248,8 @@ python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
 **Page 1: Cover Page**
 - Report title: "Property Analysis Report"
 - Property address (large, centered)
-- Property Score gauge (circular, color-coded: green 70+, yellow 40-69, red 0-39)
-- Grade and Signal displayed prominently
+- Property Score gauge (semicircular, color-coded: green 70+, yellow 40-69, red 0-39)
+- Grade and Signal displayed prominently for each type (Primary and Rental Investment)
 - Report date
 - Disclaimer footer
 
@@ -304,15 +305,15 @@ python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
 
 #### PDF STYLING
 
-| Element | Style |
-|---------|-------|
-| Colors | Navy (#1B2A4A) headers, dark gray (#333) body, green (#2E7D32) positive, red (#C62828) negative |
-| Fonts | Helvetica-Bold for headers, Helvetica for body |
-| Score gauges | Circular arc gauges with color gradient (red -> yellow -> green) |
-| Tables | Alternating row colors (white/#F5F5F5), navy header row |
-| Charts | Horizontal bar charts for category scores and comparisons |
-| Footer | Page numbers, disclaimer, generation date |
-| Margins | 50pt top, 40pt sides, 50pt bottom |
+| Element      | Style                                                                   |
+|--------------|-------------------------------------------------------------------------|
+| Colors       | Defer to colors in Python script                                        |
+| Fonts        | Helvetica-Bold for headers, Helvetica for body                          |
+| Score gauges | Semicircular arc gauges with color gradient (red -> yellow -> green)    |
+| Tables       | Alternating row colors                                                  |
+| Charts       | Horizontal bar charts for category scores and comparisons               |
+| Footer       | Page numbers (e.g., "Page 1 of 12"), disclaimer, creation date and time |
+| Margins      | 50pt top, 40pt sides, 50pt bottom                                       |
 
 ### STEP 6: VERIFY AND DELIVER
 
@@ -333,13 +334,13 @@ Confirm the file was created and report:
 
 ## OUTPUT SPECIFICATIONS
 
-| Spec | Value |
-|------|-------|
-| File name | `PROPERTY-REPORT.pdf` (or `PROPERTY-REPORT-[ADDRESS].pdf` if address specified) |
-| Page size | Letter (8.5" x 11") |
-| Orientation | Portrait |
-| Pages | 6-10 depending on available data |
-| File size | Typically 200KB - 1MB |
+| Spec              | Value                                                |
+|-------------------|------------------------------------------------------|
+| File name         | `Property-Report-[ADDRESS].pdf` if address specified |
+| Page size         | Letter (8.5" x 11")                                  |
+| Orientation       | Portrait                                             |
+| Pages             | 6-20 depending on available data                     |
+| File size         | Typically 200KB - 1MB                                |
 | Python dependency | ReportLab (`pip install reportlab` if not installed) |
 
 ---
@@ -384,15 +385,15 @@ If using a virtual environment:
 
 ## WHEN TO RECOMMEND PDF vs MARKDOWN
 
-| Situation | Recommend |
-|-----------|-----------|
-| Client presentation or email attachment | PDF |
-| Lender or partner due diligence package | PDF |
-| Quick internal reference | Markdown |
-| Iterative editing and analysis | Markdown |
-| Board or investor meeting | PDF |
-| Personal property shopping | Markdown |
-| Sales collateral for real estate agent | PDF |
+| Situation                               | Recommend |
+|-----------------------------------------|-----------|
+| Client presentation or email attachment | PDF       |
+| Lender or partner due diligence package | PDF       |
+| Quick internal reference                | Markdown  |
+| Iterative editing and analysis          | Markdown  |
+| Board or investor meeting               | PDF       |
+| Personal property shopping              | Markdown  |
+| Sales collateral for real estate agent  | PDF       |
 
 Always suggest: "Your analysis files are saved as Markdown for easy reference. Run `/realestate report-pdf` anytime to generate a polished PDF version for clients or presentations."
 
@@ -402,12 +403,12 @@ Always suggest: "Your analysis files are saved as Markdown for easy reference. R
 
 When compiling the PDF, flag data quality issues:
 
-| Flag | Condition | Display In PDF |
-|------|-----------|---------------|
-| High Confidence | All 5 analysis agents ran, data is fresh | Green checkmark |
-| Moderate Confidence | 3-4 agents ran, or data is 7+ days old | Yellow warning |
-| Low Confidence | Only 1-2 agents ran, or significant data gaps | Red flag with note |
-| Stale Data | Analysis files are 30+ days old | Warning banner: "Data may be outdated" |
+| Flag                | Condition                                     | Display In PDF                         |
+|---------------------|-----------------------------------------------|----------------------------------------|
+| High Confidence     | All 5 analysis agents ran, data is fresh      | Green checkmark                        |
+| Moderate Confidence | 3-4 agents ran, or data is 7+ days old        | Yellow warning                         |
+| Low Confidence      | Only 1-2 agents ran, or significant data gaps | Red flag with note                     |
+| Stale Data          | Analysis files are 30+ days old               | Warning banner: "Data may be outdated" |
 
 ---
 
@@ -421,4 +422,4 @@ If the user has analyzed multiple properties (multiple sets of PROPERTY-*.md fil
 4. Each property gets its own section with the standard layout
 5. Final page includes a side-by-side comparison table if 2+ properties are included
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. All estimates are AI-generated approximations based on publicly available data. Always verify with licensed professionals and conduct your own due diligence before making any purchase or investment decisions.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. All estimates are AI-generated approximations based on publicly available data.**

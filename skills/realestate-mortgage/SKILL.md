@@ -7,7 +7,7 @@ description: Mortgage Calculator & Affordability Analysis — monthly payments, 
 
 You are a Mortgage Calculator and Affordability Analysis specialist for the AI Real Estate Analyst system. When invoked with `/realestate mortgage <PRICE>` or called as a subagent, you deliver a comprehensive mortgage analysis with payment calculations, loan comparisons, affordability assessment, and rent vs buy analysis.
 
-**DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.**
+**DISCLAIMER: For educational/research purposes only. Not financial or investment advice.**
 
 ---
 
@@ -103,11 +103,11 @@ TOTAL MONTHLY PAYMENT:           $[AMOUNT]
 - Based on LTV and credit score:
 
 | LTV Range | Credit 760+ | Credit 720-759 | Credit 680-719 | Credit 640-679 |
-|-----------|-------------|-----------------|-----------------|-----------------|
-| 95.01-97% | 0.58% | 0.73% | 1.02% | 1.35% |
-| 90.01-95% | 0.38% | 0.54% | 0.78% | 1.08% |
-| 85.01-90% | 0.25% | 0.37% | 0.56% | 0.82% |
-| 80.01-85% | 0.15% | 0.26% | 0.44% | 0.65% |
+|-----------|-------------|----------------|----------------|----------------|
+| 95.01-97% | 0.58%       | 0.73%          | 1.02%          | 1.35%          |
+| 90.01-95% | 0.38%       | 0.54%          | 0.78%          | 1.08%          |
+| 85.01-90% | 0.25%       | 0.37%          | 0.56%          | 0.82%          |
+| 80.01-85% | 0.15%       | 0.26%          | 0.44%          | 0.65%          |
 
 PMI drops off automatically at 78% LTV (by original amortization schedule).
 
@@ -119,17 +119,17 @@ Present a side-by-side comparison of all applicable loan types:
 
 ### Scenario Table
 
-| Metric | 30-Year Fixed | 15-Year Fixed | 5/1 ARM | FHA (3.5% down) | VA (0% down) | Investor (25% down) |
-|--------|--------------|--------------|---------|-----------------|--------------|---------------------|
-| Rate | [X]% | [X]% | [X]% | [X]% | [X]% | [X]% |
-| Down Payment | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] |
-| Loan Amount | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] |
-| Monthly P&I | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] |
-| Monthly Total | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] |
-| Total Interest Paid | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] |
-| Total Cost of Loan | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] |
-| PMI/MIP | $[X]/mo | N/A | $[X]/mo | $[X]/mo | $[X] funding fee | N/A |
-| Cash to Close | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] |
+| Metric              | 30-Year Fixed | 15-Year Fixed | 5/1 ARM | FHA (3.5% down) | VA (0% down)     | Investor (25% down) |
+|---------------------|---------------|---------------|---------|-----------------|------------------|---------------------|
+| Rate                | [X]%          | [X]%          | [X]%    | [X]%            | [X]%             | [X]%                |
+| Down Payment        | $[X]          | $[X]          | $[X]    | $[X]            | $[X]             | $[X]                |
+| Loan Amount         | $[X]          | $[X]          | $[X]    | $[X]            | $[X]             | $[X]                |
+| Monthly P&I         | $[X]          | $[X]          | $[X]    | $[X]            | $[X]             | $[X]                |
+| Monthly Total       | $[X]          | $[X]          | $[X]    | $[X]            | $[X]             | $[X]                |
+| Total Interest Paid | $[X]          | $[X]          | $[X]    | $[X]            | $[X]             | $[X]                |
+| Total Cost of Loan  | $[X]          | $[X]          | $[X]    | $[X]            | $[X]             | $[X]                |
+| PMI/MIP             | $[X]/mo       | N/A           | $[X]/mo | $[X]/mo         | $[X] funding fee | N/A                 |
+| Cash to Close       | $[X]          | $[X]          | $[X]    | $[X]            | $[X]             | $[X]                |
 
 ### FHA-Specific Notes
 - Minimum 3.5% down (credit score 580+) or 10% down (credit score 500-579)
@@ -149,13 +149,13 @@ Present a side-by-side comparison of all applicable loan types:
 
 Show equity build and interest paid at key milestones:
 
-| Year | Monthly P&I | Principal Paid (Year) | Interest Paid (Year) | Total Principal Paid | Total Interest Paid | Remaining Balance | Equity (with down) | LTV |
-|------|------------|----------------------|---------------------|---------------------|--------------------|--------------------|--------------------|----|
-| 1 | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | [X]% |
-| 5 | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | [X]% |
-| 10 | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | [X]% |
-| 15 | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | $[X] | [X]% |
-| 30 | $[X] | $[X] | $[X] | $[X] | $[X] | $0 | $[X] | 0% |
+| Year | Monthly P&I | Principal Paid (Year) | Interest Paid (Year) | Total Principal Paid | Total Interest Paid | Remaining Balance | Equity (with down) | LTV  |
+|------|-------------|-----------------------|----------------------|----------------------|---------------------|-------------------|--------------------|------|
+| 1    | $[X]        | $[X]                  | $[X]                 | $[X]                 | $[X]                | $[X]              | $[X]               | [X]% |
+| 5    | $[X]        | $[X]                  | $[X]                 | $[X]                 | $[X]                | $[X]              | $[X]               | [X]% |
+| 10   | $[X]        | $[X]                  | $[X]                 | $[X]                 | $[X]                | $[X]              | $[X]               | [X]% |
+| 15   | $[X]        | $[X]                  | $[X]                 | $[X]                 | $[X]                | $[X]              | $[X]               | [X]% |
+| 30   | $[X]        | $[X]                  | $[X]                 | $[X]                 | $[X]                | $0                | $[X]               | 0%   |
 
 ### Interest vs Principal Over Time
 - **Year 1**: [X]% of payments go to interest, [X]% to principal
@@ -191,13 +191,13 @@ BACK-END RATIO (All Debt / Income)
 
 ### Maximum Purchase Price by Income
 
-| Down Payment | Max Price (28% DTI) | Max Price (36% DTI) | Max Price (43% DTI / FHA) |
-|-------------|--------------------|--------------------|--------------------------|
-| 3.5% (FHA) | $[X] | $[X] | $[X] |
-| 5% | $[X] | $[X] | $[X] |
-| 10% | $[X] | $[X] | $[X] |
-| 20% | $[X] | $[X] | $[X] |
-| 25% (Investor) | $[X] | $[X] | $[X] |
+| Down Payment   | Max Price (28% DTI) | Max Price (36% DTI) | Max Price (43% DTI / FHA) |
+|----------------|---------------------|---------------------|---------------------------|
+| 3.5% (FHA)     | $[X]                | $[X]                | $[X]                      |
+| 5%             | $[X]                | $[X]                | $[X]                      |
+| 10%            | $[X]                | $[X]                | $[X]                      |
+| 20%            | $[X]                | $[X]                | $[X]                      |
+| 25% (Investor) | $[X]                | $[X]                | $[X]                      |
 
 ### Required Cash Reserves
 - **Conventional**: 2 months of payments in reserves ($[X])
@@ -211,16 +211,16 @@ BACK-END RATIO (All Debt / Income)
 
 ### Monthly Cost Comparison
 
-| Category | Renting | Buying |
-|----------|---------|--------|
-| Monthly Payment / Rent | $[X] | $[X] |
-| Renter's / Home Insurance | $[X] | $[X] |
-| Maintenance (0%) / (1% of value/year) | $0 | $[X] |
-| Property Tax | $0 | $[X] |
-| Tax Deduction Benefit | $0 | -$[X] |
-| Equity Building | $0 | $[X] |
-| Opportunity Cost of Down Payment | $0 | $[X] |
-| **Net Monthly Cost** | **$[X]** | **$[X]** |
+| Category                              | Renting  | Buying   |
+|---------------------------------------|----------|----------|
+| Monthly Payment / Rent                | $[X]     | $[X]     |
+| Renter's / Home Insurance             | $[X]     | $[X]     |
+| Maintenance (0%) / (1% of value/year) | $0       | $[X]     |
+| Property Tax                          | $0       | $[X]     |
+| Tax Deduction Benefit                 | $0       | -$[X]    |
+| Equity Building                       | $0       | $[X]     |
+| Opportunity Cost of Down Payment      | $0       | $[X]     |
+| **Net Monthly Cost**                  | **$[X]** | **$[X]** |
 
 ### Break-Even Timeline
 - **Monthly savings from buying**: $[X]/month (or additional cost)
@@ -230,15 +230,15 @@ BACK-END RATIO (All Debt / Income)
 
 ### 5-Year Wealth Comparison
 
-| Metric | Rent | Buy |
-|--------|------|-----|
-| Total Housing Cost (5 years) | $[X] | $[X] |
-| Equity Built | $0 | $[X] |
-| Appreciation (at [X]%/year) | $0 | $[X] |
-| Tax Savings (mortgage interest deduction) | $0 | $[X] |
-| Investment Returns on Down Payment | $[X] | $0 |
-| **Net Wealth Position** | **$[X]** | **$[X]** |
-| **Advantage** | | **[RENT/BUY] by $[X]** |
+| Metric                                    | Rent     | Buy                    |
+|-------------------------------------------|----------|------------------------|
+| Total Housing Cost (5 years)              | $[X]     | $[X]                   |
+| Equity Built                              | $0       | $[X]                   |
+| Appreciation (at [X]%/year)               | $0       | $[X]                   |
+| Tax Savings (mortgage interest deduction) | $0       | $[X]                   |
+| Investment Returns on Down Payment        | $[X]     | $0                     |
+| **Net Wealth Position**                   | **$[X]** | **$[X]**               |
+| **Advantage**                             |          | **[RENT/BUY] by $[X]** |
 
 ---
 
@@ -265,14 +265,14 @@ Total Interest Saved:                $[AMOUNT]
 
 ### Refinance Decision Matrix
 
-| Scenario | New Rate | Monthly Savings | Break-Even | Total Savings |
-|----------|---------|----------------|-----------|--------------|
-| Rate drop 0.5% | [X]% | $[X] | [X] months | $[X] |
-| Rate drop 1.0% | [X]% | $[X] | [X] months | $[X] |
-| Rate drop 1.5% | [X]% | $[X] | [X] months | $[X] |
-| Rate drop 2.0% | [X]% | $[X] | [X] months | $[X] |
+| Scenario       | New Rate | Monthly Savings | Break-Even | Total Savings |
+|----------------|----------|-----------------|------------|---------------|
+| Rate drop 0.5% | [X]%     | $[X]            | [X] months | $[X]          |
+| Rate drop 1.0% | [X]%     | $[X]            | [X] months | $[X]          |
+| Rate drop 1.5% | [X]%     | $[X]            | [X] months | $[X]          |
+| Rate drop 2.0% | [X]%     | $[X]            | [X] months | $[X]          |
 
-Rule of thumb: Refinance makes sense when break-even is under 24-36 months and you plan to stay in the home past that point.
+Rule of thumb: Refinance makes sense when break-even is under 24-36 months, and you plan to stay in the home past that point.
 
 ---
 
@@ -285,7 +285,7 @@ Save the analysis as `PROPERTY-MORTGAGE.md` in the current working directory.
 ```markdown
 # Mortgage & Affordability Analysis
 
-> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals.
+> **DISCLAIMER:** For educational/research purposes only. Not financial or investment advice.
 
 **Analysis Date:** [DATE]
 **Purchase Price:** $[X]
@@ -379,7 +379,7 @@ Save the analysis as `PROPERTY-MORTGAGE.md` in the current working directory.
 
 ---
 
-*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Always consult licensed real estate professionals. Rates, payments, and affordability calculations are estimates. Actual terms will vary by lender, credit profile, and market conditions.*
+*DISCLAIMER: For educational/research purposes only. Not financial or investment advice. Rates, payments, and affordability calculations are estimates. Actual terms will vary by lender, credit profile, and market conditions.*
 ```
 
 ---
