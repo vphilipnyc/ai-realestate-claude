@@ -1,13 +1,13 @@
-<p align="center">
+<p>
   <img src=".github/banner.svg" alt="AI Real Estate Analyst — Claude Code Skill" width="900"/>
 </p>
 
-<p align="center">
+<p>
   <strong>AI-powered property research and investment analysis</strong> for Claude Code.<br/>
   Analyze properties, estimate rental income, evaluate investment opportunities, write listings, and produce client-ready PDF reports — all from the command line.
 </p>
 
-<p align="center">
+<p>
   <a href="#quick-start"><img src="https://img.shields.io/badge/install-one--liner-2d8a4e?style=for-the-badge" alt="Install"/></a>
   <img src="https://img.shields.io/badge/skills-15-c9982e?style=for-the-badge" alt="15 Skills"/>
   <img src="https://img.shields.io/badge/agents-5-4a9eff?style=for-the-badge" alt="5 Agents"/>
@@ -275,10 +275,6 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## Disclaimer
 
-This tool is for **educational and research purposes only**. It is **NOT** financial or investment advice. Real estate values, rental estimates, and investment projections are AI-generated approximations based on publicly available data. Always verify all information with licensed professionals — real estate agents, appraisers, inspectors, and financial advisors — before making any purchase or investment decisions. Real estate investments involve significant risk including potential loss of capital.
+This tool is for **educational and research purposes only**. It is **NOT** financial or investment advice. Real estate values, rental estimates, and investment projections are AI-generated approximations based on publicly available data.  Real estate investments involve significant risk including potential loss of capital.
 
 ---
-
-<p align="center">
-  Built for <a href="https://claude.com/claude-code">Claude Code</a>
-</p>

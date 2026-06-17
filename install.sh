@@ -6,7 +6,8 @@ set -euo pipefail
 # Installs the AI-powered property research & analysis tool
 # ============================================================
 
-REPO_URL="https://github.com/zubair-trabzada/ai-realestate-claude.git"
+REPO_URL="https://github.com/vphilipnyc/ai-realestate-claude.git"
+REPO_URL_ORIG="https://github.com/zubair-trabzada/ai-realestate-claude"
 CLAUDE_DIR="${HOME}/.claude"
 SKILLS_DIR="${CLAUDE_DIR}/skills"
 AGENTS_DIR="${CLAUDE_DIR}/agents"
@@ -216,7 +217,7 @@ main() {
 
     [ -f "$INSTALL_DIR/SKILL.md" ] && print_success "Main skill file" || { print_error "Main skill file missing"; VERIFY_OK=false; }
     [ -d "$SKILLS_DIR/realestate-analyze" ] && print_success "Sub-skills directory" || { print_error "Sub-skills missing"; VERIFY_OK=false; }
-    [ "$(ls "$AGENTS_DIR"/realestate-*.md 2>/dev/null | wc -l)" -gt 0 ] && print_success "Agent files" || { print_warning "No agent files found (may not be created yet)"; }
+    [ -n "$(find "$AGENTS_DIR" -maxdepth 1 -name 'realestate-*.md' -print -quit 2>/dev/null)" ] && print_success "Agent files" || { print_warning "No agent files found (may not be created yet)"; }
     [ -d "$INSTALL_DIR/scripts" ] && print_success "Utility scripts" || { print_error "Scripts missing"; VERIFY_OK=false; }
 
     # Verify reportlab
@@ -225,6 +226,14 @@ main() {
     else
         print_warning "reportlab not available — PDF reports will not work until installed"
         echo "  Install: $PYTHON_CMD -m pip install reportlab"
+    fi
+
+    # Bail out if any required component failed verification, rather than
+    # printing "Installation Complete!" over a broken install.
+    if [ "$VERIFY_OK" != true ]; then
+        echo ""
+        print_error "Installation completed with errors — see the messages above."
+        exit 1
     fi
 
     # ---- Print Summary ----
@@ -260,7 +269,11 @@ main() {
     echo "    /realestate screen <criteria>    Property screener by investment criteria"
     echo "    /realestate report-pdf           Generate professional PDF report"
     echo ""
-    echo "  Documentation: https://github.com/zubair-trabzada/ai-realestate-claude"
+    echo -e "${CYAN}Forked Repo:${NC}"
+    echo "  ${REPO_URL}"
+    echo ""
+    echo -e "${CYAN}Original Repo:${NC}"
+    echo "  ${REPO_URL_ORIG}"
     echo ""
 }
 
