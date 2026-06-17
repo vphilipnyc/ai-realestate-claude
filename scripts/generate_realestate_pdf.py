@@ -11,7 +11,10 @@ Usage:
 """
 
 import json
+import math
+import re
 import sys
+import urllib.parse
 from datetime import datetime
 
 try:
@@ -148,9 +151,42 @@ def create_bar_chart(categories, scores, width=470, height=200, bar_height=20,
 
 
 def _digits_to_int(value):
-    """Pull an integer out of a string like '$429,250' or 'Year 10'."""
-    digits = "".join(ch for ch in str(value) if ch.isdigit())
-    return int(digits) if digits else 0
+    """Parse the FIRST number out of a string like '$429,250' or 'Year 10'.
+
+    Only the first numeric run is used, so a range such as
+    '~$960,000-$1,000,000' yields 960000 rather than a concatenated
+    mega-number (which would otherwise explode chart axis bounds).
+    """
+    m = re.search(r"\d[\d,]*", str(value))
+    return int(m.group().replace(",", "")) if m else 0
+
+
+def _nice_step(span, target=8):
+    """Pick a 'nice' (1/2/2.5/5 x 10^k) axis step for a value span.
+
+    Keeps the tick count near `target` regardless of magnitude, so the chart
+    can never stall building millions of ticks on unexpectedly large values.
+    """
+    if span <= 0:
+        return 50000.0
+    raw = span / target
+    mag = 10 ** math.floor(math.log10(raw))
+    for mult in (1, 2, 2.5, 5, 10):
+        if mult * mag >= raw:
+            return mult * mag
+    return 10 * mag
+
+
+def _money_label(v, spell=False):
+    """Format a dollar amount for chart labels.
+
+    >= $1M reads as "$1.56 million" (spell=True) or "$1.56M" (axis); otherwise
+    "$960K". Keeps large values readable instead of "$1564K".
+    """
+    v = float(v)
+    if abs(v) >= 1_000_000:
+        return f"${v / 1_000_000:.2f} million" if spell else f"${v / 1_000_000:.2f}M"
+    return f"${int(round(v / 1000))}K"
 
 
 def create_appreciation_chart(projections, width=470, height=250, current_price=None):
@@ -190,8 +226,13 @@ def create_appreciation_chart(projections, width=470, height=250, current_price=
 
     xmin, xmax = min(years), max(years)
     all_values = [y for s in plot_data for _, y in s]
-    ymin = (min(all_values) // 50000) * 50000
-    ymax = (max(all_values) // 50000 + 1) * 50000
+    # Data-driven step keeps the tick count bounded (a fixed step would stall
+    # reportlab building millions of ticks on very large/garbage values).
+    ystep = _nice_step(max(all_values) - min(all_values))
+    ymin = math.floor(min(all_values) / ystep) * ystep
+    ymax = math.ceil(max(all_values) / ystep) * ystep
+    if ymax == ymin:
+        ymax = ymin + ystep
 
     lp.xValueAxis.valueMin = xmin
     lp.xValueAxis.valueMax = xmax
@@ -203,8 +244,8 @@ def create_appreciation_chart(projections, width=470, height=250, current_price=
 
     lp.yValueAxis.valueMin = ymin
     lp.yValueAxis.valueMax = ymax
-    lp.yValueAxis.valueStep = 50000
-    lp.yValueAxis.labelTextFormat = lambda v: f"${int(v / 1000)}K"
+    lp.yValueAxis.valueStep = ystep
+    lp.yValueAxis.labelTextFormat = lambda v: _money_label(v)
     lp.yValueAxis.labels.fontName = "Helvetica"
     lp.yValueAxis.labels.fontSize = 8
     lp.yValueAxis.strokeColor = COLORS["border"]
@@ -225,11 +266,11 @@ def create_appreciation_chart(projections, width=470, height=250, current_price=
             # At Year 0 all series share one value — label it once, in neutral text.
             if xv == xmin and current_price is not None:
                 if i == 0:
-                    d.add(String(px(xv), py(yv) - 13, f"${round(yv / 1000)}K", fontSize=6.5,
+                    d.add(String(px(xv), py(yv) - 13, _money_label(yv, spell=True), fontSize=6.5,
                                  fillColor=COLORS["text"], textAnchor="middle",
                                  fontName="Helvetica-Bold"))
                 continue
-            d.add(String(px(xv), py(yv) + (-12 if below else 7), f"${round(yv / 1000)}K",
+            d.add(String(px(xv), py(yv) + (-12 if below else 7), _money_label(yv, spell=True),
                          fontSize=6.5, fillColor=color, textAnchor="middle",
                          fontName="Helvetica-Bold"))
         lx, ly = pts[-1]
@@ -330,6 +371,48 @@ DEFAULT_APPRECIATION = [
 ]
 
 
+def listing_url(data):
+    """Direct listing link if provided, else a Zillow address search URL.
+
+    Built from the address (no scraping), so the link is always present even
+    when Zillow blocks automated data collection.
+    """
+    url = data.get("listing_url")
+    if url:
+        return url
+    addr = data.get("address", "")
+    return "https://www.zillow.com/homes/" + urllib.parse.quote(addr) + "_rb/"
+
+
+def is_secondary_school(school):
+    """True for schools serving grade 7 or higher (middle/junior/high)."""
+    nums = [int(n) for n in re.findall(r"\d+", str(school.get("grades", "")))]
+    return any(n >= 7 for n in nums) or "high" in str(school.get("type", "")).lower()
+
+
+def _cell(item, key):
+    """Resolve a column value — `key` may be a dict key or a callable."""
+    return str(key(item) if callable(key) else item.get(key, ""))
+
+
+def section_table(S, subheading, columns, items, total_width=470):
+    """Render `items` (list of dicts) as a wrapped table under a subheading.
+
+    columns: list of (header, key_or_fn, weight, style_key). Widths are scaled
+    from the weights. Returns [] when there are no items, so callers can simply
+    `elements += section_table(...)` and skip empty sections.
+    """
+    if not items:
+        return []
+    scale = total_width / sum(c[2] for c in columns)
+    data = [[c[0] for c in columns]]
+    for it in items:
+        data.append([Paragraph(_cell(it, c[1]), S[c[3]]) for c in columns])
+    t = Table(data, colWidths=[c[2] * scale for c in columns])
+    t.setStyle(standard_table_style([("VALIGN", (0, 0), (-1, -1), "TOP")]))
+    return [Paragraph(subheading, S["subheading"]), t, Spacer(1, 12)]
+
+
 class FooterCanvas(canvas.Canvas):
     """Stamps a left/center/right footer with 'Page X of Y' on every page.
 
@@ -384,27 +467,27 @@ def generate_report(data, output_path):
     signal_rows = [("Primary Residence", primary_signal), ("Rental Investment", rental_signal)]
 
     # Page 1 — Cover
-    elements.append(Spacer(1, 0.5 * inch))
+    elements.append(Spacer(1, 0.35 * inch))
     elements.append(Paragraph("AI Property Analysis Report", S["title"]))
-    elements.append(Spacer(1, 30))
+    elements.append(Spacer(1, 24))
     elements.append(Paragraph(address, S["address"]))
     elements.append(Spacer(1, 12))
     elements.append(Paragraph(price, S["price"]))
-    elements.append(Spacer(1, 38))
+    elements.append(Spacer(1, 22))
 
     gauge = draw_score_gauge(overall_score)
     gauge.hAlign = "CENTER"
     elements.append(gauge)
-    elements.append(Spacer(1, 18))
+    elements.append(Spacer(1, 14))
 
     color = score_color(overall_score)
     elements.append(Paragraph(
         f'Property Score: <font color="{color.hexval()}">{int(overall_score)}/100</font> '
         f'(Grade: <font color="{color.hexval()}">{grade}</font>)',
         S["grade_large"]))
-    elements.append(Spacer(1, 16))
+    elements.append(Spacer(1, 12))
     elements.append(signal_legend_table(signal_rows))
-    elements.append(Spacer(1, 30))
+    elements.append(Spacer(1, 18))
 
     prop_details = data.get("property_details", {})
     beds = prop_details.get("beds", "3")
@@ -433,7 +516,16 @@ def generate_report(data, output_path):
         ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
     ]))
     elements.append(details_table)
-    elements.append(Spacer(1, 24))
+    elements.append(Spacer(1, 10))
+
+    # Listing link — always present (built from the address) even if Zillow
+    # blocked live data collection.
+    elements.append(Paragraph(
+        f'<link href="{listing_url(data)}"><font color="{COLORS["info"].hexval()}">'
+        f'View this listing on Zillow &#8594;</font></link>',
+        ParagraphStyle("ListingLink", parent=S["body"], alignment=1, fontSize=11,
+                       fontName="Helvetica-Bold")))
+    elements.append(Spacer(1, 8))
     elements.append(Paragraph(DISCLAIMER_TEXT, S["disclaimer"]))
     elements.append(PageBreak())
 
@@ -457,19 +549,47 @@ def generate_report(data, output_path):
     elements.append(create_bar_chart(cat_names, cat_scores))
     elements.append(Spacer(1, 12))
 
-    score_data = [["Category", "Score", "Weight", "Status"]]
+    # "Points" = score x weight; the column should sum to the Composite Score
+    # (a running sanity check on the weighting).
+    score_data = [["Category", "Score", "Weight", "Points", "Status"]]
+    total_points = 0.0
     for name, sc in zip(cat_names, cat_scores):
         weight = categories[name].get("weight", "--") if isinstance(categories[name], dict) else "--"
+        wf = re.findall(r"[\d.]+", str(weight))
+        pts = sc * float(wf[0]) / 100 if wf else 0
+        total_points += pts
         status = "Strong" if sc >= 70 else ("Mixed" if sc >= 40 else "Weak")
-        score_data.append([Paragraph(name, S["td"]), f"{int(sc)}/100", weight, status])
-    score_table = Table(score_data, colWidths=[160, 80, 60, 100])
-    score_style_extra = [("ALIGN", (1, 0), (-1, -1), "CENTER")]
+        score_data.append([Paragraph(name, S["td"]), f"{int(sc)}/100", weight,
+                           f"+{pts:.1f}", status])
+    score_data.append([Paragraph("<b>Composite Score (sum)</b>", S["td"]), "", "100%",
+                       f"{total_points:.1f}", ""])
+    score_table = Table(score_data, colWidths=[150, 60, 55, 95, 90])
+    last = len(score_data) - 1
+    score_style_extra = [("ALIGN", (1, 0), (-1, -1), "CENTER"),
+                         ("FONTNAME", (0, last), (-1, last), "Helvetica-Bold"),
+                         ("BACKGROUND", (0, last), (-1, last), COLORS["light_bg"])]
     for i, sc in enumerate(cat_scores, 1):
-        score_style_extra.append(("TEXTCOLOR", (3, i), (3, i), score_color(sc)))
-        score_style_extra.append(("FONTNAME", (3, i), (3, i), "Helvetica-Bold"))
+        score_style_extra.append(("TEXTCOLOR", (4, i), (4, i), score_color(sc)))
+        score_style_extra.append(("FONTNAME", (4, i), (4, i), "Helvetica-Bold"))
     score_table.setStyle(standard_table_style(score_style_extra))
     elements.append(score_table)
+    # Flag if the weighted points don't reconcile with the reported score.
+    if abs(round(total_points) - int(overall_score)) > 1:
+        elements.append(Paragraph(
+            f'<font color="{COLORS["danger"].hexval()}"><b>Note:</b> weighted points '
+            f'({total_points:.1f}) differ from the reported Composite Score '
+            f'({int(overall_score)}) — verify category weights/scores.</font>',
+            ParagraphStyle("ScoreCheck", parent=S["body_small"], spaceBefore=4)))
     elements.append(Spacer(1, 16))
+
+    # High-level location/lifestyle context up front (details land on the
+    # Neighborhood page) — rendered only when the analysis supplies it.
+    highlights = data.get("context_highlights", [])
+    if highlights:
+        elements.append(Paragraph("Location &amp; Lifestyle Context", S["subheading"]))
+        for h in highlights:
+            elements.append(Paragraph(f"&#8226;&nbsp; {h}", S["body"]))
+        elements.append(Spacer(1, 14))
 
     elements.append(Paragraph("Comparable Sales Analysis", S["subheading"]))
     comps = data.get("comps", []) or DEFAULT_COMPS
@@ -613,6 +733,41 @@ def generate_report(data, output_path):
     demo_table = Table(demo_data, colWidths=[160, 310])
     demo_table.setStyle(standard_table_style([("ALIGN", (1, 0), (1, -1), "LEFT")]))
     elements.append(demo_table)
+    elements.append(Spacer(1, 14))
+
+    # Detailed location commentary — schools (grade 7+), healthcare, higher ed,
+    # fitness, and parks/landmarks. Each section renders only if data is present
+    # (auto-flows to the next page as needed). Detail lives here; the cover/
+    # context block stays high-level to avoid repeating the same facts.
+    amenities = data.get("amenities", {})
+    secondary = [s for s in data.get("schools", []) if is_secondary_school(s)]
+    elements += section_table(S, "Secondary Schools (Grade 7+)", [
+        ("School", "name", 150, "td_bold"), ("Grades", "grades", 55, "td_center"),
+        ("Rating", "rating", 110, "td"), ("Dist.", "distance", 55, "td_center"),
+        ("Notes", "notes", 175, "body_small"),
+    ], secondary)
+    elements += section_table(S, "Hospitals &amp; Healthcare", [
+        ("Facility", "name", 165, "td_bold"),
+        ("Detail", lambda x: x.get("detail") or x.get("address", ""), 230, "td"),
+        ("Distance", "distance", 80, "td_center"),
+    ], amenities.get("healthcare", []))
+    elements += section_table(S, "Colleges &amp; Universities", [
+        ("Institution", "name", 165, "td_bold"), ("Type", "type", 95, "td"),
+        ("Distance", "distance", 70, "td_center"),
+        ("Drive Time", lambda x: x.get("drive_time", ""), 70, "td_center"),
+        ("Notes", "notes", 120, "body_small"),
+    ], data.get("colleges", []))
+    elements += section_table(S, "Gyms &amp; Fitness", [
+        ("Facility", "name", 150, "td_bold"),
+        ("Amenities", "amenities", 175, "td"),
+        ("Rating / Reviews", "rating", 90, "td_center"),
+        ("Notes", "notes", 120, "body_small"),
+    ], data.get("gyms", []))
+    elements += section_table(S, "Parks, Recreation &amp; Landmarks", [
+        ("Place", "name", 150, "td_bold"), ("Detail", "detail", 220, "td"),
+        ("Dist. / Drive", lambda x: x.get("drive_time") or x.get("distance", ""), 90, "td_center"),
+    ], amenities.get("parks_recreation", []))
+
     elements.append(PageBreak())
 
     # Page 5 — Investment analysis & scenarios
@@ -660,19 +815,20 @@ def generate_report(data, output_path):
             {"scenario": "Bear Case", "probability": "25%", "return": "-5% to -15% (5yr)",
              "trigger": "Job losses, oversupply, rate hikes, recession, natural disaster"},
         ]
+    # Color the first three rows bull/base/bear; wrap every cell so long
+    # return/trigger text wraps instead of clipping.
+    ret_colors = [COLORS["forest_green"], COLORS["info"], COLORS["danger"]]
     sc_data = [["Scenario", "Probability", "Expected Return", "Trigger"]]
-    for sc in scenarios:
+    for i, sc in enumerate(scenarios):
+        rc = ret_colors[i] if i < len(ret_colors) else COLORS["text"]
+        ret = f'<font color="{rc.hexval()}"><b>{sc.get("return", "")}</b></font>'
         sc_data.append([Paragraph(sc.get("scenario", ""), S["td_bold"]),
-                        sc.get("probability", ""), sc.get("return", ""),
+                        Paragraph(sc.get("probability", ""), S["td_center"]),
+                        Paragraph(ret, S["td_center"]),
                         Paragraph(sc.get("trigger", ""), S["body_small"])])
     sc_table = Table(sc_data, colWidths=[85, 75, 120, 190])
-    sc_style = [("VALIGN", (0, 0), (-1, -1), "TOP"), ("ALIGN", (1, 0), (2, -1), "CENTER")]
-    if len(scenarios) >= 3:
-        sc_style.append(("TEXTCOLOR", (2, 1), (2, 1), COLORS["forest_green"]))
-        sc_style.append(("TEXTCOLOR", (2, 2), (2, 2), COLORS["info"]))
-        sc_style.append(("TEXTCOLOR", (2, 3), (2, 3), COLORS["danger"]))
-        sc_style.append(("FONTNAME", (2, 1), (2, 3), "Helvetica-Bold"))
-    sc_table.setStyle(standard_table_style(sc_style))
+    sc_table.setStyle(standard_table_style([
+        ("VALIGN", (0, 0), (-1, -1), "TOP"), ("ALIGN", (1, 0), (2, -1), "CENTER")]))
     elements.append(sc_table)
     elements.append(PageBreak())
 
@@ -707,10 +863,40 @@ def generate_report(data, output_path):
     elements.append(Paragraph(rec_summary, S["body"]))
     elements.append(Spacer(1, 10))
 
-    elements.append(Paragraph("Action Items Before Purchase", S["subheading"]))
-    for i, item in enumerate(rec_action, 1):
-        elements.append(Paragraph(f"{i}. {item}", S["body"]))
-    elements.append(Spacer(1, 14))
+    # Top 3 reasons to buy / for caution
+    reasons_buy = data.get("reasons_to_buy", [])[:3]
+    reasons_caution = data.get("reasons_for_caution", [])[:3]
+    if reasons_buy:
+        elements.append(Paragraph("Top 3 Reasons to Buy", S["subheading"]))
+        for i, r in enumerate(reasons_buy, 1):
+            elements.append(Paragraph(f"{i}. {r}", S["body"]))
+    if reasons_caution:
+        elements.append(Paragraph("Top 3 Reasons for Caution",
+            ParagraphStyle("CautionHead", parent=S["subheading"], textColor=COLORS["danger"])))
+        for i, r in enumerate(reasons_caution, 1):
+            elements.append(Paragraph(f"{i}. {r}", S["body"]))
+    if reasons_buy or reasons_caution:
+        elements.append(Spacer(1, 8))
+
+    # Recommended offer strategy + negotiation levers
+    elements += section_table(S, "Recommended Offer Strategy", [
+        ("Scenario", "scenario", 140, "td_bold"),
+        ("Offer Price", "offer_price", 130, "td_center"),
+        ("Rationale", "rationale", 240, "td"),
+    ], data.get("offer_scenarios", []))
+    levers = data.get("negotiation_levers", [])
+    if levers:
+        elements.append(Paragraph(
+            "<b>Negotiation levers:</b> " + ", ".join(str(x) for x in levers), S["body"]))
+        elements.append(Spacer(1, 8))
+
+    # Due diligence checklist (falls back to recommendation action items)
+    checklist = data.get("due_diligence") or rec_action
+    if checklist:
+        elements.append(Paragraph("Due Diligence Checklist", S["subheading"]))
+        for item in checklist:
+            elements.append(Paragraph(f"[ ]&nbsp; {item}", S["body"]))
+        elements.append(Spacer(1, 14))
 
     elements.append(Paragraph("Risk Factors", S["subheading"]))
     risk_factors = data.get("risk_factors", [])

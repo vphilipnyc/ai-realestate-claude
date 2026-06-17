@@ -69,10 +69,18 @@ Gather:
 - Parks and recreation (nearest park, trails, sports facilities)
 - Hospitals and urgent care (nearest, distance, rating)
 - Shopping centers and retail
-- Gyms and fitness centers
 - Libraries and community centers
 - Places of worship
 - Entertainment (movie theaters, museums, venues)
+
+**Search 4b — Top 3 gyms & top 3 colleges (keep it quick — one search each, top 3 only)**
+- Gyms/fitness: `"best gyms near <ADDRESS>"` → top 3 by Google rating. Capture name,
+  Google rating + review count, key amenities, and whether long-standing. Use the
+  rating as reported; if sources conflict, note "varies" rather than guessing.
+- Colleges/universities: `"colleges universities near <CITY, STATE>"` → top 3
+  closest/most notable. Capture name, type (community college / public university),
+  approximate distance, and drive time if readily available.
+- Do not over-research — 3 each is enough; omit a field rather than fabricate it.
 
 **Search 5 — Demographics**
 Query: `"demographics <ZIP CODE> median income population growth age distribution"`
@@ -287,6 +295,12 @@ Save the analysis as `PROPERTY-NEIGHBORHOOD-[ADDRESS].md` in the current working
 
 ### Nearby Amenities
 [Tables by category: Grocery, Dining, Parks, Healthcare, Shopping]
+
+### Top 3 Gyms
+[Table: Name, Rating (reviews), Amenities, Notes (long-standing?)]
+
+### Top 3 Colleges & Universities
+[Table: Name, Type, Distance, Drive Time]
 
 ---
 

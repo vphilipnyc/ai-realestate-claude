@@ -44,12 +44,29 @@ ls ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py 2>/dev/null
 **If the script exists:** Use it directly (proceed to Step 2).
 **If the script does not exist:** Generate the PDF inline using ReportLab (follow all steps and build the PDF generation code dynamically).
 
-### STEP 2: SCAN FOR ANALYSIS FILES
+### STEP 2: LOCATE THE PROPERTY FOLDER & SCAN FOR ANALYSIS FILES
 
-Search the current working directory for all PROPERTY-*.md files:
+**Property-folder convention (one folder per property under `properties/`).**
+All inputs and outputs for a property live together in
+`properties/<SLUG>/` so multiple properties can be analyzed side by side. Build
+`<SLUG>` from the MLS number (if known) plus a short address slug, e.g.
+`properties/MLS6712345-3792-E-Virgo-Pl/` — or just the address slug when no MLS
+is available, e.g. `properties/3792-E-Virgo-Pl-Chandler-AZ-85249/`. Create it if
+it does not exist:
 
 ```bash
-ls -t PROPERTY-*.md 2>/dev/null
+mkdir -p "properties/<SLUG>"
+```
+
+Analysis `.md` files are written here by `/realestate analyze`; if older files
+are still in the current directory, move them into the folder first.
+
+**Scan the property folder for all PROPERTY-*.md files** (fall back to the
+current directory for backward compatibility):
+
+```bash
+DIR="properties/<SLUG>"
+ls -t "$DIR"/PROPERTY-*.md 2>/dev/null || ls -t PROPERTY-*.md 2>/dev/null
 ```
 
 **Primary data sources (check for all of these):**
@@ -143,102 +160,175 @@ Read each found file and extract the key data points into a structured format:
 
 Assemble all extracted data into a structured JSON payload for the PDF generator:
 
+> **CRITICAL — use these exact key names.** The PDF script
+> (`generate_realestate_pdf.py`) reads the keys below verbatim. Any other key
+> name (e.g. `property_address`, `comparable_sales`, `school_ratings`,
+> `listing_price`) is **silently ignored** and the section falls back to demo
+> defaults — which is what makes a report look generic / unlinked from the
+> `.md` analyses. All values are strings unless noted; every section is optional
+> and is skipped (or uses a built-in default) when absent.
+
 ```json
 {
-  "property_address": "123 Main Street, City, ST 12345",
-  "report_date": "April 29, 2026",
-  "property_type": "Single Family Residence",
-  "listing_price": 425000,
-  "beds": 3,
-  "baths": 2,
-  "sqft": 1850,
-  "lot_size": "7,200 sf",
-  "year_built": 2005,
-  "property_score": 76,
-  "grade": "A",
-  "signal": "Buy",
+  "address": "3792 E Virgo Pl, Chandler, AZ 85249",
+  "price": "$960,000",
+  "date": "Jun 16, 2026 5:07 PM EDT",
+  "overall_score": 76,
+  "primary_signal": "BUY",
+  "rental_signal": "WATCH",
+  "listing_url": "https://www.zillow.com/homedetails/...  (optional)",
+
+  "context_highlights": [
+    "Top schools: Basha High (Top 5% in AZ) and Arizona College Prep (10/10).",
+    "A+ safety — violent crime 1.5/1K vs 3.7/1K national.",
+    "Affluent area: median household income $153,633 (~2x national)."
+  ],
+
+  "property_details": {
+    "beds": "4", "baths": "3", "sqft": "2,400",
+    "year_built": "2018", "lot_size": "0.20 acres",
+    "property_type": "Single Family Residence"
+  },
+
   "categories": {
-    "Value & Comps": {
-      "score": 78,
-      "weight": "25%"
-    },
-    "Income Potential": {
-      "score": 72,
-      "weight": "20%"
-    },
-    "Neighborhood Quality": {
-      "score": 80,
-      "weight": "20%"
-    },
-    "Investment Upside": {
-      "score": 74,
-      "weight": "20%"
-    },
-    "Market Conditions": {
-      "score": 70,
-      "weight": "15%"
+    "Value & Comps":        {"score": 78, "weight": "25%"},
+    "Income Potential":     {"score": 72, "weight": "20%"},
+    "Neighborhood Quality": {"score": 80, "weight": "20%"},
+    "Investment Upside":    {"score": 74, "weight": "20%"},
+    "Market Conditions":    {"score": 70, "weight": "15%"}
+  },
+
+  "comps": [
+    {"address": "125 Oak Ave", "price": "$430,000", "sqft": "1,900",
+     "price_sqft": "$226", "sold_date": "Mar 2026", "distance": "0.3 mi"}
+  ],
+  "comp_summary": {"avg_price": "$432,000", "avg_price_sqft": "$228/sq ft"},
+
+  "cashflow": {
+    "items": [
+      {"item": "Gross Rental Income", "monthly": "$2,650", "annual": "$31,800"},
+      {"item": "Net Cash Flow", "monthly": "$320", "annual": "$3,840"}
+    ]
+  },
+
+  "investment_metrics": {
+    "cap_rate": "7.2%",   "cap_rate_status": "Strong for metro",
+    "cash_on_cash": "9.8%", "coc_status": "Above 8% target",
+    "grm": "13.4x",       "grm_status": "Favorable",
+    "dscr": "1.32",       "dscr_status": "Comfortable (>1.25)",
+    "one_pct": "0.62%",   "one_pct_status": "Below 1% rule",
+    "breakeven": "84%",   "breakeven_status": "Healthy vacancy cushion"
+  },
+
+  "mortgage": {
+    "purchase_price": "$425,000", "down_payment": "$85,000 (20%)",
+    "loan_amount": "$340,000", "rate": "6.75%", "term": "30-year fixed",
+    "monthly_pi": "$2,205", "monthly_piti": "$2,684"
+  },
+
+  "neighborhood": {
+    "scores": {"School Rating": 92, "Safety / Crime": 88, "Walkability": 18,
+               "Transit Access": 5, "Dining & Shopping": 55, "Growth Trajectory": 82},
+    "details": [
+      {"factor": "Top School", "detail": "Basha HS — Top 5% in AZ",
+       "notes": "Chandler Unified 8/10"}
+    ],
+    "demographics": {
+      "population_growth": "+2.2% annually", "median_age": "42.7 years",
+      "employment_rate": "96.4%", "major_employers": "Intel, Microchip, NXP"
     }
   },
-  "comparable_sales": [
-    {
-      "address": "125 Oak Ave",
-      "price": 430000,
-      "sqft": 1900,
-      "beds": 3,
-      "baths": 2,
-      "distance": "0.3 mi",
-      "sale_date": "2026-03-15"
-    }
+
+  "schools": [
+    {"name": "Santan Junior High", "type": "Public", "grades": "7–8",
+     "rating": "8/10 (GreatSchools)", "distance": "~2.0 mi",
+     "notes": "Strong STEM scores"}
   ],
-  "estimated_value": 432000,
-  "price_per_sqft": 230,
-  "comps_avg_price_per_sqft": 235,
-  "over_under_priced": "Slightly underpriced (-2.1%)",
-  "estimated_rent": 2650,
-  "net_cash_flow": 320,
-  "cap_rate": 7.2,
-  "cash_on_cash": 9.8,
-  "gross_rent_multiplier": 13.4,
-  "vacancy_rate": 5.0,
-  "school_ratings": {
-    "elementary": 8,
-    "middle": 7,
-    "high": 7
+  "amenities": {
+    "healthcare": [
+      {"name": "Chandler Regional Medical Center",
+       "detail": "465-bed Level I trauma center", "distance": "~7 mi"}
+    ],
+    "parks_recreation": [
+      {"name": "Tumbleweed Park", "detail": "205-acre flagship; 18 pickleball courts",
+       "distance": "~3 mi", "drive_time": "~8 min"}
+    ]
   },
-  "walk_score": 62,
-  "transit_score": 45,
-  "safety_rating": "B+",
-  "growth_outlook": "Moderate growth — 3.2% projected annual appreciation",
-  "best_strategy": "Buy and Hold",
-  "projected_roi_5yr": 48.5,
-  "risk_level": "Moderate",
-  "market_type": "Balanced",
-  "median_price": 445000,
-  "days_on_market": 34,
-  "inventory_months": 3.2,
-  "price_trend_yoy": 4.8,
-  "key_findings": [
-    "Priced 2.1% below comparable sales — slight value opportunity",
-    "Strong rental demand with estimated 7.2% cap rate",
-    "Good school district (7-8/10) supports long-term value",
-    "Balanced market provides reasonable negotiation window",
-    "Property in good condition with no major capex needed"
+  "colleges": [
+    {"name": "Chandler-Gilbert Community College", "type": "Community College",
+     "distance": "~6 mi", "drive_time": "~12 min", "notes": "2-yr transfer programs"}
   ],
+  "gyms": [
+    {"name": "EOS Fitness (Chandler)", "amenities": "Pool, sauna, classes",
+     "rating": "~4.4 (Google)", "notes": "Long-standing AZ chain; 24/7"}
+  ],
+
+  "strategies": [
+    {"strategy": "Buy & Hold (Rental)", "projected_return": "7-9% annually",
+     "timeframe": "5-10 years", "risk": "Vacancy, maintenance, downturn"}
+  ],
+  "appreciation_projections": [
+    {"year": "Year 1", "conservative": "$979,200", "moderate": "$993,600",
+     "aggressive": "$1,008,000"}
+  ],
+  "scenarios": [
+    {"scenario": "Bull Case", "probability": "20%", "return": "+30% to +50% (5yr)",
+     "trigger": "Rate cuts, semiconductor expansion accelerates"}
+  ],
+
+  "recommendation": {
+    "signal": "BUY",
+    "summary": "Solid buy-and-hold in a high-growth, top-school suburb...",
+    "suggested_offer": "$405,000 - $415,000",
+    "action_items": ["Order inspection (roof/HVAC)", "Verify HOA STR rules"]
+  },
   "risk_factors": [
-    "Interest rates above 6.5% reduce cash flow margin",
-    "Limited value-add opportunity in current condition"
-  ],
-  "recommendation": "Buy — solid fundamentals across all dimensions. Strong rental yield at 7.2% cap rate with good neighborhood quality. Recommended strategy is buy-and-hold with projected 48.5% total ROI over 5 years.",
-  "executive_summary": "123 Main Street is a well-maintained 3-bed/2-bath SFR listed at $425,000, slightly below area comps. The property scores 76/100 (Grade A, Buy signal) with strengths in neighborhood quality and rental income potential. Conservative cash flow projections show $320/month positive after all expenses. Recommended as a buy-and-hold investment with moderate risk."
+    {"factor": "Market Risk", "probability": "Medium", "impact": "High",
+     "notes": "Cyclical correction risk in Phoenix metro"}
+  ]
 }
 ```
 
+#### Field notes & non-obvious behaviors
+
+- **Signals** (`primary_signal`, `rental_signal`, `recommendation.signal`) accept
+  `AVOID` / `CAUTION` / `WATCH` / `BUY` / `STRONG BUY` (free-form like
+  "Hold/Watch" is normalized). The cover shows Primary vs Rental as shaded boxes.
+- **`price` may be a range** (e.g. `~$960,000–$1,000,000`); the chart uses the
+  first number as the Year-0 origin, so don't worry about a single clean value.
+- **`schools`** is auto-filtered to **grade 7+** for the detail table; carry
+  sentiment (proficiency %, reputation) in `notes`.
+- **`listing_url`** is optional — when omitted the cover links to a Zillow
+  address search built from `address`, so a clickable listing link is **always
+  present even when Zillow blocked live scraping**. Never skip the report
+  because a listing fetch failed.
+- **`cashflow.items`** — the **last** item is highlighted as the net/total row.
+- **Avoid duplication:** `context_highlights` and `neighborhood.details` stay
+  summary-level; `schools` / `amenities` / `colleges` / `gyms` carry the
+  specifics. Don't repeat the same sentence in both.
+
+#### Keys the script does NOT currently render
+
+To save extraction effort: these are commonly produced by the analysis `.md`
+files but are **not** read by the current PDF script — omit them or expect them
+to be ignored: `comps_full`, `fmv_estimate`, `price_psf_analysis`,
+`rental_comps`, `appreciation_history`, `market_data`, `offer_scenarios`,
+`negotiation_levers`, `school_district`, `natural_disaster_risk`, `walkability`
+(use `neighborhood.scores` instead), `demographics_detail`, `crime_detail`,
+`planned_developments`, `amenities.grocery`, `amenities.shopping`,
+`strategies[].pros`. (Flag if you want any of these surfaced in a future pass.)
+
 ### STEP 5: GENERATE THE PDF
 
-Run the PDF generation script:
+Write the JSON payload from Step 4 into the property folder, then run the script
+**with the input JSON and output path** (running it with no arguments only
+produces the built-in demo report — it does NOT use your data):
 
 ```bash
-python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
+DIR="properties/<SLUG>"
+# write the Step 4 payload to "$DIR/property-data.json" (e.g. via the Write tool)
+python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py \
+  "$DIR/property-data.json" "$DIR/PROPERTY-REPORT.pdf"
 ```
 
 **If the script does not exist**, generate the PDF inline using Python and ReportLab. The inline script must produce a PDF with the following sections:
@@ -250,8 +340,12 @@ python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
 - Property address (large, centered)
 - Property Score gauge (semicircular, color-coded: green 70+, yellow 40-69, red 0-39)
 - Grade and Signal displayed prominently for each type (Primary and Rental Investment)
+- Listing link ("View this listing on Zillow") at the bottom — always present (built from the address if no `listing_url`), even when Zillow blocked live data
 - Report date
 - Disclaimer footer
+
+**Before Comparable Sales: Location & Lifestyle Context**
+- High-level `context_highlights` bullets (summary of schools, safety, healthcare, recreation, jobs) shown up front
 
 **Page 2: Property Overview**
 - Property details table (price, beds, baths, sqft, lot, year, type)
@@ -272,13 +366,13 @@ python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
 - Key return metrics: Cap Rate, Cash-on-Cash, GRM
 - 5-year cash flow projection table
 
-**Page 5: Neighborhood Scorecard**
+**Page 5: Neighborhood Scorecard + Location & Lifestyle detail**
 - School ratings (elementary, middle, high) with bar visualization
 - Walk Score / Transit Score / Bike Score gauges
 - Safety rating
 - Demographics summary
 - Growth outlook
-- Amenities nearby
+- Detailed commentary tables (each renders only if data present): Secondary Schools (grade 7+ with sentiment notes), Hospitals & Healthcare, Colleges & Universities (distance + drive time), Gyms & Fitness (amenities + reviews), Parks/Recreation & Landmarks (distance/drive time)
 
 **Page 6: Investment Analysis**
 - Category scores bar chart (all 5 categories)
@@ -320,7 +414,7 @@ python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py
 After PDF generation:
 
 ```bash
-ls -la PROPERTY-REPORT.pdf
+ls -la "properties/<SLUG>/PROPERTY-REPORT.pdf"
 ```
 
 Confirm the file was created and report:
@@ -336,7 +430,8 @@ Confirm the file was created and report:
 
 | Spec              | Value                                                |
 |-------------------|------------------------------------------------------|
-| File name         | `Property-Report-[ADDRESS].pdf` if address specified |
+| Output folder     | `properties/<SLUG>/` (MLS# + address slug, one per property) |
+| File name         | `PROPERTY-REPORT.pdf` inside the property folder     |
 | Page size         | Letter (8.5" x 11")                                  |
 | Orientation       | Portrait                                             |
 | Pages             | 6-20 depending on available data                     |
@@ -353,7 +448,7 @@ Confirm the file was created and report:
 4. **Complete disclaimer** — Full disclaimer must appear on the cover page and the last page
 5. **Graceful degradation** — If some analysis files are missing, generate the PDF with available data and mark missing sections as "Not analyzed — run /realestate [command] to add this data"
 6. **Install dependencies** — If ReportLab is not installed, install it automatically: `pip install reportlab`
-7. **Overwrite safely** — If PROPERTY-REPORT.pdf already exists, overwrite it (the latest data wins)
+7. **Overwrite safely** — If `properties/<SLUG>/PROPERTY-REPORT.pdf` already exists, overwrite it (the latest data wins). Never write the PDF into the `scripts/` folder or the repo root — it belongs in the property folder.
 8. **Color-coded scores** — All scores must be color-coded: green (70+), yellow (40-69), red (0-39)
 
 ## ERROR HANDLING

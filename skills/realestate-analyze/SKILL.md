@@ -359,7 +359,18 @@ Based on the composite score, grade, and risk assessment, write:
 
 ## Output Template
 
-Save the final report to `PROPERTY-ANALYSIS-[ADDRESS].md` where `[ADDRESS]` is the street address with spaces replaced by hyphens and special characters removed (e.g., `PROPERTY-ANALYSIS-123-Oak-St-Austin-TX.md`).
+Save all outputs into a per-property folder under `properties/` so multiple
+properties can be analyzed side by side: `properties/<SLUG>/`, where `<SLUG>` is
+the MLS number (if known) plus a short address slug — e.g.
+`properties/MLS6712345-3792-E-Virgo-Pl/` — or just the address slug when no MLS
+is available. Create it with `mkdir -p "properties/<SLUG>"`.
+
+Save the final report to `properties/<SLUG>/PROPERTY-ANALYSIS-[ADDRESS].md`
+(and write every component report — COMPS, RENTAL, NEIGHBORHOOD, INVEST, MARKET —
+into the same folder). `[ADDRESS]` is the street address with spaces replaced by
+hyphens and special characters removed (e.g.,
+`PROPERTY-ANALYSIS-123-Oak-St-Austin-TX.md`). Do not scatter files in the current
+directory.
 
 ```markdown
 # Property Analysis Report: [FULL ADDRESS]
