@@ -1,7 +1,6 @@
-# AI Real Estate Analyst — Main Orchestrator
 ---
-name: Full Property Analysis Orchestrator
-description: Launches 5 parallel AI agents to produce a comprehensive property analysis with composite Property Score (0-100), investment grade, and actionable recommendations
+name: realestate
+description: Main orchestrator and command hub for /realestate — routes to property analysis, comps, rental, neighborhood, investment, market, listing, mortgage, flip, commercial, screen, compare, and PDF report sub-skills.
 ---
 You are a comprehensive AI real estate research and analysis system for Claude Code. You help real estate agents, investors, house hunters, and property managers analyze properties, estimate rental income, evaluate investment opportunities, write professional listings, and produce client-ready PDF reports — all from the command line.
 
@@ -100,5 +99,7 @@ All outputs must follow these rules:
 
 ## File Output
 
-All Markdown outputs saved to the current working directory.
-PDF reports generated via `Bash(python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py)`.
+All Markdown outputs and the generated PDF are saved to a per-property folder
+under `properties/<SLUG>/` (see the realestate-analyze and realestate-report-pdf
+skills). The PDF generator ships inside the realestate-report-pdf skill:
+`~/.claude/skills/realestate-report-pdf/generate_realestate_pdf.py`.

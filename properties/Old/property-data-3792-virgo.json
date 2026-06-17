@@ -1,0 +1,978 @@
+{
+  "address": "3792 E Virgo Pl, Chandler, AZ 85249",
+  "price": "~$960,000–$1,000,000",
+  "date": "June 16, 2026",
+  "overall_score": 59,
+  "primary_signal": "WATCH",
+  "rental_signal": "CAUTION",
+  "property_details": {
+    "beds": "5",
+    "baths": "3",
+    "sqft": "3,562",
+    "year_built": "2004",
+    "lot_size": "~8,700 sqft (0.2 acres)",
+    "property_type": "Single Family Residence — Shadow Ridge"
+  },
+  "categories": {
+    "Value & Comps": {
+      "score": 68,
+      "weight": "25%"
+    },
+    "Income Potential": {
+      "score": 27,
+      "weight": "20%"
+    },
+    "Neighborhood Quality": {
+      "score": 79,
+      "weight": "20%"
+    },
+    "Investment Upside": {
+      "score": 54,
+      "weight": "20%"
+    },
+    "Market Conditions": {
+      "score": 64,
+      "weight": "15%"
+    }
+  },
+  "comps": [
+    {
+      "address": "4879 S Fresno St, Chandler 85249",
+      "price": "$950,000",
+      "sqft": "3,290",
+      "price_sqft": "$289",
+      "sold_date": "Nov 2025",
+      "distance": "~1.8 mi"
+    },
+    {
+      "address": "1500 E Sagittarius Pl, Chandler 85249",
+      "price": "$900,000",
+      "sqft": "3,401",
+      "price_sqft": "$265",
+      "sold_date": "Jan 2026",
+      "distance": "~2.5 mi"
+    },
+    {
+      "address": "2121 E Aquarius Pl, Chandler 85249",
+      "price": "$855,000",
+      "sqft": "2,887",
+      "price_sqft": "$296",
+      "sold_date": "Aug 2025",
+      "distance": "~2.2 mi"
+    },
+    {
+      "address": "1541 E Sagittarius Pl, Chandler 85249",
+      "price": "$820,000",
+      "sqft": "3,401",
+      "price_sqft": "$241",
+      "sold_date": "Feb 2026",
+      "distance": "~2.5 mi"
+    },
+    {
+      "address": "4894 E Palm Beach Dr, Chandler 85249",
+      "price": "~$945,000",
+      "sqft": "3,753",
+      "price_sqft": "~$252",
+      "sold_date": "May 2025",
+      "distance": "~2.0 mi"
+    }
+  ],
+  "comp_summary": {
+    "avg_price": "~$894,000",
+    "avg_price_sqft": "$277/sq ft (core comp median)"
+  },
+  "comps_full": [
+    {
+      "address": "1500 E Sagittarius Pl, Chandler 85249",
+      "beds": "4+office",
+      "baths": "3.5",
+      "sqft": "3,401",
+      "price": "$900,000",
+      "price_sqft": "$265",
+      "sold_date": "Jan 2, 2026",
+      "distance": "~2.5 mi",
+      "adjustment": "+$10–15/sqft: subject has 5 bd",
+      "excluded": false
+    },
+    {
+      "address": "1541 E Sagittarius Pl, Chandler 85249",
+      "beds": "4",
+      "baths": "4.5",
+      "sqft": "3,401",
+      "price": "$820,000",
+      "price_sqft": "$241",
+      "sold_date": "Feb 26, 2026",
+      "distance": "~2.5 mi",
+      "adjustment": "+$15/sqft: subject has 5 bd premium",
+      "excluded": false
+    },
+    {
+      "address": "2121 E Aquarius Pl, Chandler 85249",
+      "beds": "4",
+      "baths": "3.5",
+      "sqft": "2,887",
+      "price": "$855,000",
+      "price_sqft": "$296",
+      "sold_date": "Aug 4, 2025",
+      "distance": "~2.2 mi",
+      "adjustment": "-$20/sqft: smaller home, inflated $/sqft",
+      "excluded": false
+    },
+    {
+      "address": "4879 S Fresno St, Chandler 85249",
+      "beds": "5",
+      "baths": "3",
+      "sqft": "3,290",
+      "price": "$950,000",
+      "price_sqft": "$289",
+      "sold_date": "Nov 25, 2025",
+      "distance": "~1.8 mi",
+      "adjustment": "Best comp: same beds/baths, slightly smaller",
+      "excluded": false
+    },
+    {
+      "address": "4894 E Palm Beach Dr, Chandler 85249",
+      "beds": "5",
+      "baths": "4",
+      "sqft": "3,753",
+      "price": "~$930,000–$960,000",
+      "price_sqft": "~$248–$256",
+      "sold_date": "May 15, 2025",
+      "distance": "~2.0 mi",
+      "adjustment": "Slight downward adjust: extra bath, larger sqft",
+      "excluded": false
+    },
+    {
+      "address": "3304 E Birchwood Pl, Chandler 85249",
+      "beds": "5",
+      "baths": "4",
+      "sqft": "5,366",
+      "price": "$2,115,000",
+      "price_sqft": "$394",
+      "sold_date": "Jan 24, 2025",
+      "distance": "~1.5 mi",
+      "adjustment": "Outlier – gated lake community, luxury tier",
+      "excluded": true
+    },
+    {
+      "address": "4253 E Colonial Dr, Chandler 85249",
+      "beds": "5",
+      "baths": "3.5",
+      "sqft": "~2,500",
+      "price": "$555,000",
+      "price_sqft": "~$222",
+      "sold_date": "Apr 22, 2026",
+      "distance": "~1.2 mi",
+      "adjustment": "Smaller Sun Groves home, lower tier",
+      "excluded": true
+    }
+  ],
+  "fmv_estimate": {
+    "low": "$855,000",
+    "mid": "$987,000",
+    "high": "$1,033,000",
+    "low_basis": "Sun Groves median $240/sqft, buyer-market softening",
+    "mid_basis": "Core comp median $277/sqft × 3,562 sqft",
+    "high_basis": "Chandler avg $/sqft $290 × 3,562 sqft, pool/premium features"
+  },
+  "price_psf_analysis": {
+    "comp_range": "$241–$296/sqft",
+    "comp_median": "$277/sqft",
+    "chandler_zip_avg": "$290/sqft",
+    "sun_groves_median": "$240/sqft",
+    "subject_at_comp_median": "$986,874",
+    "subject_at_chandler_avg": "$1,032,980",
+    "subject_at_260": "$925,120",
+    "subject_implied_psft": "~$269–$281/sqft"
+  },
+  "cashflow": {
+    "base_case": [
+      {
+        "item": "Gross Rental Income",
+        "monthly": "$3,500",
+        "annual": "$42,000"
+      },
+      {
+        "item": "Vacancy Loss (5%)",
+        "monthly": "-$175",
+        "annual": "-$2,100"
+      },
+      {
+        "item": "Effective Gross Income",
+        "monthly": "$3,325",
+        "annual": "$39,900"
+      },
+      {
+        "item": "Mortgage P&I ($768K @ 6.59%)",
+        "monthly": "-$4,907",
+        "annual": "-$58,884"
+      },
+      {
+        "item": "Property Taxes (1.05%)",
+        "monthly": "-$840",
+        "annual": "-$10,080"
+      },
+      {
+        "item": "Insurance (0.70%)",
+        "monthly": "-$560",
+        "annual": "-$6,720"
+      },
+      {
+        "item": "HOA Fee",
+        "monthly": "-$85",
+        "annual": "-$1,020"
+      },
+      {
+        "item": "Maintenance Reserve (1%)",
+        "monthly": "-$800",
+        "annual": "-$9,600"
+      },
+      {
+        "item": "Property Mgmt (8%)",
+        "monthly": "-$266",
+        "annual": "-$3,192"
+      },
+      {
+        "item": "Net Cash Flow",
+        "monthly": "-$4,133",
+        "annual": "-$49,596"
+      }
+    ],
+    "scenarios": {
+      "conservative": {
+        "gross_rent": "$3,200",
+        "vacancy_pct": "10%",
+        "vacancy": "-$320",
+        "egi": "$2,880",
+        "property_tax": "-$840",
+        "insurance": "-$560",
+        "hoa": "-$85",
+        "management": "-$288",
+        "maintenance": "-$320",
+        "capex_reserve": "-$256",
+        "noi": "$531",
+        "mortgage": "-$4,907",
+        "monthly_cash_flow": "-$4,376",
+        "annual_cash_flow": "-$52,512",
+        "cap_rate": "0.66%",
+        "coc": "-24.3%",
+        "grm": "25.0",
+        "dscr": "0.11",
+        "break_even_ratio": "167%"
+      },
+      "moderate": {
+        "gross_rent": "$3,500",
+        "vacancy_pct": "5%",
+        "vacancy": "-$175",
+        "egi": "$3,325",
+        "property_tax": "-$840",
+        "insurance": "-$560",
+        "hoa": "-$85",
+        "management": "-$266",
+        "maintenance": "-$245",
+        "capex_reserve": "-$175",
+        "noi": "$1,154",
+        "mortgage": "-$4,907",
+        "monthly_cash_flow": "-$3,753",
+        "annual_cash_flow": "-$45,036",
+        "cap_rate": "1.44%",
+        "coc": "-20.9%",
+        "grm": "22.9",
+        "dscr": "0.24",
+        "break_even_ratio": "151%"
+      },
+      "optimistic": {
+        "gross_rent": "$3,800",
+        "vacancy_pct": "3%",
+        "vacancy": "-$114",
+        "egi": "$3,686",
+        "property_tax": "-$840",
+        "insurance": "-$560",
+        "hoa": "-$85",
+        "management": "-$295",
+        "maintenance": "-$184",
+        "capex_reserve": "-$111",
+        "noi": "$1,611",
+        "mortgage": "-$4,907",
+        "monthly_cash_flow": "-$3,296",
+        "annual_cash_flow": "-$39,552",
+        "cap_rate": "2.01%",
+        "coc": "-18.3%",
+        "grm": "21.1",
+        "dscr": "0.33",
+        "break_even_ratio": "142%"
+      }
+    },
+    "break_even_rent_needed": "~$6,200/month"
+  },
+  "rental_comps": [
+    {
+      "address": "4543 E Gleneagle Dr, Chandler 85249",
+      "beds": "5",
+      "baths": "3",
+      "sqft": "3,291",
+      "monthly_rent": "$2,950",
+      "rent_psf": "$0.90",
+      "notes": "Closest bed/bath match"
+    },
+    {
+      "address": "4253 E Colonial Dr, Chandler 85249",
+      "beds": "5",
+      "baths": "3.5",
+      "sqft": "2,732",
+      "monthly_rent": "$3,500",
+      "rent_psf": "$1.28",
+      "notes": "Smaller, higher $/sqft"
+    },
+    {
+      "address": "3760 E Leo Pl, Chandler 85249",
+      "beds": "6",
+      "baths": "3.5",
+      "sqft": "3,890",
+      "monthly_rent": "$3,200",
+      "rent_psf": "$0.82",
+      "notes": "More beds/sqft, lower $/sqft"
+    },
+    {
+      "address": "4909 E Colonial Dr, Chandler 85249",
+      "beds": "5",
+      "baths": "2",
+      "sqft": "2,942",
+      "monthly_rent": "$3,650",
+      "rent_psf": "$1.24",
+      "notes": "Fewer baths, smaller"
+    },
+    {
+      "address": "3814 E Cedar Dr, Chandler 85249",
+      "beds": "4",
+      "baths": "3",
+      "sqft": "3,531",
+      "monthly_rent": "$3,995",
+      "rent_psf": "$1.13",
+      "notes": "1 fewer bed, similar sqft"
+    },
+    {
+      "address": "1322 E Gemini Pl, Chandler 85249",
+      "beds": "5",
+      "baths": "4",
+      "sqft": "3,151",
+      "monthly_rent": "$3,200",
+      "rent_psf": "$1.02",
+      "notes": "Similar beds, smaller"
+    },
+    {
+      "address": "2026 E County Down Dr, Chandler 85249",
+      "beds": "5",
+      "baths": "3.5",
+      "sqft": "3,644",
+      "monthly_rent": "$3,800",
+      "rent_psf": "$1.04",
+      "notes": "Best size match"
+    }
+  ],
+  "investment_metrics": {
+    "cap_rate": "1.44%",
+    "cap_rate_status": "Poor — well below the 4-5% investment threshold; priced for appreciation not income",
+    "cash_on_cash": "-20.9%",
+    "coc_status": "Deeply negative — requires $216K+ cash invested with $4,133/mo negative carry",
+    "grm": "22.9x",
+    "grm_status": "High — consistent with premium appreciation market, not income market",
+    "dscr": "0.24",
+    "dscr_status": "Well below 1.0 — property does not cover debt service; rental income = 68% of mortgage payment",
+    "one_pct": "0.36%",
+    "one_pct_status": "Well below 1% rule (need $9,600/mo to qualify) — typical for appreciated Phoenix SFRs",
+    "breakeven": "151%",
+    "breakeven_status": "Expenses are 151% of income — break-even rent ~$6,200/mo vs. market rate $3,500/mo"
+  },
+  "mortgage": {
+    "purchase_price": "$960,000",
+    "down_payment": "$192,000 (20%)",
+    "loan_amount": "$768,000",
+    "rate": "6.59%",
+    "term": "30-year fixed",
+    "monthly_pi": "$4,907",
+    "monthly_piti": "$6,352",
+    "closing_costs": "$24,000 (2.5%)",
+    "total_cash_to_close": "$216,000",
+    "noi_before_mortgage": "$774/month"
+  },
+  "neighborhood": {
+    "scores": {
+      "School Rating": 92,
+      "Safety / Crime": 88,
+      "Walkability": 18,
+      "Transit Access": 5,
+      "Dining & Shopping": 55,
+      "Growth Trajectory": 82
+    },
+    "details": [
+      {
+        "factor": "Top School",
+        "detail": "Basha HS — Top 5% in Arizona",
+        "notes": "Chandler Unified 8/10; Arizona College Prep 10/10 open enrollment"
+      },
+      {
+        "factor": "Crime Rate",
+        "detail": "A+ Safety (CrimeSafe)",
+        "notes": "Violent crime 1.5/1K vs national avg 3.7/1K; Chandler crime down 25.6% in 2024"
+      },
+      {
+        "factor": "Walk Score",
+        "detail": "18 / Car-Dependent",
+        "notes": "Car ownership required; wide streets, low traffic, quiet suburban character"
+      },
+      {
+        "factor": "Median Income",
+        "detail": "$153,633 HH",
+        "notes": "Nearly 2x national average ($80,734); one of wealthiest zips in Maricopa County"
+      },
+      {
+        "factor": "Pop. Growth (annual)",
+        "detail": "+2.2%/year",
+        "notes": "Chandler pop. 292,741; major semiconductor employer in-migration driving growth"
+      },
+      {
+        "factor": "Median Home Value",
+        "detail": "$610,800 (zip)",
+        "notes": "85249 SFH median $700K-$725K; strong appreciation fundamentals"
+      }
+    ],
+    "demographics": {
+      "population_growth": "+2.2% annually (292,741 residents)",
+      "median_age": "42.7 years",
+      "employment_rate": "96.4% (unemployment 3.6%)",
+      "major_employers": "Intel Ocotillo Campus, Microchip Technology, NXP Semiconductors, PayPal, TSMC supply chain"
+    }
+  },
+  "strategies": [
+    {
+      "strategy": "Buy & Hold (Long-Term Rental)",
+      "feasibility_score": "4/10",
+      "projected_return": "3-4% appreciation/yr; -20.9% CoC",
+      "timeframe": "7-10 years",
+      "pros": "Strong appreciation history (9.13%/yr 10-yr avg); durable tech-employer demand floor; top school demand from family renters",
+      "risk": "Deeply negative cash flow (-$4,133/mo); cumulative carry $200K+ over 5 years; rate sensitivity",
+      "monthly_detail": {
+        "gross_rent": "$3,500",
+        "vacancy": "-$175",
+        "property_mgmt_10pct": "-$350",
+        "mortgage": "-$4,907",
+        "property_tax": "-$840",
+        "insurance": "-$560",
+        "hoa": "-$85",
+        "maintenance": "-$800",
+        "net_monthly": "-$4,217"
+      },
+      "equity_projections": {
+        "year_1_net_return": "~-$16,800 (-1.8% on equity)",
+        "year_5_home_value": "~$1,140,000",
+        "year_5_mortgage_balance": "~$728,000",
+        "year_5_equity": "~$412,000",
+        "year_10_home_value": "~$1,354,000",
+        "year_10_mortgage_balance": "~$644,000",
+        "year_10_equity": "~$710,000"
+      }
+    },
+    {
+      "strategy": "Short-Term Rental (Airbnb/VRBO)",
+      "feasibility_score": "5/10",
+      "projected_return": "~$4,868/mo gross; still cash-flow negative",
+      "timeframe": "Ongoing; seasonal (peak Jan-Mar)",
+      "pros": "Best revenue option; Chandler STR-friendly (state preemption); $58,400/yr gross; 5-bed commands group/corporate premium",
+      "risk": "HOA CC&Rs may prohibit STR — verify before purchase; seasonal revenue volatility (weak Jun-Sep)",
+      "str_detail": {
+        "adr": "$295/night (midpoint of $280–$320 range)",
+        "occupancy": "55% (~16.5 nights/month)",
+        "gross_monthly": "~$4,868",
+        "gross_annual": "~$58,400",
+        "str_mgmt_25pct": "-$1,217",
+        "mortgage_tax_insurance": "-$6,307",
+        "utilities_cleaning": "-$700",
+        "net_monthly_str": "~-$3,356",
+        "str_vs_ltr_advantage": "+$861/month vs. long-term rental",
+        "seasonal_peak": "Jan–Mar (~$6,500+/mo)",
+        "seasonal_trough": "Jun–Sep (~$2,900/mo)",
+        "regulatory": "Chandler allows STRs (AZ state preemption); license + TPT registration required; HOA CC&Rs are the key risk"
+      }
+    },
+    {
+      "strategy": "BRRRR Strategy",
+      "feasibility_score": "2/10",
+      "projected_return": "Not viable at market price",
+      "timeframe": "N/A",
+      "pros": "Strong ARV market in 85249; Chandler appreciation supports refinance values",
+      "risk": "Priced at/near ARV; insufficient equity spread; needs distressed acquisition at $750K-$780K to work",
+      "brrrr_detail": {
+        "condition": "Built 2004, ~22 years old — likely needs kitchen/bath updates, HVAC, cosmetic refresh; not distressed",
+        "rehab_estimate": "$40,000–$75,000",
+        "midpoint_rehab": "$57,500",
+        "arv": "$1,055,000",
+        "equity_created": "~$37,500 (thin margin)",
+        "refi_at_75pct_ltv": "$791,250",
+        "cash_out": "$23,250",
+        "total_cash_in": "$249,500",
+        "cash_remaining_after_refi": "~$226,250",
+        "verdict": "Does NOT achieve 'infinite return' BRRRR — needs distressed acquisition at $750K–$780K"
+      }
+    }
+  ],
+  "appreciation_history": [
+    {
+      "period": "2021",
+      "change": "+27.4%",
+      "notes": "Pandemic boom peak"
+    },
+    {
+      "period": "2022",
+      "change": "+13.8%",
+      "notes": "85249 zip; national cooling beginning"
+    },
+    {
+      "period": "2023",
+      "change": "-3% to -5%",
+      "notes": "Correction from 2022 peak"
+    },
+    {
+      "period": "2024",
+      "change": "+4.2%",
+      "notes": "Recovery; SFH in 85249"
+    },
+    {
+      "period": "2025",
+      "change": "~-1.7%",
+      "notes": "Modest softening in 85249 zip"
+    },
+    {
+      "period": "10-yr avg (2015–2025)",
+      "change": "9.13%/year",
+      "notes": "Chandler top 10% nationally (NeighborhoodScout)"
+    }
+  ],
+  "appreciation_projections": [
+    {
+      "year": "Year 1",
+      "conservative": "$979,200",
+      "moderate": "$993,600",
+      "aggressive": "$1,008,000"
+    },
+    {
+      "year": "Year 3",
+      "conservative": "$1,009,082",
+      "moderate": "$1,058,718",
+      "aggressive": "$1,124,864"
+    },
+    {
+      "year": "Year 5",
+      "conservative": "$1,039,635",
+      "moderate": "$1,128,321",
+      "aggressive": "$1,255,162"
+    },
+    {
+      "year": "Year 10",
+      "conservative": "$1,081,220",
+      "moderate": "$1,354,000",
+      "aggressive": "$1,563,774"
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "Bull Case",
+      "probability": "20%",
+      "return": "+30% to +50% (5yr)",
+      "trigger": "Mortgage rates fall to 5.5%, Intel/TSMC expansion accelerates, STR revenue exceeds projections"
+    },
+    {
+      "scenario": "Base Case",
+      "probability": "55%",
+      "return": "+15% to +25% (5yr / appreciation only)",
+      "trigger": "3-4%/yr appreciation, rates stable at 6.5-7%, STR or rental strategy sustains monthly carry"
+    },
+    {
+      "scenario": "Bear Case",
+      "probability": "25%",
+      "return": "-5% to -15% (5yr)",
+      "trigger": "Rates stay above 7.5%, Phoenix tech layoffs, oversupply, HOA prohibits STR"
+    }
+  ],
+  "market_data": {
+    "snapshot": {
+      "chandler_median_price": "$550,000",
+      "price_change_yoy": "-5.0%",
+      "median_dom": "78 days",
+      "list_to_sale_ratio": "~97.9%",
+      "months_inventory": "~2.5–3.0",
+      "market_classification": "Transitioning — shifting from Seller's Market toward Balanced",
+      "zip_85249_sfh_median": "$700,000–$725,000"
+    },
+    "price_trends": [
+      {
+        "year": "2022",
+        "median_price": "$525,000",
+        "change": "+28%"
+      },
+      {
+        "year": "2023",
+        "median_price": "$510,000",
+        "change": "-2.9%"
+      },
+      {
+        "year": "2024",
+        "median_price": "$549,000",
+        "change": "+7.6%"
+      },
+      {
+        "year": "2025",
+        "median_price": "$578,000",
+        "change": "+5.3%"
+      },
+      {
+        "year": "2026 YTD",
+        "median_price": "$550,000",
+        "change": "-5.0%"
+      }
+    ],
+    "supply_demand": {
+      "active_listings": "~1,200 SFH (up from ~600 in 2022–2023)",
+      "new_listings_30d": "~370–400",
+      "pending_sales": "~300–350",
+      "absorption_rate": "~150–200 homes/month",
+      "zip_85249_notes": "Basha/Hamilton/Perry feeder homes under 23 days; luxury $800K+ sitting 60–90+ days"
+    },
+    "economic_drivers": [
+      {
+        "employer": "Intel",
+        "detail": "Chandler campus (Fab 52 & Fab 62); $3.9B CHIPS Act award; largest private employer in Chandler",
+        "distance": "~8 mi",
+        "employees": "12,000+"
+      },
+      {
+        "employer": "TSMC",
+        "detail": "North Phoenix; Fab 21 in mass production for Nvidia AI chips",
+        "distance": "~25 mi",
+        "employees": "6,000+"
+      },
+      {
+        "employer": "Wells Fargo",
+        "detail": "Major regional operations hub",
+        "distance": "~15 mi",
+        "employees": null
+      },
+      {
+        "employer": "PayPal",
+        "detail": "Significant East Valley presence",
+        "distance": "~10 mi",
+        "employees": null
+      },
+      {
+        "employer": "Microchip Technology",
+        "detail": "HQ; semiconductor manufacturer",
+        "distance": "~10 mi",
+        "employees": "1,700+"
+      },
+      {
+        "employer": "NXP Semiconductors",
+        "detail": "$100M expansion",
+        "distance": "~8 mi",
+        "employees": "1,700"
+      },
+      {
+        "employer": "Northrop Grumman",
+        "detail": "Defense contractor, East Valley presence",
+        "distance": "~12 mi",
+        "employees": null
+      },
+      {
+        "employer": "Dignity Health / Chandler Regional Medical Center",
+        "detail": "Healthcare anchor",
+        "distance": "~7 mi",
+        "employees": null
+      }
+    ],
+    "job_growth": {
+      "phoenix_msa_yoy": "+0.6%",
+      "chandler_unemployment": "3.6%",
+      "national_unemployment": "~4.2%",
+      "chandler_population": "~292,741",
+      "population_growth": "+2.2% annually",
+      "semiconductor_investment": "$205B+ announced statewide since 2020"
+    },
+    "rental_market": {
+      "vacancy_rate": "~8–9%",
+      "rent_growth_yoy": "-2% to -4% (apartment sector; SFR more stable)",
+      "avg_apartment_rent": "~$1,698/month (-2.2% YoY)",
+      "sfr_demand": "High — 85249 school quality drives family renter demand"
+    },
+    "forecast": {
+      "6mo_outlook": "Prices likely to stabilize or tick down 1–3% further; 85249 may hold better due to constrained SFR supply in top school zones; DOM 60–80 days expected",
+      "12mo_outlook": "Statewide appreciation forecast 2–5%; Chandler 2–4% if rates ease toward 6.25%; TSMC N3 production ramp 2H 2027 supports demand",
+      "key_risks": [
+        "Mortgage rate persistence above 7% could suppress demand and pressure prices -3–5%",
+        "Apartment oversupply spillover reduces urgency for renters to buy",
+        "Intel / TSMC execution risk — any fab delay hits East Valley demand",
+        "Affordability ceiling — Chandler median incomes (~$90K HH) stretched at $550K+ price points"
+      ]
+    }
+  },
+  "offer_scenarios": [
+    {
+      "scenario": "Aggressive (buyer's market)",
+      "offer_price": "$890,000–$910,000",
+      "rationale": "DOM 78 days; inventory rising; 8–10% below high estimate; at low-mid FMV"
+    },
+    {
+      "scenario": "Competitive (fair market)",
+      "offer_price": "$930,000–$950,000",
+      "rationale": "Aligns with best comp (4879 S Fresno St, $950K); within comp range"
+    },
+    {
+      "scenario": "Full ask",
+      "offer_price": "~$960,000–$1,000,000",
+      "rationale": "Justified only if pool, premium finishes, or multiple competing offers"
+    }
+  ],
+  "negotiation_levers": [
+    "Extended closing",
+    "As-is inspection",
+    "Rent-back option",
+    "Escalation waiver",
+    "78-day DOM gives buyers moderate leverage — target 5–8% below list"
+  ],
+  "schools": [
+    {
+      "name": "Jane D. Hull Elementary",
+      "type": "Public",
+      "grades": "PK–6",
+      "rating": "6/10 (GreatSchools)",
+      "distance": "~1.5 mi"
+    },
+    {
+      "name": "Santan Junior High School",
+      "type": "Public",
+      "grades": "7–8",
+      "rating": "8/10 (GreatSchools)",
+      "distance": "~2.0 mi"
+    },
+    {
+      "name": "Basha High School",
+      "type": "Public",
+      "grades": "9–12",
+      "rating": "Top 5% in AZ (Niche A)",
+      "distance": "~3.5 mi",
+      "notes": "68% math proficiency, 74% reading — far exceeds AZ avg of 34% and 40%"
+    },
+    {
+      "name": "John & Carol Carlson Elementary",
+      "type": "Public",
+      "grades": "PK–6",
+      "rating": "8/10 (GreatSchools)",
+      "distance": "~2.5 mi"
+    },
+    {
+      "name": "Arizona College Prep",
+      "type": "Public Charter",
+      "grades": "7–12",
+      "rating": "10/10 (GreatSchools)",
+      "distance": "~4 mi",
+      "notes": "Open enrollment"
+    }
+  ],
+  "school_district": {
+    "name": "Chandler Unified School District (CUSD80)",
+    "overall_rating": "8/10",
+    "students": "43,000+",
+    "rank": "2nd largest district in Arizona"
+  },
+  "amenities": {
+    "grocery": [
+      {
+        "name": "Fry's Marketplace",
+        "address": "2929 E Ocotillo Rd, Chandler",
+        "distance": "~1.5 mi"
+      },
+      {
+        "name": "Fry's Food & Drug",
+        "address": "950 N McQueen Rd / Riggs Rd",
+        "distance": "~1.8 mi"
+      },
+      {
+        "name": "Sprouts / Walmart Supercenter / Costco",
+        "distance": "3–4 miles"
+      }
+    ],
+    "healthcare": [
+      {
+        "name": "Dignity Health AZ General Hospital ER",
+        "address": "Chandler-McQueen location",
+        "distance": "~2 mi"
+      },
+      {
+        "name": "Chandler Regional Medical Center",
+        "detail": "465-bed Level I trauma center",
+        "distance": "~7 mi"
+      },
+      {
+        "name": "Dignity Health Ambulatory Care Center",
+        "detail": "100,000 sq ft — opening Fall 2026",
+        "distance": "~3 mi"
+      }
+    ],
+    "parks_recreation": [
+      {
+        "name": "Tumbleweed Park",
+        "detail": "205-acre flagship park; 18 tennis courts, 18 pickleball courts, fitness center",
+        "distance": "~3 mi"
+      },
+      {
+        "name": "Ocotillo Golf Club",
+        "detail": "Resort-style course",
+        "distance": "~2 mi"
+      },
+      {
+        "name": "HOA community parks and walking paths",
+        "distance": "within subdivision"
+      }
+    ],
+    "shopping": [
+      {
+        "name": "San Tan Village Mall",
+        "detail": "Major regional shopping center",
+        "address": "Williams Field Rd & Santan Frwy",
+        "distance": "~5 mi"
+      }
+    ]
+  },
+  "natural_disaster_risk": {
+    "flood_zone": "Zone X — outside the 100-year floodplain; flood insurance not typically required",
+    "earthquake": "Low — Arizona not in a major seismic zone",
+    "extreme_heat": "High — regularly exceeds 110°F in summer; frequency increasing",
+    "dust_storms": "Moderate — annual monsoon season (July–September)",
+    "drought": "High — Colorado River water constraints; Chandler has invested in water reclamation",
+    "wildfire": "Low — urban setting; minimal wildfire exposure"
+  },
+  "walkability": {
+    "walk_score": "18/100 (Car-Dependent)",
+    "transit_score": "5/100 (Minimal Service)",
+    "bike_score": "35/100 (Bikeable)",
+    "nearest_highway": "Loop 202 (Santan Frwy) ~3.5 miles north"
+  },
+  "demographics_detail": {
+    "zip": "85249",
+    "median_hh_income": "$153,633",
+    "national_median_hh_income": "$80,734",
+    "median_home_value": "$610,800",
+    "median_age": "42.7",
+    "population": "47,414",
+    "households": "15,863",
+    "avg_persons_per_hh": "2.98",
+    "per_capita_income": "$68,134",
+    "poverty_rate": "3.6%",
+    "racial_composition": {
+      "white": "62.2%",
+      "hispanic": "14%",
+      "asian": "13.6%"
+    }
+  },
+  "crime_detail": {
+    "violent_crime_per_1k": "1.5",
+    "chandler_avg_violent": "1.6",
+    "national_avg_violent": "3.7",
+    "property_crime_per_1k": "10",
+    "chandler_avg_property": "15",
+    "national_avg_property": "19.6",
+    "safety_grade": "A+ (CrimeSafe.app)",
+    "chandler_2024_highlights": "Violent crime down 25.6%; homicides -75%; aggravated assaults -16%; sexual assaults -55%; total crime rate 22.7% below national avg"
+  },
+  "planned_developments": [
+    {
+      "project": "Chandler Innovation Park (DPC Companies)",
+      "detail": "327,776 sq ft industrial/commercial park",
+      "status": "Delivered Q2 2026"
+    },
+    {
+      "project": "Dignity Health Ambulatory Care Center",
+      "detail": "100,000 sq ft outpatient facility",
+      "status": "Opening Fall 2026"
+    },
+    {
+      "project": "Residential pipeline",
+      "detail": "121 SFH + 1,138 multi-family units under construction city-wide",
+      "status": "Under construction"
+    }
+  ],
+  "recommendation": {
+    "signal": "WATCH",
+    "summary": "3792 E Virgo Pl sits in one of the Phoenix metro's premier residential zip codes — top-5%-in-Arizona schools, A+ crime rating, $153K median household income, and a semiconductor supercycle employment engine (Intel + TSMC) that creates durable long-term demand. The property is fairly priced at ~$269/sqft relative to core comps ($277 median). However, at ~$960K with 6.59% rates, the income case is deeply negative (-$4,133/month), requiring a well-capitalized buyer with $200K+ in capital reserves and a 7-10 year horizon. This is an appreciation play, not a cash flow investment. For an owner-occupant prioritizing schools, safety, and community quality, this is a more compelling case. For a pure investor, negotiate aggressively (target $900K-$920K), put 30-35% down to reduce carry, and verify HOA CC&Rs for STR before proceeding.",
+    "suggested_offer": "$900,000 – $930,000",
+    "action_items": [
+      "Confirm exact MLS asking price — Zillow blocked; contact listing agent directly",
+      "CRITICAL: Obtain and review HOA CC&Rs for STR restrictions before any offer",
+      "Full inspection: HVAC (2004 build, ~22 yrs old likely needs replacement), roof, plumbing",
+      "Pull HOA financials — check reserve fund adequacy and pending special assessments",
+      "Verify school boundary assignments via Chandler Unified online tool (boundaries can shift)",
+      "Get flood zone certification (FEMA Zone X expected; confirm with lender)",
+      "Request 78-day DOM negotiating leverage — target 5-8% below list price"
+    ]
+  },
+  "risk_factors": [
+    {
+      "factor": "Negative Cash Flow",
+      "probability": "Certain",
+      "impact": "High",
+      "notes": "~$4,133/mo carry at current rates; ~$50K/yr drain; requires $150K-$200K+ in reserves over 5-year hold"
+    },
+    {
+      "factor": "HOA STR Prohibition",
+      "probability": "Medium",
+      "impact": "High",
+      "notes": "Many 85249 communities prohibit STRs; eliminates best revenue strategy; verify CC&Rs before offer"
+    },
+    {
+      "factor": "Tech Sector Concentration",
+      "probability": "Low-Medium",
+      "impact": "High",
+      "notes": "Intel/TSMC/Microchip are the demand floor; any major layoff cycle hits East Valley disproportionately"
+    },
+    {
+      "factor": "Interest Rate Risk",
+      "probability": "Medium",
+      "impact": "Medium",
+      "notes": "Each 1% rate increase adds ~$530/mo in P&I; rates above 7.5% deepen already-strained cash flow"
+    },
+    {
+      "factor": "Near-Term Price Softness",
+      "probability": "Medium",
+      "impact": "Medium",
+      "notes": "85249 down ~1.7% in 2025; Chandler overall down 5% YoY; risk of buying ahead of further correction"
+    }
+  ],
+  "context_highlights": [
+    "Top schools: Basha High (Top 5% in AZ — 68% math / 74% reading proficiency) and Arizona College Prep (10/10 GreatSchools, open enrollment).",
+    "A+ safety — violent crime 1.5/1K vs 3.7/1K national; Chandler crime down 25.6% in 2024.",
+    "Affluent area: median household income $153,633 (~2x national average).",
+    "Healthcare close by: Dignity Health AZ General ER ~2 mi; Chandler Regional (465-bed Level I trauma) ~7 mi.",
+    "Recreation: Tumbleweed Park (205 acres, 18 pickleball courts) ~3 mi; Ocotillo Golf Club ~2 mi.",
+    "Semiconductor job engine: Intel Ocotillo, Microchip, NXP drive in-migration (+2.2%/yr)."
+  ],
+  "reasons_to_buy": [
+    "Best-in-class neighborhood — A+ crime, $153K median income, top-5% Arizona schools (Basha HS) make this a premium lifestyle asset that holds value in down markets.",
+    "Fairly priced relative to comps — at ~$269/sqft you're 3–4% below the median comp $/sqft of $277, with room to negotiate given a 78-day DOM market.",
+    "Semiconductor supercycle tailwind — Intel + TSMC are creating tens of thousands of high-paying jobs in Chandler; long-term demand floor is stronger than most Sun Belt markets."
+  ],
+  "reasons_for_caution": [
+    "Deeply negative cash flow — at ~$960K with 6.59% rates you lose ~$4,000–$4,400/month as a rental; an appreciation play requiring $150K–$250K+ in reserves over a 5-year hold.",
+    "Near-term price softness — 85249 down ~1.7% last year; market transitioning to balanced with risk of buying at a local peak before a further 3–5% correction.",
+    "Unknown HOA restrictions — STR rules, special assessments, and reserve fund health are unverified; the Shadow Ridge HOA could materially affect investment strategy."
+  ],
+  "due_diligence": [
+    "Confirm exact MLS asking price (Zillow blocked; contact listing agent directly)",
+    "Verify HOA CC&Rs for STR restrictions (critical if considering Airbnb)",
+    "Pull HOA financials and reserve fund status",
+    "Confirm school assignments via Chandler Unified boundary tool (boundaries can shift)",
+    "HVAC inspection (2004 build; 20+ year old system likely needs replacement)",
+    "Roof inspection (age and condition)",
+    "Pool inspection if applicable",
+    "Confirm FEMA flood zone classification (Zone X expected; verify)",
+    "Review any pending HOA assessments",
+    "Pull Maricopa County assessor record for accurate sq footage and lot size"
+  ]
+}

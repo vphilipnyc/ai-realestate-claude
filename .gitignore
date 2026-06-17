@@ -34,3 +34,6 @@ PROPERTY-*.md
 *.log
 .cache/
 properties/VirgoPL/property-data-3792-virgo.json
+
+# Skill bundle zips (build artifacts)
+*.zip

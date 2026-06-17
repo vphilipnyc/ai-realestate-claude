@@ -35,10 +35,16 @@ This skill activates when the user runs:
 
 ### STEP 1: CHECK FOR PDF GENERATION SCRIPT
 
-First, verify the dedicated Python script exists:
+The PDF generator (`generate_realestate_pdf.py`) is **bundled inside this skill
+folder**, so it travels with the skill whether installed via the CLI or uploaded
+to Claude Desktop. Locate it (the bundled copy first, then the CLI-installed
+path):
 
 ```bash
-ls ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py 2>/dev/null
+SCRIPT=$(ls ./generate_realestate_pdf.py \
+            "$(dirname "$0" 2>/dev/null)/generate_realestate_pdf.py" \
+            ~/.claude/skills/realestate-report-pdf/generate_realestate_pdf.py \
+            2>/dev/null | head -1)
 ```
 
 **If the script exists:** Use it directly (proceed to Step 2).
@@ -327,8 +333,8 @@ produces the built-in demo report — it does NOT use your data):
 ```bash
 DIR="properties/<SLUG>"
 # write the Step 4 payload to "$DIR/property-data.json" (e.g. via the Write tool)
-python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py \
-  "$DIR/property-data.json" "$DIR/PROPERTY-REPORT.pdf"
+# $SCRIPT was resolved in Step 1 (bundled generate_realestate_pdf.py)
+python3 "$SCRIPT" "$DIR/property-data.json" "$DIR/PROPERTY-REPORT.pdf"
 ```
 
 **If the script does not exist**, generate the PDF inline using Python and ReportLab. The inline script must produce a PDF with the following sections:

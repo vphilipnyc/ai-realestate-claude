@@ -127,7 +127,6 @@ main() {
     mkdir -p "$SKILLS_DIR"
     mkdir -p "$AGENTS_DIR"
     mkdir -p "$INSTALL_DIR"
-    mkdir -p "$INSTALL_DIR/scripts"
 
     print_success "Directory structure created"
 
@@ -187,13 +186,14 @@ main() {
     done
     echo "  → ${AGENT_COUNT} subagents installed"
 
-    # ---- Install Scripts ----
-    print_info "Installing utility scripts..."
-
-    if [ -d "$SOURCE_DIR/scripts" ]; then
-        cp -r "$SOURCE_DIR/scripts/"* "$INSTALL_DIR/scripts/"
-        chmod +x "$INSTALL_DIR/scripts/"*.py 2>/dev/null || true
-        print_success "Scripts installed → ${INSTALL_DIR}/scripts/"
+    # ---- Utility Scripts ----
+    # The PDF generator now ships inside the realestate-report-pdf skill (copied
+    # by the sub-skill loop above), so it is self-contained for both the CLI and
+    # a Claude Desktop upload. Just make it executable.
+    PDF_SCRIPT="${SKILLS_DIR}/realestate-report-pdf/generate_realestate_pdf.py"
+    if [ -f "$PDF_SCRIPT" ]; then
+        chmod +x "$PDF_SCRIPT" 2>/dev/null || true
+        print_success "PDF generator installed → ${PDF_SCRIPT}"
     fi
 
     # ---- Install Python Dependencies ----
@@ -218,7 +218,7 @@ main() {
     [ -f "$INSTALL_DIR/SKILL.md" ] && print_success "Main skill file" || { print_error "Main skill file missing"; VERIFY_OK=false; }
     [ -d "$SKILLS_DIR/realestate-analyze" ] && print_success "Sub-skills directory" || { print_error "Sub-skills missing"; VERIFY_OK=false; }
     [ -n "$(find "$AGENTS_DIR" -maxdepth 1 -name 'realestate-*.md' -print -quit 2>/dev/null)" ] && print_success "Agent files" || { print_warning "No agent files found (may not be created yet)"; }
-    [ -d "$INSTALL_DIR/scripts" ] && print_success "Utility scripts" || { print_error "Scripts missing"; VERIFY_OK=false; }
+    [ -f "$PDF_SCRIPT" ] && print_success "PDF generator script" || { print_error "PDF generator script missing"; VERIFY_OK=false; }
 
     # Verify reportlab
     if $PYTHON_CMD -c "import reportlab" 2>/dev/null; then

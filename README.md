@@ -93,9 +93,7 @@ Open Claude Code and use these commands:
 ```
 ai-realestate-claude/
 ├── realestate/                     # Main skill orchestrator
-│   ├── SKILL.md                    # Primary skill file — routing, scoring, output standards
-│   └── scripts/
-│       └── generate_realestate_pdf.py  # PDF report generator (ReportLab)
+│   └── SKILL.md                    # Primary skill file — routing, scoring, output standards
 ├── skills/                         # 14 sub-skills
 │   ├── realestate-analyze/         # Full analysis orchestrator (launches 5 agents)
 │   ├── realestate-comps/           # Comparable sales analysis
@@ -111,6 +109,8 @@ ai-realestate-claude/
 │   ├── realestate-screen/          # Property screener
 │   ├── realestate-quick/           # 60-second snapshot
 │   └── realestate-report-pdf/      # PDF report generation
+│       └── generate_realestate_pdf.py  # PDF generator (ReportLab) — bundled with the skill
+├── package.sh                      # Builds dist/realestate-desktop.zip (one Desktop upload)
 ├── agents/                         # 5 parallel subagents
 │   ├── realestate-comps.md         # Comparable sales agent
 │   ├── realestate-rental.md        # Rental income agent
@@ -238,7 +238,7 @@ Color scheme: Navy (#1a2332), Forest Green (#2d8a4e), Warm Gold (#c9982e)
 
 ```bash
 # Generate a sample PDF report
-python3 ~/.claude/skills/realestate/scripts/generate_realestate_pdf.py --demo
+python3 ~/.claude/skills/realestate-report-pdf/generate_realestate_pdf.py --demo
 ```
 
 ---
