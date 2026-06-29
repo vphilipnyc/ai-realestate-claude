@@ -1,6 +1,6 @@
 ---
 skill: realestate-listing
-name: Professional Listing Description Generator
+name: realestate-listing
 version: 1.0.0
 description: Generates MLS-ready property listing descriptions with attention-grabbing headlines, feature highlights, neighborhood context, and SEO keywords across multiple buyer-persona styles
 triggers:

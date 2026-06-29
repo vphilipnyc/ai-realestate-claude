@@ -1,6 +1,6 @@
 ---
 skill: realestate-comps
-name: Comparable Sales Analysis
+name: realestate-comps
 version: 1.0.0
 description: Finds and analyzes 5-10 comparable recent sales to estimate fair market value, calculate price adjustments, and score the property's value proposition
 triggers:

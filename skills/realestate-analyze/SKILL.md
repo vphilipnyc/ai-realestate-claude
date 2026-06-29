@@ -1,6 +1,6 @@
 ---
 skill: realestate-analyze
-name: Full Property Analysis Orchestrator
+name: realestate-analyze
 version: 1.0.0
 description: Launches 5 parallel AI agents to produce a comprehensive property analysis with composite Property Score (0-100), investment grade, and actionable recommendations
 triggers:

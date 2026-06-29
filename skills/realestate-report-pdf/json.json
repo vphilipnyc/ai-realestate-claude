@@ -1,0 +1,251 @@
+{
+  "address": "3792 E Virgo Pl, Chandler, AZ 85249",
+  "price": "$660,000",
+  "date": "June 17, 2026",
+  "overall_score": 55,
+  "property_grade": "B",
+  "primary_signal": "HOLD/WATCH",
+  "rental_signal": "PASS",
+  "listing_url": "https://www.zillow.com/homes/3792-E-Virgo-Pl-Chandler-AZ-85249/",
+
+  "context_highlights": [
+    "Excellent schools: Chandler Unified District outperforms state benchmarks (46% math vs 34% statewide)",
+    "Strong economic growth: Intel $20 billion Fab expansion anchors regional development; lowest sales tax in Arizona",
+    "Safe neighborhood: Crime rate below state and national averages; 55th percentile nationally",
+    "High growth trajectory: Ranked best place to live-work-play in Arizona 3 consecutive years"
+  ],
+
+  "property_details": {
+    "beds": "3",
+    "baths": "2",
+    "sqft": "3,200",
+    "year_built": "Est. 2000-2010",
+    "lot_size": "~0.25-0.35 acres",
+    "property_type": "Single Family Residence",
+    "stories": "2"
+  },
+
+  "categories": {
+    "Value & Comps": {"score": 52, "weight": "25%"},
+    "Income Potential": {"score": 17, "weight": "20%"},
+    "Neighborhood Quality": {"score": 76, "weight": "20%"},
+    "Investment Upside": {"score": 64, "weight": "20%"},
+    "Market Conditions": {"score": 69, "weight": "15%"}
+  },
+
+  "comps": [
+    {"address": "4191 S Emerald Dr", "price": "$905,000", "sqft": "3,032", "price_sqft": "$298", "beds": "4", "baths": "3", "sold_date": "May 23, 2025", "distance": "Regional"},
+    {"address": "4965 E Indian Wells Dr", "price": "$624,900", "sqft": "2,378", "price_sqft": "$263", "beds": "4", "baths": "2", "sold_date": "Jun 13, 2025", "distance": "Regional"},
+    {"address": "1492 E Westchester Dr", "price": "$450,000", "sqft": "1,454", "price_sqft": "$309", "beds": "3", "baths": "2", "sold_date": "Apr 3, 2026", "distance": "Regional"},
+    {"address": "1930 E Sagittarius Pl", "price": "$1,005,000", "sqft": "4,607", "price_sqft": "$218", "beds": "5", "baths": "3.5", "sold_date": "Jun 5, 2026", "distance": "Regional"}
+  ],
+  "comp_summary": {
+    "median_price_sqft": "$276",
+    "estimated_fmv": "$830,000 - $920,000",
+    "assessment": "Subject property potentially underpriced if condition is good; overpriced relative to income potential"
+  },
+
+  "cashflow": {
+    "items": [
+      {"item": "Monthly Rent (Moderate Scenario)", "monthly": "$2,625", "annual": "$31,500"},
+      {"item": "Vacancy Loss (6%)", "monthly": "-$158", "annual": "-$1,890"},
+      {"item": "Property Management (8%)", "monthly": "-$210", "annual": "-$2,520"},
+      {"item": "Maintenance Reserve (7%)", "monthly": "-$184", "annual": "-$2,205"},
+      {"item": "Insurance", "monthly": "-$113", "annual": "-$1,350"},
+      {"item": "Property Tax", "monthly": "-$330", "annual": "-$3,960"},
+      {"item": "HOA Fees", "monthly": "-$100", "annual": "-$1,200"},
+      {"item": "CapEx Reserve (5%)", "monthly": "-$131", "annual": "-$1,575"},
+      {"item": "Gross Operating Expenses", "monthly": "-$1,226", "annual": "-$14,700"},
+      {"item": "NOI (Net Operating Income)", "monthly": "$1,399", "annual": "$16,800"},
+      {"item": "Mortgage Payment (30yr @ 6.5%, 20% down)", "monthly": "-$3,363", "annual": "-$40,356"},
+      {"item": "NET MONTHLY CASH FLOW", "monthly": "-$1,937", "annual": "-$23,241"}
+    ]
+  },
+
+  "investment_metrics": {
+    "cap_rate": "2.54%",
+    "cap_rate_status": "Poor - below Treasury bonds (target 4-6%)",
+    "cash_on_cash": "-35%",
+    "coc_status": "Negative - property loses money annually",
+    "grm": "21.1x",
+    "grm_status": "Poor - overpriced for rental (target 5-8x)",
+    "dscr": "0.42x",
+    "dscr_status": "Fails - NOI covers only 42% of mortgage (need 1.2x+)",
+    "breakeven_rent": "$5,000/month",
+    "breakeven_status": "Unachievable - would need 90% above market rent"
+  },
+
+  "mortgage": {
+    "purchase_price": "$660,000",
+    "down_payment": "$132,000 (20%)",
+    "loan_amount": "$528,000",
+    "rate": "6.5% (current market)",
+    "term": "30-year fixed",
+    "monthly_pi": "$3,363",
+    "monthly_piti": "$3,800 (with taxes)"
+  },
+
+  "neighborhood": {
+    "scores": {
+      "School Quality": 80,
+      "Safety & Crime": 75,
+      "Walkability & Amenities": 50,
+      "Demographics & Economy": 85,
+      "Growth Trajectory": 90
+    },
+    "details": [
+      {"factor": "Top Schools", "detail": "Chandler Unified outperforms state benchmarks", "notes": "46% math proficiency vs 34% statewide; 56% reading vs 41%"},
+      {"factor": "Employment Base", "detail": "Diverse major employers", "notes": "Intel, Northrop Grumman, Wells Fargo, PayPal, NXP Semiconductors"},
+      {"factor": "Economic Growth", "detail": "Exceptional regional development", "notes": "Intel $20B expansion; Applied Materials $200M facility; 10-year property tax reductions"},
+      {"factor": "Population Health", "detail": "Stable, family-oriented demographic", "notes": "Median age 37.5; 65% homeownership; $82,960 median household income"}
+    ],
+    "demographics": {
+      "population": "275,987+",
+      "median_household_income": "$82,960",
+      "unemployment": "3.5% (well below national avg)",
+      "homeownership_rate": "65%+",
+      "major_employers": "Intel, NXP Semiconductors, Microchip Technology, Northrop Grumman"
+    }
+  },
+
+  "schools": [
+    {"name": "Jane D. Hull Elementary", "type": "Public", "grades": "K-6", "rating": "9/10", "distance": "~2 miles", "notes": "51% math, 54% reading proficiency"},
+    {"name": "Arizona College Prep High School", "type": "Public", "grades": "9-12", "rating": "11/10 in AZ", "distance": "~4 miles", "notes": "Ranked #11 in Arizona; 64-86% proficiency across subjects"},
+    {"name": "Chandler High School", "type": "Public", "grades": "9-12", "rating": "292/10 nationally", "distance": "~5 miles", "notes": "Highly rated; strong college prep programs"}
+  ],
+
+  "amenities": {
+    "healthcare": [
+      {"name": "Chandler Regional Medical Center", "detail": "465-bed Level I trauma center; full-service hospital", "distance": "~7 miles"}
+    ],
+    "parks_recreation": [
+      {"name": "Tumbleweed Park", "detail": "205-acre flagship park; 18 pickleball courts, trails, sports facilities", "distance": "~3 miles"},
+      {"name": "Chandler Fashion Center", "detail": "1.3M sq ft shopping center with dining", "distance": "~4 miles"}
+    ]
+  },
+
+  "strategies": [
+    {
+      "strategy": "Buy & Hold (Best Option)",
+      "score": "72/100",
+      "projected_return": "21.2% (5-year), 75.1% (10-year)",
+      "timeframe": "7-10 years",
+      "break_even": "Year 8-9 when rents exceed costs",
+      "risk": "Requires $2,300/month owner subsidy; depends on 3%+ appreciation",
+      "notes": "Viable only for patient investors with capital reserves"
+    },
+    {
+      "strategy": "BRRRR (Buy-Rehab-Rent-Refinance-Repeat)",
+      "score": "65/100",
+      "projected_return": "Negative - fails to recover capital",
+      "timeframe": "Not viable",
+      "break_even": "Cannot recover invested capital",
+      "risk": "Capital trap - loses $158K after refinance",
+      "notes": "Property too expensive; post-refi cash flow remains negative"
+    },
+    {
+      "strategy": "Fix & Flip",
+      "score": "55/100",
+      "projected_return": "-$22,008 (net loss)",
+      "timeframe": "5 months (holding period)",
+      "break_even": "Fails 70% rule by $196K",
+      "risk": "Unprofitable at current market prices",
+      "notes": "Would need purchase price below $532K to be viable"
+    }
+  ],
+
+  "appreciation_projections": [
+    {"year": "Year 1", "conservative": "$680,000", "moderate": "$700,000", "aggressive": "$720,000"},
+    {"year": "Year 3", "conservative": "$733,000", "moderate": "$775,000", "aggressive": "$826,000"},
+    {"year": "Year 5", "conservative": "$793,000", "moderate": "$859,000", "aggressive": "$945,000"},
+    {"year": "Year 10", "conservative": "$937,000", "moderate": "$1,059,000", "aggressive": "$1,222,000"}
+  ],
+
+  "scenarios": [
+    {
+      "scenario": "Bull Case (20% probability)",
+      "return": "+30-50% over 5 years",
+      "trigger": "Interest rates fall below 5%; Intel expansion accelerates; Chandler recognized as tech hub"
+    },
+    {
+      "scenario": "Base Case (50% probability)",
+      "return": "+3-5% annually (break-even to modest gains)",
+      "trigger": "Market stabilizes; moderate appreciation; rents grow with inflation"
+    },
+    {
+      "scenario": "Bear Case (30% probability)",
+      "return": "-10-15% over 5 years",
+      "trigger": "Recession reduces employment; Intel expansion delays; national rate hikes"
+    }
+  ],
+
+  "market": {
+    "market_type": "Balanced (transitioning to Buyer's Market)",
+    "market_score": "69/100",
+    "median_price": "$640,000",
+    "price_trend_yoy": "-2.0% (down from prior year)",
+    "days_on_market": "36-57 days",
+    "months_of_supply": "1.94-2.71 (tight, but rising)",
+    "inventory_trend": "Rising 16% YoY",
+    "economic_fundamentals": "Strong - 3.5% unemployment; diverse employers; Intel anchor",
+    "six_month_outlook": "Continued balance with buyer advantage strengthening; inventory rising to 3.0-3.5 months; prices flat to -1%",
+    "twelve_month_outlook": "Transition to Buyer's Market by Q1 2027; 2-4% additional decline possible; rental market may stabilize"
+  },
+
+  "recommendation": {
+    "signal": "HOLD/WATCH",
+    "summary": "Mixed signals on this property. Excellent neighborhood fundamentals and economic growth support long-term appreciation. However, significant financial headwinds exist: negative cash flow (-$1,937/month), low cap rate (2.54%), and DSCR failure make this unsuitable for rental investors. Market transitioning to buyer advantage; 2-4% price declines likely over next 12 months. Only suitable for patient owner-occupants or buy-and-hold investors with 7-10 year horizons and substantial cash reserves.",
+    "for_owner_occupants": "CONDITIONAL BUY - If you plan to live here 7-10 years and strong schools/neighborhood are priorities, this property may be suitable. Negotiate 10-15% below asking ($560K-$600K).",
+    "for_rental_investors": "PASS - Seek properties with 5%+ cap rate and positive cash flow. Purchase price would need to be $425K or below.",
+    "for_brrrr_strategists": "PASS - Property fails BRRRR economics; post-refinance cash flow negative; cannot recover invested capital.",
+    "for_fix_flip_investors": "PASS - Fails 70% rule by $196K; would result in net loss.",
+    "suggested_offer": "$560,000 - $600,000 (negotiate 10-15% discount)",
+    "action_items": [
+      "Commission independent professional appraisal",
+      "Verify property condition: structure, HVAC, roof, foundation inspection",
+      "Obtain MLS-based comparable sales analysis from local agent",
+      "Monitor market inventory trends through August-October 2026 for best buyer leverage",
+      "Plan for 7-10 year hold if pursuing buy-and-hold strategy"
+    ]
+  },
+
+  "risk_factors": [
+    {
+      "factor": "Negative Cash Flow",
+      "probability": "Certain",
+      "impact": "High",
+      "severity": "High",
+      "notes": "Requires $2,300/month owner subsidy; $200K-$300K total over 10 years"
+    },
+    {
+      "factor": "Price Decline Risk",
+      "probability": "Moderate (50-70%)",
+      "impact": "High",
+      "severity": "High",
+      "notes": "Market showing 2% YoY decline; 3-6% decline possible if recession hits"
+    },
+    {
+      "factor": "Rental Income Plateau",
+      "probability": "Moderate",
+      "impact": "Medium",
+      "severity": "Medium",
+      "notes": "Rents may stagnate or decline if recession hits; break-even extends beyond year 8-9"
+    },
+    {
+      "factor": "Interest Rate Risk",
+      "probability": "Low-Moderate",
+      "impact": "Medium",
+      "severity": "Medium",
+      "notes": "If refinancing needed, rates may be higher; carrying costs increase"
+    },
+    {
+      "factor": "Infrastructure Strain from Growth",
+      "probability": "Moderate",
+      "impact": "Medium",
+      "severity": "Medium",
+      "notes": "Intel expansion may create traffic, air quality, water concerns"
+    }
+  ],
+
+  "disclaimer": "This analysis is for educational and research purposes only. It is NOT financial or investment advice. Real estate values, rental estimates, and investment projections are AI-generated approximations based on publicly available data. Actual market value depends on property condition, local market dynamics, and individual buyer preferences. Consult licensed real estate professionals, appraisers, and financial advisors before making property investment decisions."
+}

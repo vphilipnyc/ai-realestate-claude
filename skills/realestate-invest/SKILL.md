@@ -1,6 +1,6 @@
 ---
 skill: realestate-invest
-name: Investment Analysis (Buy-Hold, BRRRR, Flip)
+name: realestate-invest
 version: 1.0.0
 description: Evaluates a property across three investment strategies — Buy & Hold, BRRRR, and Fix & Flip — with feasibility scores, multi-year projections, tax benefits, and break-even analysis
 triggers:

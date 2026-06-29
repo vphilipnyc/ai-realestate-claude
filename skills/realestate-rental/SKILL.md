@@ -1,6 +1,6 @@
 ---
 skill: realestate-rental
-name: Rental Income & Cash Flow Projection
+name: realestate-rental
 version: 1.0.0
 description: Estimates rental income from comparable rentals, builds a full expense model, calculates cash flow and key investment metrics across conservative, moderate, and optimistic scenarios
 triggers:
